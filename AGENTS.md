@@ -1,6 +1,6 @@
-# Tentacular Catalog — Agent Instructions
+# Tentacular Scaffolds — Agent Instructions
 
-Browsable catalog of production-ready workflow templates for the Tentacular platform — a security-first, agent-centric, DAG-based workflow builder and runner for Kubernetes. Published as a GitHub Pages site at [randybias.github.io/tentacular-catalog](https://randybias.github.io/tentacular-catalog).
+Browsable library of production-ready scaffold quickstarts for the Tentacular platform — a security-first, agent-centric, DAG-based workflow builder and runner for Kubernetes. Published as a GitHub Pages site at [randybias.github.io/tentacular-scaffolds](https://randybias.github.io/tentacular-scaffolds).
 
 ## Related Repositories
 
@@ -9,35 +9,35 @@ Browsable catalog of production-ready workflow templates for the Tentacular plat
 | [tentacular](https://github.com/randybias/tentacular) | Go CLI (`tntc`) + Deno workflow engine |
 | [tentacular-mcp](https://github.com/randybias/tentacular-mcp) | In-cluster MCP server (Go, Helm chart) |
 | [tentacular-skill](https://github.com/randybias/tentacular-skill) | Agent skill definition (Markdown) |
-| [tentacular-catalog](https://github.com/randybias/tentacular-catalog) | Workflow template catalog (this repo) |
+| [tentacular-scaffolds](https://github.com/randybias/tentacular-scaffolds) | Scaffold quickstart library (this repo) |
 
-## How Templates Are Used
+## How Scaffolds Are Used
 
-Templates are not meant to be edited directly in this repo. They are consumed via the `tntc` CLI:
+Scaffolds are not meant to be edited directly in this repo. They are consumed via the `tntc` CLI:
 
 ```bash
-tntc catalog list                    # Browse available templates
-tntc catalog init <template> <name>  # Scaffold a new workflow from a template
+tntc scaffold list                    # Browse available scaffolds
+tntc scaffold init <scaffold> <name>  # Scaffold a new workflow from a quickstart
 ```
 
-The CLI fetches templates from this repo via GitHub raw URLs or local path. Direct contributions follow the process in `CONTRIBUTING.md`.
+The CLI fetches scaffolds from this repo via GitHub raw URLs or local path. Direct contributions follow the process in `CONTRIBUTING.md`.
 
 ## Project Structure
 
-- `catalog.yaml` — auto-generated metadata index of all templates (do not edit manually)
-- `templates/` — one subdirectory per template, each containing:
-  - `template.yaml` — template metadata (name, category, complexity, etc.)
+- `scaffolds-index.yaml` — auto-generated metadata index of all scaffolds (do not edit manually)
+- `quickstarts/` — one subdirectory per scaffold, each containing:
+  - `scaffold.yaml` — scaffold metadata (name, category, complexity, etc.)
   - `workflow.yaml` — the workflow definition
   - `nodes/*.ts` — TypeScript node source files
   - `tests/fixtures/` — test fixture data (optional)
   - `.secrets.yaml.example` — documents required secrets (optional)
-  - `README.md` — template-specific documentation (optional)
-- `scripts/build-index.sh` — regenerates `catalog.yaml` from template metadata (requires `yq`)
+  - `README.md` — scaffold-specific documentation (optional)
+- `scripts/build-index.sh` — regenerates `scaffolds-index.yaml` from scaffold metadata (requires `yq`)
 - `site/` — GitHub Pages static site generation
   - `build.sh` — builds site data
   - `index.html` — site entry point
 
-## Template Metadata Format
+## Scaffold Metadata Format
 
 ```yaml
 name: my-workflow
@@ -54,10 +54,10 @@ complexity: simple         # simple | moderate | advanced
 
 GitHub Actions handles validation and publishing:
 
-- **On PR:** validates template structure and metadata
-- **On push to main:** regenerates `catalog.yaml` and deploys the GitHub Pages site
+- **On PR:** validates scaffold structure and metadata
+- **On push to main:** regenerates `scaffolds-index.yaml` and deploys the GitHub Pages site
 
-There is no Makefile or local build system. To regenerate the catalog index locally:
+There is no Makefile or local build system. To regenerate the scaffolds index locally:
 
 ```bash
 ./scripts/build-index.sh
