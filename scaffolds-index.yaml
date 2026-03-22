@@ -1,5 +1,5 @@
 version: "1"
-generated: "2026-03-22T15:02:21Z"
+generated: "2026-03-22T17:24:43Z"
 scaffolds:
     - name: "agent-activity-report"
       displayName: "Agent Activity Report"
@@ -522,13 +522,13 @@ scaffolds:
       complexity: "advanced"
       path: "quickstarts/sep-tracker"
       files:
+      - "README.md"
       - "nodes/diff-seps.ts"
       - "nodes/fetch-seps.ts"
       - "nodes/notify.ts"
       - "nodes/render-html.ts"
       - "nodes/store-report.ts"
       - "params.schema.yaml"
-      - "README.md"
       - "scaffold.yaml"
       - "tests/fixtures/diff-seps.json"
       - "tests/fixtures/fetch-seps.json"
