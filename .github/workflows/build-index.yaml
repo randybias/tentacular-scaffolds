@@ -1,4 +1,4 @@
-name: Build Catalog Index
+name: Build Scaffolds Index
 
 on:
   push:
@@ -18,20 +18,20 @@ jobs:
           sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
           sudo chmod +x /usr/local/bin/yq
 
-      - name: Build catalog index
+      - name: Build scaffolds index
         run: |
           chmod +x ./scripts/build-index.sh
           ./scripts/build-index.sh
 
-      - name: Commit catalog.yaml if changed
+      - name: Commit scaffolds-index.yaml if changed
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          if git diff --quiet catalog.yaml 2>/dev/null; then
-            echo "No changes to catalog.yaml"
+          if git diff --quiet scaffolds-index.yaml 2>/dev/null; then
+            echo "No changes to scaffolds-index.yaml"
           else
-            git add catalog.yaml
-            git commit -m "chore: regenerate catalog.yaml"
+            git add scaffolds-index.yaml
+            git commit -m "chore: regenerate scaffolds-index.yaml"
             git push
           fi

@@ -3,12 +3,12 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-CATALOG_FILE="$REPO_ROOT/catalog.yaml"
+INDEX_FILE="$REPO_ROOT/scaffolds-index.yaml"
 OUTPUT_DIR="$SCRIPT_DIR/data"
-OUTPUT_FILE="$OUTPUT_DIR/catalog.json"
+OUTPUT_FILE="$OUTPUT_DIR/scaffolds.json"
 
-if [[ ! -f "$CATALOG_FILE" ]]; then
-  echo "ERROR: catalog.yaml not found at $CATALOG_FILE" >&2
+if [[ ! -f "$INDEX_FILE" ]]; then
+  echo "ERROR: scaffolds-index.yaml not found at $INDEX_FILE" >&2
   exit 1
 fi
 
@@ -19,6 +19,6 @@ fi
 
 mkdir -p "$OUTPUT_DIR"
 
-yq -o=json "$CATALOG_FILE" > "$OUTPUT_FILE"
+yq -o=json "$INDEX_FILE" > "$OUTPUT_FILE"
 
-echo "Generated $OUTPUT_FILE from $CATALOG_FILE"
+echo "Generated $OUTPUT_FILE from $INDEX_FILE"

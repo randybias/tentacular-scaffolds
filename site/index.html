@@ -298,12 +298,12 @@
 <body>
 
 <header>
-  <h1><span>~</span> tentacular <span>catalog</span></h1>
-  <p>Workflow templates for the tentacular platform</p>
+  <h1><span>~</span> tentacular <span>scaffolds</span></h1>
+  <p>Workflow scaffolds for the tentacular platform</p>
 </header>
 
 <div class="controls">
-  <input type="text" class="search-bar" id="search" placeholder="Search templates by name, description, or tags..." autocomplete="off">
+  <input type="text" class="search-bar" id="search" placeholder="Search scaffolds by name, description, or tags..." autocomplete="off">
   <div class="filter-row">
     <span class="filter-label">Category:</span>
     <button class="filter-pill active" data-filter="category" data-value="all">All</button>
@@ -332,7 +332,7 @@
 
 <script>
 (function () {
-  var templates = [];
+  var scaffolds = [];
   var activeCategory = 'all';
   var activeComplexity = 'all';
   var searchQuery = '';
@@ -348,12 +348,12 @@
     var count = document.getElementById('results-count');
 
     if (items.length === 0) {
-      grid.innerHTML = '<div class="empty-state">No templates match your filters.</div>';
-      count.textContent = '0 templates';
+      grid.innerHTML = '<div class="empty-state">No scaffolds match your filters.</div>';
+      count.textContent = '0 scaffolds';
       return;
     }
 
-    count.textContent = items.length + ' template' + (items.length !== 1 ? 's' : '');
+    count.textContent = items.length + ' scaffold' + (items.length !== 1 ? 's' : '');
     var html = '';
 
     for (var i = 0; i < items.length; i++) {
@@ -365,7 +365,7 @@
           tagsHtml += '<span class="tag">' + escapeHtml(t.tags[j]) + '</span>';
         }
       }
-      var cmd = 'tntc catalog init ' + t.name;
+      var cmd = 'tntc scaffold init ' + t.name;
 
       html += '<div class="card">' +
         '<div class="card-name">' + escapeHtml(t.name) + '</div>' +
@@ -391,8 +391,8 @@
     var q = searchQuery.toLowerCase();
     var filtered = [];
 
-    for (var i = 0; i < templates.length; i++) {
-      var t = templates[i];
+    for (var i = 0; i < scaffolds.length; i++) {
+      var t = scaffolds[i];
 
       if (activeCategory !== 'all' && t.category !== activeCategory) continue;
       if (activeComplexity !== 'all' && t.complexity !== activeComplexity) continue;
@@ -470,17 +470,17 @@
     });
   }
 
-  fetch('data/catalog.json')
+  fetch('data/scaffolds.json')
     .then(function (res) { return res.json(); })
     .then(function (data) {
-      templates = data.templates || [];
+      scaffolds = data.scaffolds || [];
       initFilters();
       filterTemplates();
     })
     .catch(function (err) {
       document.getElementById('grid').innerHTML =
-        '<div class="empty-state">Failed to load catalog data. Run site/build.sh to generate it.</div>';
-      console.error('Failed to load catalog:', err);
+        '<div class="empty-state">Failed to load scaffolds data. Run site/build.sh to generate it.</div>';
+      console.error('Failed to load scaffolds:', err);
     });
 })();
 </script>

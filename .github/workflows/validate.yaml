@@ -1,4 +1,4 @@
-name: Validate Templates
+name: Validate Scaffolds
 
 on:
   pull_request:
@@ -15,23 +15,23 @@ jobs:
           sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
           sudo chmod +x /usr/local/bin/yq
 
-      - name: Validate template.yaml files exist and are valid YAML
+      - name: Validate scaffold.yaml files exist and are valid YAML
         run: |
           set -euo pipefail
           errors=0
-          for dir in templates/*/; do
+          for dir in quickstarts/*/; do
             name="$(basename "$dir")"
-            tmpl="$dir/template.yaml"
+            scaffold="$dir/scaffold.yaml"
             wf="$dir/workflow.yaml"
 
-            if [ ! -f "$tmpl" ]; then
-              echo "ERROR: $tmpl is missing"
+            if [ ! -f "$scaffold" ]; then
+              echo "ERROR: $scaffold is missing"
               errors=$((errors + 1))
               continue
             fi
 
-            if ! yq eval '.' "$tmpl" > /dev/null 2>&1; then
-              echo "ERROR: $tmpl is not valid YAML"
+            if ! yq eval '.' "$scaffold" > /dev/null 2>&1; then
+              echo "ERROR: $scaffold is not valid YAML"
               errors=$((errors + 1))
             fi
 
@@ -46,7 +46,7 @@ jobs:
             exit 1
           fi
 
-          echo "All templates validated successfully"
+          echo "All scaffolds validated successfully"
 
       - name: Verify build-index.sh runs without error
         run: |
