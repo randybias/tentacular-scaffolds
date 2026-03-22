@@ -1,5 +1,5 @@
 version: "1"
-generated: "2026-03-13T09:25:14Z"
+generated: "2026-03-22T16:57:09Z"
 templates:
     - name: "agent-activity-report"
       displayName: "Agent Activity Report"
