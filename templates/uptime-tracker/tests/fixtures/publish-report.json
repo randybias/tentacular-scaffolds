@@ -1,0 +1,14 @@
+{
+  "input": {
+    "html": "<html><body><h1>Weekly Uptime Report</h1></body></html>",
+    "summary": "Overall uptime: 99.85%. 2 endpoints monitored. 0 warning(s).",
+    "overallUptimePct": 99.85,
+    "periodStart": "2026-03-15T00:00:00.000Z",
+    "periodEnd": "2026-03-22T00:00:00.000Z"
+  },
+  "expected": {
+    "uploaded": false,
+    "reportPath": "",
+    "slackNotified": false
+  }
+}

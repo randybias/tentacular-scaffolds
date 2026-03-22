@@ -1,0 +1,9 @@
+{
+  "input": {},
+  "expected": {
+    "endpoints": [],
+    "periodStart": "",
+    "periodEnd": "",
+    "overallUptimePct": 0
+  }
+}

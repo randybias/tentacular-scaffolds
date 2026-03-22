@@ -1,0 +1,22 @@
+{
+  "input": {
+    "storedCount": 2,
+    "unhealthyEndpoints": [
+      {
+        "url": "https://thisdomaindoesnotexist.invalid",
+        "statusCode": 0,
+        "responseTimeMs": 3012,
+        "tlsExpiryDays": null,
+        "bodyMatchPassed": null,
+        "isHealthy": false,
+        "error": "DNS resolution failed"
+      }
+    ],
+    "probedAt": "2026-03-22T10:00:00.000Z"
+  },
+  "expected": {
+    "alerted": false,
+    "status": 0,
+    "unhealthyCount": 1
+  }
+}

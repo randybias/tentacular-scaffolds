@@ -1,0 +1,20 @@
+{
+  "input": {
+    "services": [
+      {
+        "service": "postgres",
+        "passed": true,
+        "tests": [
+          { "name": "connect", "passed": true, "latency_ms": 5 }
+        ]
+      }
+    ],
+    "totalTests": 1,
+    "totalPassed": 1,
+    "overallPassed": true
+  },
+  "expected": {
+    "s3Path": "",
+    "stored": false
+  }
+}

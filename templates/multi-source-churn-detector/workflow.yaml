@@ -1,0 +1,121 @@
+name: multi-source-churn-detector
+version: "1.0"
+description: "Aggregate usage, support, billing, and survey signals to score customer health and detect churn risk"
+
+triggers:
+  - type: manual
+  - type: cron
+    name: daily-health-check
+    schedule: "0 8 * * *"
+
+nodes:
+  fetch-usage:
+    path: ./nodes/fetch-usage.ts
+  fetch-tickets:
+    path: ./nodes/fetch-tickets.ts
+  fetch-billing:
+    path: ./nodes/fetch-billing.ts
+  fetch-surveys:
+    path: ./nodes/fetch-surveys.ts
+  normalize-signals:
+    path: ./nodes/normalize-signals.ts
+  score-health:
+    path: ./nodes/score-health.ts
+  store-scores:
+    path: ./nodes/store-scores.ts
+  route-alerts:
+    path: ./nodes/route-alerts.ts
+  generate-weekly-report:
+    path: ./nodes/generate-weekly-report.ts
+
+edges:
+  # Fan-in: all data sources feed into normalize
+  - from: fetch-usage
+    to: normalize-signals
+  - from: fetch-tickets
+    to: normalize-signals
+  - from: fetch-billing
+    to: normalize-signals
+  - from: fetch-surveys
+    to: normalize-signals
+  # Analysis pipeline
+  - from: normalize-signals
+    to: score-health
+  - from: score-health
+    to: store-scores
+  # Fan-out from stored scores
+  - from: store-scores
+    to: route-alerts
+  - from: store-scores
+    to: generate-weekly-report
+
+config:
+  timeout: 300s
+  retries: 1
+  accounts:
+    - "all"
+  analytics_api_base: "https://api.example.com/analytics"
+  support_api_base: "https://api.example.com/support"
+  stripe_customer_prefix: "cus_"
+
+contract:
+  version: "1"
+  dependencies:
+    analytics-api:
+      protocol: https
+      host: api.example.com
+      port: 443
+      auth:
+        type: bearer-token
+        secret: analytics.api_key
+    support-api:
+      protocol: https
+      host: api.example.com
+      port: 443
+      auth:
+        type: bearer-token
+        secret: support.api_key
+    stripe:
+      protocol: https
+      host: api.stripe.com
+      port: 443
+      auth:
+        type: bearer-token
+        secret: stripe.api_key
+    survey-api:
+      protocol: https
+      host: api.example.com
+      port: 443
+      auth:
+        type: bearer-token
+        secret: survey.api_key
+    rustfs:
+      protocol: https
+      host: rustfs.tentacular-exoskeleton.svc.cluster.local
+      port: 9000
+      auth:
+        type: bearer-token
+        secret: rustfs.access_key
+    postgres:
+      protocol: postgresql
+      host: postgres-postgresql.postgres.svc.cluster.local
+      port: 5432
+      database: appdb
+      user: postgres
+      auth:
+        type: password
+        secret: postgres.password
+    anthropic:
+      protocol: https
+      host: api.anthropic.com
+      port: 443
+      auth:
+        type: bearer-token
+        secret: anthropic.api_key
+    slack-webhook:
+      protocol: https
+      host: hooks.slack.com
+      port: 443
+      auth:
+        type: webhook-url
+        secret: slack.webhook_url

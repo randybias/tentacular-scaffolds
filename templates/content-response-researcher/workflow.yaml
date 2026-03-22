@@ -1,0 +1,98 @@
+name: content-response-researcher
+version: "1.0"
+description: "Research a competitor article, find contrarian angles and evidence gaps, and produce a structured response outline"
+
+triggers:
+  - type: manual
+
+nodes:
+  fetch-article:
+    path: ./nodes/fetch-article.ts
+  research-supporting:
+    path: ./nodes/research-supporting.ts
+  research-contrary:
+    path: ./nodes/research-contrary.ts
+  research-adjacent:
+    path: ./nodes/research-adjacent.ts
+  synthesize-gaps:
+    path: ./nodes/synthesize-gaps.ts
+  generate-outline:
+    path: ./nodes/generate-outline.ts
+  store-and-notify:
+    path: ./nodes/store-and-notify.ts
+
+edges:
+  # fan-out from fetch-article to 3 parallel research nodes + synthesize
+  - from: fetch-article
+    to: research-supporting
+  - from: fetch-article
+    to: research-contrary
+  - from: fetch-article
+    to: research-adjacent
+  - from: fetch-article
+    to: synthesize-gaps
+  # fan-in: all 3 research nodes feed synthesize-gaps
+  - from: research-supporting
+    to: synthesize-gaps
+  - from: research-contrary
+    to: synthesize-gaps
+  - from: research-adjacent
+    to: synthesize-gaps
+  # linear tail
+  - from: synthesize-gaps
+    to: generate-outline
+  - from: generate-outline
+    to: store-and-notify
+
+config:
+  timeout: 300s
+  retries: 1
+  target_url: "https://example.com/article"
+  search_api_provider: "tavily"
+
+contract:
+  version: "1"
+  dependencies:
+    probe-targets:
+      type: dynamic-target
+      protocol: https
+      cidr: "0.0.0.0/0"
+      dynPorts:
+        - "443/TCP"
+    tavily:
+      protocol: https
+      host: api.tavily.com
+      port: 443
+      auth:
+        type: bearer-token
+        secret: tavily.api_key
+    rustfs:
+      protocol: https
+      host: rustfs.tentacular-exoskeleton.svc.cluster.local
+      port: 9000
+      auth:
+        type: bearer-token
+        secret: rustfs.access_key
+    postgres:
+      protocol: postgresql
+      host: postgres-postgresql.postgres.svc.cluster.local
+      port: 5432
+      database: appdb
+      user: postgres
+      auth:
+        type: password
+        secret: postgres.password
+    anthropic:
+      protocol: https
+      host: api.anthropic.com
+      port: 443
+      auth:
+        type: bearer-token
+        secret: anthropic.api_key
+    slack-webhook:
+      protocol: https
+      host: hooks.slack.com
+      port: 443
+      auth:
+        type: webhook-url
+        secret: slack.webhook_url

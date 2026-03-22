@@ -1,0 +1,35 @@
+{
+  "input": {
+    "poll-sheet": {
+      "leads": [
+        { "rowNumber": 2, "name": "Jane Chen", "email": "jane@acmesaas.com", "company": "Acme SaaS", "notes": "Met at KubeCon" }
+      ],
+      "pollTimestamp": "2026-03-22T07:00:00Z"
+    },
+    "enrich-company": {
+      "enrichments": [
+        { "company": "Acme SaaS", "domain": "acmesaas.com", "industry": "Software", "size": "150", "funding": "Series B", "techStack": ["Kubernetes", "React"] }
+      ]
+    },
+    "enrich-person": {
+      "enrichments": [
+        { "name": "Jane Chen", "title": "VP of Engineering", "seniority": "VP", "linkedin": "https://linkedin.com/in/janechen", "verified_email": true, "phone": "" }
+      ]
+    },
+    "enrich-website": {
+      "enrichments": [
+        { "company": "Acme SaaS", "summary": "B2B project management platform for engineering teams.", "targetMarket": "Mid-market B2B engineering teams", "recentActivity": "New GitHub Actions integration" }
+      ]
+    }
+  },
+  "expected": {
+    "scoredLeads": [
+      {
+        "lead": { "rowNumber": 2, "name": "Jane Chen", "email": "jane@acmesaas.com", "company": "Acme SaaS", "notes": "Met at KubeCon" },
+        "score": 50,
+        "explanation": "No AI available -- default score",
+        "icp_fit_details": "Scoring requires Anthropic API key"
+      }
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+name: e2e-exoskeleton-test
+displayName: "E2E Exoskeleton Test"
+description: "Smoke test that validates all exoskeleton services: Postgres, RustFS, NATS, and SPIRE identity"
+category: monitoring
+tags: [smoke-test, exoskeleton, postgres, nats, rustfs, spire, self-test, ci-integration]
+author: randybias
+minTentacularVersion: "0.1.0"
+complexity: advanced

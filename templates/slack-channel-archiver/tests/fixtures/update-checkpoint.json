@@ -1,0 +1,13 @@
+{
+  "input": {
+    "filesStored": 0,
+    "filesFailed": 0,
+    "channelCheckpoints": {
+      "C0123456789": "1711100500.000200"
+    }
+  },
+  "expected": {
+    "updated": false,
+    "channelsUpdated": 0
+  }
+}

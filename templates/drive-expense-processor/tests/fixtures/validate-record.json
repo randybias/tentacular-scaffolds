@@ -1,0 +1,71 @@
+{
+  "input": {
+    "expenses": [
+      {
+        "fileId": "abc123",
+        "fileName": "receipt-coffee.jpg",
+        "s3Path": "receipts/2026-03-22/abc123/receipt-coffee.jpg",
+        "vendor": "Blue Bottle Coffee",
+        "amount": 5.75,
+        "currency": "USD",
+        "date": "2026-03-22",
+        "category": "Meals",
+        "description": "Coffee purchase",
+        "extractionConfidence": "high"
+      },
+      {
+        "fileId": "def456",
+        "fileName": "receipt-bad.pdf",
+        "s3Path": "receipts/2026-03-22/def456/receipt-bad.pdf",
+        "vendor": "Unknown",
+        "amount": -10,
+        "currency": "USD",
+        "date": "not-a-date",
+        "category": "InvalidCat",
+        "description": "",
+        "extractionConfidence": "low"
+      }
+    ],
+    "pollTimestamp": "2026-03-22T10:00:00.000Z"
+  },
+  "expected": {
+    "validated": [
+      {
+        "fileId": "abc123",
+        "fileName": "receipt-coffee.jpg",
+        "s3Path": "receipts/2026-03-22/abc123/receipt-coffee.jpg",
+        "vendor": "Blue Bottle Coffee",
+        "amount": 5.75,
+        "currency": "USD",
+        "date": "2026-03-22",
+        "category": "Meals",
+        "description": "Coffee purchase",
+        "extractionConfidence": "high",
+        "valid": true,
+        "validationErrors": []
+      },
+      {
+        "fileId": "def456",
+        "fileName": "receipt-bad.pdf",
+        "s3Path": "receipts/2026-03-22/def456/receipt-bad.pdf",
+        "vendor": "Unknown",
+        "amount": -10,
+        "currency": "USD",
+        "date": "not-a-date",
+        "category": "InvalidCat",
+        "description": "",
+        "extractionConfidence": "low",
+        "valid": false,
+        "validationErrors": [
+          "Invalid amount: -10 (must be > 0)",
+          "Invalid date: 'not-a-date' (must be valid ISO format)",
+          "Invalid category: 'InvalidCat' (allowed: Travel, Meals, Software, Office, Equipment, Other)",
+          "Vendor name is missing or unknown"
+        ]
+      }
+    ],
+    "validCount": 1,
+    "flaggedCount": 1,
+    "pollTimestamp": "2026-03-22T10:00:00.000Z"
+  }
+}

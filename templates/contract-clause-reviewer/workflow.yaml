@@ -1,0 +1,107 @@
+name: contract-clause-reviewer
+version: "1.0"
+description: "Watch a Google Drive folder for new contracts, extract text, perform parallel AI clause analysis, and generate risk reports"
+
+triggers:
+  - type: manual
+  - type: cron
+    name: poll-contracts
+    schedule: "*/30 * * * *"
+
+nodes:
+  poll-drive:
+    path: ./nodes/poll-drive.ts
+  store-originals:
+    path: ./nodes/store-originals.ts
+  extract-text:
+    path: ./nodes/extract-text.ts
+  review-liability:
+    path: ./nodes/review-liability.ts
+  review-ip-rights:
+    path: ./nodes/review-ip-rights.ts
+  review-termination:
+    path: ./nodes/review-termination.ts
+  review-compliance:
+    path: ./nodes/review-compliance.ts
+  synthesize-report:
+    path: ./nodes/synthesize-report.ts
+  store-and-notify:
+    path: ./nodes/store-and-notify.ts
+
+edges:
+  # linear head: poll -> store -> extract
+  - from: poll-drive
+    to: store-originals
+  - from: store-originals
+    to: extract-text
+  # fan-out from extract-text to 4 parallel review nodes + synthesize
+  - from: extract-text
+    to: review-liability
+  - from: extract-text
+    to: review-ip-rights
+  - from: extract-text
+    to: review-termination
+  - from: extract-text
+    to: review-compliance
+  - from: extract-text
+    to: synthesize-report
+  # fan-in: all 4 review nodes feed synthesize-report
+  - from: review-liability
+    to: synthesize-report
+  - from: review-ip-rights
+    to: synthesize-report
+  - from: review-termination
+    to: synthesize-report
+  - from: review-compliance
+    to: synthesize-report
+  # linear tail
+  - from: synthesize-report
+    to: store-and-notify
+
+config:
+  timeout: 300s
+  retries: 1
+  drive_folder_id: "YOUR_FOLDER_ID"
+  compliance_frameworks:
+    - GDPR
+
+contract:
+  version: "1"
+  dependencies:
+    google-drive:
+      protocol: https
+      host: www.googleapis.com
+      port: 443
+      auth:
+        type: bearer-token
+        secret: google.access_token
+    rustfs:
+      protocol: https
+      host: rustfs.tentacular-exoskeleton.svc.cluster.local
+      port: 9000
+      auth:
+        type: bearer-token
+        secret: rustfs.access_key
+    postgres:
+      protocol: postgresql
+      host: postgres-postgresql.postgres.svc.cluster.local
+      port: 5432
+      database: appdb
+      user: postgres
+      auth:
+        type: password
+        secret: postgres.password
+    anthropic:
+      protocol: https
+      host: api.anthropic.com
+      port: 443
+      auth:
+        type: bearer-token
+        secret: anthropic.api_key
+    slack-webhook:
+      protocol: https
+      host: hooks.slack.com
+      port: 443
+      auth:
+        type: webhook-url
+        secret: slack.webhook_url

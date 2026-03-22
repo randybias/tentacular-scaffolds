@@ -1,0 +1,8 @@
+name: contract-clause-reviewer
+displayName: "Contract Clause Reviewer"
+description: "Watch a Google Drive folder for new contracts, extract text, perform parallel AI clause analysis, and generate risk reports"
+category: automation
+tags: [legal-review, google-drive, document-processing, fan-out-pattern, llm-analysis, risk-scoring, s3-storage, postgres-state]
+author: randybias
+minTentacularVersion: "0.1.0"
+complexity: advanced

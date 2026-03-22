@@ -1,0 +1,15 @@
+{
+  "input": {
+    "overallRiskScore": 7,
+    "criticalFindings": ["No DPA despite processing personal data", "One-sided indemnification"],
+    "negotiationPoints": ["Add mutual indemnification", "Attach formal DPA"],
+    "summary": "This SaaS agreement presents significant risk.",
+    "reviewsByType": {}
+  },
+  "expected": {
+    "stored": false,
+    "rowId": 0,
+    "htmlPath": "",
+    "slackDelivered": false
+  }
+}

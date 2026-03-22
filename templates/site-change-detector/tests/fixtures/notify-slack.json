@@ -1,0 +1,10 @@
+{
+  "input": {
+    "summaries": [],
+    "totalChanged": 0
+  },
+  "expected": {
+    "delivered": false,
+    "status": 0
+  }
+}

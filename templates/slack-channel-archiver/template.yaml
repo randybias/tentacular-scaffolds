@@ -1,0 +1,8 @@
+name: slack-channel-archiver
+displayName: "Slack Channel Archiver"
+description: "Archive Slack channel messages and file attachments to Postgres and S3 with incremental sync"
+category: data-pipeline
+tags: [slack-api, incremental-sync, postgres-state, s3-storage, checkpoint-pattern]
+author: randybias
+minTentacularVersion: "0.1.0"
+complexity: moderate

@@ -1,0 +1,80 @@
+name: e2e-exoskeleton-test
+version: "1.0"
+description: "Smoke test that validates all exoskeleton services: Postgres, RustFS, NATS, and SPIRE identity"
+
+triggers:
+  - type: manual
+
+nodes:
+  test-postgres:
+    path: ./nodes/test-postgres.ts
+  test-rustfs:
+    path: ./nodes/test-rustfs.ts
+  test-nats:
+    path: ./nodes/test-nats.ts
+  test-spire:
+    path: ./nodes/test-spire.ts
+  collect-results:
+    path: ./nodes/collect-results.ts
+  render-report:
+    path: ./nodes/render-report.ts
+  notify:
+    path: ./nodes/notify.ts
+
+edges:
+  # Strictly sequential test chain
+  - from: test-postgres
+    to: test-rustfs
+  - from: test-rustfs
+    to: test-nats
+  - from: test-nats
+    to: test-spire
+  - from: test-spire
+    to: collect-results
+  - from: collect-results
+    to: render-report
+  - from: render-report
+    to: notify
+
+config:
+  timeout: 120s
+  retries: 0
+
+contract:
+  version: "1"
+  dependencies:
+    postgres:
+      protocol: postgresql
+      host: postgres-postgresql.tentacular-exoskeleton.svc.cluster.local
+      port: 5432
+      database: tentacular
+      user: postgres
+      auth:
+        type: password
+        secret: postgres.password
+    rustfs:
+      protocol: http
+      host: rustfs-svc.tentacular-exoskeleton.svc.cluster.local
+      port: 9000
+      auth:
+        type: bearer-token
+        secret: rustfs.access_key
+    nats:
+      protocol: nats
+      host: nats.tentacular-exoskeleton.svc.cluster.local
+      port: 4222
+      subject: test.smoke
+      auth:
+        type: bearer-token
+        secret: nats.token
+    slack-webhook:
+      protocol: https
+      host: hooks.slack.com
+      port: 443
+      auth:
+        type: webhook-url
+        secret: slack.webhook_url
+    db-postgres:
+      protocol: jsr
+      host: "@db/postgres"
+      version: "0.19.5"

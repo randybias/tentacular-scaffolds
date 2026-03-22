@@ -1,0 +1,22 @@
+{
+  "input": {
+    "service": "postgres",
+    "passed": true,
+    "tests": [
+      { "name": "connect", "passed": true, "latency_ms": 5 },
+      { "name": "create_table", "passed": true, "latency_ms": 3 },
+      { "name": "insert", "passed": true, "latency_ms": 2 },
+      { "name": "read", "passed": true, "latency_ms": 1 },
+      { "name": "update", "passed": true, "latency_ms": 2 },
+      { "name": "delete", "passed": true, "latency_ms": 1 },
+      { "name": "drop_table", "passed": true, "latency_ms": 2 }
+    ]
+  },
+  "expected": {
+    "service": "rustfs",
+    "passed": false,
+    "tests": [
+      { "name": "connect", "passed": false, "latency_ms": 0, "error": "No credentials" }
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+name: incident-response-orchestrator
+displayName: "Incident Response Orchestrator"
+description: "Receive monitoring alerts, gather context from history and runbooks, classify severity with AI, and orchestrate response actions"
+category: automation
+tags: [incident-response, double-diamond-dag, monitoring, llm-classification, nats-events, s3-storage, postgres-state]
+author: randybias
+minTentacularVersion: "0.1.0"
+complexity: advanced

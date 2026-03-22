@@ -1,0 +1,57 @@
+{
+  "input": {
+    "criticalAction": [
+      {
+        "source": "dependabot",
+        "repo": "payments-api",
+        "alertId": 1,
+        "severity": "critical",
+        "identifier": "lodash",
+        "summary": "Prototype Pollution in lodash",
+        "cvss": 9.8,
+        "htmlUrl": "https://github.com/my-org/payments-api/security/dependabot/1",
+        "createdAt": "2026-03-20T10:00:00Z",
+        "repoContext": { "customer_facing": true, "environment": "production", "team": "platform" },
+        "priority": "critical_action",
+        "triageReason": "Critical severity in customer-facing production repo",
+        "suggestedRemediation": "Update lodash to latest patched version"
+      }
+    ],
+    "highTrack": [],
+    "lowLog": [],
+    "totalTriaged": 1,
+    "org": "my-org"
+  },
+  "expected": {
+    "createdIssues": [
+      {
+        "repo": "payments-api",
+        "alertId": 1,
+        "severity": "critical"
+      }
+    ],
+    "triageOutput": {
+      "criticalAction": [
+        {
+          "source": "dependabot",
+          "repo": "payments-api",
+          "alertId": 1,
+          "severity": "critical",
+          "identifier": "lodash",
+          "summary": "Prototype Pollution in lodash",
+          "cvss": 9.8,
+          "htmlUrl": "https://github.com/my-org/payments-api/security/dependabot/1",
+          "createdAt": "2026-03-20T10:00:00Z",
+          "repoContext": { "customer_facing": true, "environment": "production", "team": "platform" },
+          "priority": "critical_action",
+          "triageReason": "Critical severity in customer-facing production repo",
+          "suggestedRemediation": "Update lodash to latest patched version"
+        }
+      ],
+      "highTrack": [],
+      "lowLog": [],
+      "totalTriaged": 1,
+      "org": "my-org"
+    }
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "input": {
+    "service": "spire",
+    "passed": true,
+    "tests": [
+      { "name": "socket_exists", "passed": true, "latency_ms": 1 },
+      { "name": "read_svid_cert", "passed": true, "latency_ms": 2 },
+      { "name": "cert_pem_format", "passed": true, "latency_ms": 0 },
+      { "name": "spiffe_id_pattern", "passed": true, "latency_ms": 1 }
+    ],
+    "previousResults": {
+      "service": "nats",
+      "passed": true,
+      "tests": [
+        { "name": "connect", "passed": true, "latency_ms": 3 }
+      ],
+      "previousResults": {
+        "service": "rustfs",
+        "passed": true,
+        "tests": [
+          { "name": "put_object", "passed": true, "latency_ms": 15 }
+        ],
+        "previousResults": {
+          "service": "postgres",
+          "passed": true,
+          "tests": [
+            { "name": "connect", "passed": true, "latency_ms": 5 }
+          ]
+        }
+      }
+    }
+  },
+  "expected": {
+    "services": [
+      {
+        "service": "postgres",
+        "passed": true,
+        "tests": [
+          { "name": "connect", "passed": true, "latency_ms": 5 }
+        ]
+      },
+      {
+        "service": "rustfs",
+        "passed": true,
+        "tests": [
+          { "name": "put_object", "passed": true, "latency_ms": 15 }
+        ]
+      },
+      {
+        "service": "nats",
+        "passed": true,
+        "tests": [
+          { "name": "connect", "passed": true, "latency_ms": 3 }
+        ]
+      },
+      {
+        "service": "spire",
+        "passed": true,
+        "tests": [
+          { "name": "socket_exists", "passed": true, "latency_ms": 1 },
+          { "name": "read_svid_cert", "passed": true, "latency_ms": 2 },
+          { "name": "cert_pem_format", "passed": true, "latency_ms": 0 },
+          { "name": "spiffe_id_pattern", "passed": true, "latency_ms": 1 }
+        ]
+      }
+    ],
+    "totalTests": 7,
+    "totalPassed": 7,
+    "overallPassed": true
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "input": {
+    "files": [
+      {
+        "fileId": "abc123",
+        "fileName": "architecture.md",
+        "mimeType": "text/markdown",
+        "content": "IyBBcmNoaXRlY3R1cmUgRG9j",
+        "modifiedAt": "2026-01-15T05:30:00Z"
+      }
+    ],
+    "pollTimestamp": "2026-01-15T06:00:00.000Z"
+  },
+  "expected": {
+    "storedFiles": [
+      {
+        "fileId": "abc123",
+        "fileName": "architecture.md",
+        "mimeType": "text/markdown",
+        "s3Path": "",
+        "content": "IyBBcmNoaXRlY3R1cmUgRG9j",
+        "modifiedAt": "2026-01-15T05:30:00Z"
+      }
+    ],
+    "pollTimestamp": "2026-01-15T06:00:00.000Z"
+  }
+}

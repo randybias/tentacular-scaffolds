@@ -1,0 +1,10 @@
+{
+  "input": {},
+  "expected": {
+    "service": "postgres",
+    "passed": false,
+    "tests": [
+      { "name": "connect", "passed": false, "latency_ms": 0, "error": "No credentials" }
+    ]
+  }
+}

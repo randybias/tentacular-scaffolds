@@ -1,0 +1,16 @@
+{
+  "input": {
+    "severity": "P3",
+    "brief": "API Gateway error rate slightly elevated",
+    "suggestedActions": ["Monitor"],
+    "relatedDeploy": "",
+    "service": "api-gateway",
+    "metric": "error_rate",
+    "timestamp": "2026-01-15T12:00:00Z"
+  },
+  "expected": {
+    "paged": false,
+    "skipped": true,
+    "reason": "Severity P3 below paging threshold"
+  }
+}

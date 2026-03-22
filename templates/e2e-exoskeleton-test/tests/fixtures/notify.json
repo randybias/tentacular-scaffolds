@@ -1,0 +1,10 @@
+{
+  "input": {
+    "s3Path": "",
+    "stored": false
+  },
+  "expected": {
+    "delivered": false,
+    "status": 0
+  }
+}

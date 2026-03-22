@@ -1,0 +1,37 @@
+{
+  "input": {
+    "fetch-usage": {
+      "accounts": [
+        { "accountId": "acct-001", "dailyActiveUsers_30d": 150, "featureAdoption": 65, "loginFrequency": 4.2, "trend": "stable" }
+      ]
+    },
+    "fetch-tickets": {
+      "accounts": [
+        { "accountId": "acct-001", "openTickets": 2, "ticketsLast30d": 5, "avgSentiment": 0.3, "escalations": 0 }
+      ]
+    },
+    "fetch-billing": {
+      "accounts": [
+        { "accountId": "acct-001", "mrr": 500, "mrrChange": 0, "failedPayments": 0, "seatCount": 10, "seatChange": 0, "plan": "pro", "planChange": "active" }
+      ]
+    },
+    "fetch-surveys": {
+      "accounts": [
+        { "accountId": "acct-001", "latestNPS": 8, "latestCSAT": 4.2, "surveyDate": "2026-01-10", "trend": "stable" }
+      ]
+    }
+  },
+  "expected": {
+    "customers": [
+      {
+        "accountId": "acct-001",
+        "usage": { "accountId": "acct-001", "dailyActiveUsers_30d": 150, "featureAdoption": 65, "loginFrequency": 4.2, "trend": "stable" },
+        "tickets": { "accountId": "acct-001", "openTickets": 2, "ticketsLast30d": 5, "avgSentiment": 0.3, "escalations": 0 },
+        "billing": { "accountId": "acct-001", "mrr": 500, "mrrChange": 0, "failedPayments": 0, "seatCount": 10, "seatChange": 0, "plan": "pro", "planChange": "active" },
+        "surveys": { "accountId": "acct-001", "latestNPS": 8, "latestCSAT": 4.2, "surveyDate": "2026-01-10", "trend": "stable" },
+        "dataCompleteness": 100
+      }
+    ],
+    "totalAccounts": 1
+  }
+}

@@ -1,0 +1,99 @@
+name: knowledge-base-rag
+version: "1.0"
+description: "Ingest documents from Google Drive, generate embeddings, store in pgvector, and answer questions with source citations"
+
+triggers:
+  - type: manual
+  - type: cron
+    name: ingest-documents
+    schedule: "0 6 * * *"
+
+nodes:
+  poll-drive:
+    path: ./nodes/poll-drive.ts
+  store-originals:
+    path: ./nodes/store-originals.ts
+  extract-and-chunk:
+    path: ./nodes/extract-and-chunk.ts
+  generate-embeddings:
+    path: ./nodes/generate-embeddings.ts
+  store-vectors:
+    path: ./nodes/store-vectors.ts
+  answer-query:
+    path: ./nodes/answer-query.ts
+
+edges:
+  # Ingest pipeline: sequential processing
+  - from: poll-drive
+    to: store-originals
+  - from: store-originals
+    to: extract-and-chunk
+  - from: extract-and-chunk
+    to: generate-embeddings
+  - from: generate-embeddings
+    to: store-vectors
+  # answer-query is an independent entry point (manual trigger)
+
+config:
+  timeout: 300s
+  retries: 1
+  drive_folder_ids:
+    - "your-folder-id-here"
+  query: ""
+  top_k: 5
+
+contract:
+  version: "1"
+  dependencies:
+    google-drive:
+      protocol: https
+      host: www.googleapis.com
+      port: 443
+      auth:
+        type: bearer-token
+        secret: google.access_token
+    openai:
+      protocol: https
+      host: api.openai.com
+      port: 443
+      auth:
+        type: bearer-token
+        secret: openai.api_key
+    rustfs:
+      protocol: https
+      host: rustfs.tentacular-exoskeleton.svc.cluster.local
+      port: 9000
+      auth:
+        type: bearer-token
+        secret: rustfs.access_key
+    postgres:
+      protocol: postgresql
+      host: postgres-postgresql.postgres.svc.cluster.local
+      port: 5432
+      database: appdb
+      user: postgres
+      auth:
+        type: password
+        secret: postgres.password
+    nats:
+      protocol: nats
+      host: nats.tentacular-exoskeleton.svc.cluster.local
+      port: 4222
+      subject: kb.usage
+      auth:
+        type: bearer-token
+        secret: nats.token
+    anthropic:
+      protocol: https
+      host: api.anthropic.com
+      port: 443
+      auth:
+        type: bearer-token
+        secret: anthropic.api_key
+    slack-webhook:
+      protocol: https
+      host: hooks.slack.com
+      port: 443
+      auth:
+        type: webhook-url
+        secret: slack.webhook_url

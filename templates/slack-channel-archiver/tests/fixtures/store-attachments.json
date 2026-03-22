@@ -1,0 +1,16 @@
+{
+  "input": {
+    "storedCount": 2,
+    "messagesWithFiles": [],
+    "channelCheckpoints": {
+      "C0123456789": "1711100500.000200"
+    }
+  },
+  "expected": {
+    "filesStored": 0,
+    "filesFailed": 0,
+    "channelCheckpoints": {
+      "C0123456789": "1711100500.000200"
+    }
+  }
+}

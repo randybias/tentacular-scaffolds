@@ -1,0 +1,21 @@
+{
+  "input": {
+    "storedInvoices": [
+      {
+        "messageId": "msg-001",
+        "from": "billing@acme.com",
+        "subject": "Invoice #INV-2026-001",
+        "date": "2026-03-22T10:00:00.000Z",
+        "filename": "invoice-2026-001.pdf",
+        "mimeType": "application/pdf",
+        "s3Path": "invoices/2026/03/msg-001/invoice-2026-001.pdf",
+        "content": "dGVzdA=="
+      }
+    ],
+    "pollTimestamp": "2026-03-22T10:00:00.000Z"
+  },
+  "expected": {
+    "invoices": [],
+    "pollTimestamp": "2026-03-22T10:00:00.000Z"
+  }
+}

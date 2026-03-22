@@ -1,0 +1,28 @@
+{
+  "input": {
+    "validated": [
+      {
+        "fileId": "abc123",
+        "fileName": "receipt-coffee.jpg",
+        "s3Path": "receipts/2026-03-22/abc123/receipt-coffee.jpg",
+        "vendor": "Blue Bottle Coffee",
+        "amount": 5.75,
+        "currency": "USD",
+        "date": "2026-03-22",
+        "category": "Meals",
+        "description": "Coffee purchase",
+        "extractionConfidence": "high",
+        "valid": true,
+        "validationErrors": []
+      }
+    ],
+    "validCount": 1,
+    "flaggedCount": 0,
+    "pollTimestamp": "2026-03-22T10:00:00.000Z"
+  },
+  "expected": {
+    "storedCount": 0,
+    "sheetAppended": false,
+    "slackNotified": false
+  }
+}

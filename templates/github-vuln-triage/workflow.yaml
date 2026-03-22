@@ -1,0 +1,104 @@
+name: github-vuln-triage
+version: "1.0"
+description: "Aggregate Dependabot and CodeQL alerts across a GitHub org, enrich with repo context, triage with AI, and auto-create issues"
+
+triggers:
+  - type: manual
+  - type: cron
+    name: daily-triage
+    schedule: "0 7 * * *"
+
+nodes:
+  fetch-dependabot:
+    path: ./nodes/fetch-dependabot.ts
+  fetch-codescan:
+    path: ./nodes/fetch-codescan.ts
+  deduplicate:
+    path: ./nodes/deduplicate.ts
+  enrich-context:
+    path: ./nodes/enrich-context.ts
+  triage:
+    path: ./nodes/triage.ts
+  create-issues:
+    path: ./nodes/create-issues.ts
+  alert-critical:
+    path: ./nodes/alert-critical.ts
+  log-all:
+    path: ./nodes/log-all.ts
+
+edges:
+  # fan-out: both fetch nodes feed deduplicate
+  - from: fetch-dependabot
+    to: deduplicate
+  - from: fetch-codescan
+    to: deduplicate
+  # linear: deduplicate -> enrich -> triage
+  - from: deduplicate
+    to: enrich-context
+  - from: enrich-context
+    to: triage
+  # fan-out from triage
+  - from: triage
+    to: create-issues
+  - from: triage
+    to: alert-critical
+  - from: triage
+    to: log-all
+  # create-issues feeds alert-critical so alerts include issue links
+  - from: create-issues
+    to: alert-critical
+
+config:
+  timeout: 180s
+  retries: 1
+  github_org: "my-org"
+  repo_context:
+    payments-api:
+      customer_facing: true
+      environment: production
+      team: platform
+    internal-tools:
+      customer_facing: false
+      environment: internal
+      team: devex
+
+contract:
+  version: "1"
+  dependencies:
+    github:
+      protocol: https
+      host: api.github.com
+      port: 443
+      auth:
+        type: bearer-token
+        secret: github.token
+    postgres:
+      protocol: postgresql
+      host: postgres-postgresql.postgres.svc.cluster.local
+      port: 5432
+      database: appdb
+      user: postgres
+      auth:
+        type: password
+        secret: postgres.password
+    rustfs:
+      protocol: https
+      host: rustfs.tentacular-exoskeleton.svc.cluster.local
+      port: 9000
+      auth:
+        type: bearer-token
+        secret: rustfs.access_key
+    anthropic:
+      protocol: https
+      host: api.anthropic.com
+      port: 443
+      auth:
+        type: bearer-token
+        secret: anthropic.api_key
+    slack-webhook:
+      protocol: https
+      host: hooks.slack.com
+      port: 443
+      auth:
+        type: webhook-url
+        secret: slack.webhook_url

@@ -1,0 +1,24 @@
+{
+  "input": {
+    "titleOptions": [
+      "Kubernetes Isn't the Problem -- Your Missing Platform Team Is",
+      "Stop Blaming Kubernetes: The Real Complexity Gap Is Organizational"
+    ],
+    "thesis": "The complexity attributed to Kubernetes is actually an organizational gap.",
+    "sections": [
+      {
+        "heading": "The Complexity Misdirection",
+        "keyPoints": ["K8s complexity is real but misattributed"],
+        "supportingEvidence": ["Platform engineering survey data"]
+      }
+    ],
+    "contrarian_hook": "Every team that ditched Kubernetes ended up building their own worse version.",
+    "estimated_word_count": 1500
+  },
+  "expected": {
+    "stored": false,
+    "rustfsPath": "",
+    "rowId": 0,
+    "slackDelivered": false
+  }
+}

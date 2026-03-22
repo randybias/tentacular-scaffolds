@@ -1,0 +1,8 @@
+name: github-security-digest
+displayName: "GitHub Security Digest"
+description: "Daily digest of Dependabot and code scanning alerts across GitHub repos with LLM-powered prioritization"
+category: reporting
+tags: [github-security, dependabot, llm-triage, cron-triggered, postgres-state]
+author: randybias
+minTentacularVersion: "0.1.0"
+complexity: moderate

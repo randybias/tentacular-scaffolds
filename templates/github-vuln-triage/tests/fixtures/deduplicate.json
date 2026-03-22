@@ -1,0 +1,47 @@
+{
+  "input": {
+    "fetch-dependabot": {
+      "alerts": [
+        { "repo": "payments-api", "alertId": 1, "severity": "critical", "cvss": 9.8, "epss": 0, "package": "lodash", "ecosystem": "npm", "state": "open", "createdAt": "2026-03-20T10:00:00Z", "htmlUrl": "https://github.com/my-org/payments-api/security/dependabot/1", "summary": "Prototype Pollution in lodash" }
+      ],
+      "fetchedAt": "2026-03-22T07:00:00Z",
+      "org": "my-org"
+    },
+    "fetch-codescan": {
+      "alerts": [
+        { "repo": "payments-api", "alertId": 5, "severity": "high", "rule": "js/sql-injection", "tool": "CodeQL", "state": "open", "createdAt": "2026-03-19T14:00:00Z", "htmlUrl": "https://github.com/my-org/payments-api/security/code-scanning/5", "summary": "SQL injection" }
+      ],
+      "fetchedAt": "2026-03-22T07:00:00Z",
+      "org": "my-org"
+    }
+  },
+  "expected": {
+    "newAlerts": [
+      {
+        "source": "dependabot",
+        "repo": "payments-api",
+        "alertId": 1,
+        "severity": "critical",
+        "identifier": "lodash",
+        "summary": "Prototype Pollution in lodash",
+        "cvss": 9.8,
+        "htmlUrl": "https://github.com/my-org/payments-api/security/dependabot/1",
+        "createdAt": "2026-03-20T10:00:00Z"
+      },
+      {
+        "source": "codescan",
+        "repo": "payments-api",
+        "alertId": 5,
+        "severity": "high",
+        "identifier": "js/sql-injection",
+        "summary": "SQL injection",
+        "cvss": 0,
+        "htmlUrl": "https://github.com/my-org/payments-api/security/code-scanning/5",
+        "createdAt": "2026-03-19T14:00:00Z"
+      }
+    ],
+    "totalFetched": 2,
+    "totalNew": 2,
+    "org": "my-org"
+  }
+}

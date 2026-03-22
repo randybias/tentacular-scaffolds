@@ -1,0 +1,35 @@
+{
+  "input": {
+    "messages": [
+      {
+        "messageId": "msg-001",
+        "from": "billing@acme.com",
+        "subject": "Invoice #INV-2026-001",
+        "date": "2026-03-22T10:00:00.000Z",
+        "attachments": [
+          {
+            "filename": "invoice-2026-001.pdf",
+            "mimeType": "application/pdf",
+            "content": "dGVzdA=="
+          }
+        ]
+      }
+    ],
+    "pollTimestamp": "2026-03-22T10:00:00.000Z"
+  },
+  "expected": {
+    "storedInvoices": [
+      {
+        "messageId": "msg-001",
+        "from": "billing@acme.com",
+        "subject": "Invoice #INV-2026-001",
+        "date": "2026-03-22T10:00:00.000Z",
+        "filename": "invoice-2026-001.pdf",
+        "mimeType": "application/pdf",
+        "s3Path": "",
+        "content": "dGVzdA=="
+      }
+    ],
+    "pollTimestamp": "2026-03-22T10:00:00.000Z"
+  }
+}

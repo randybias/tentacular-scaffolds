@@ -1,0 +1,60 @@
+name: slack-channel-archiver
+version: "1.0"
+description: "Archive Slack channel messages and file attachments to Postgres and S3 with incremental sync"
+
+triggers:
+  - type: manual
+  - type: cron
+    name: hourly-sync
+    schedule: "0 * * * *"
+
+nodes:
+  fetch-messages:
+    path: ./nodes/fetch-messages.ts
+  store-messages:
+    path: ./nodes/store-messages.ts
+  store-attachments:
+    path: ./nodes/store-attachments.ts
+  update-checkpoint:
+    path: ./nodes/update-checkpoint.ts
+
+edges:
+  - from: fetch-messages
+    to: store-messages
+  - from: store-messages
+    to: store-attachments
+  - from: store-attachments
+    to: update-checkpoint
+
+config:
+  timeout: 120s
+  retries: 1
+  channels:
+    - C0123456789
+
+contract:
+  version: "1"
+  dependencies:
+    slack-api:
+      protocol: https
+      host: slack.com
+      port: 443
+      auth:
+        type: bearer-token
+        secret: slack.bot_token
+    rustfs:
+      protocol: https
+      host: rustfs.tentacular-exoskeleton.svc.cluster.local
+      port: 9000
+      auth:
+        type: bearer-token
+        secret: rustfs.access_key
+    postgres:
+      protocol: postgresql
+      host: postgres-postgresql.postgres.svc.cluster.local
+      port: 5432
+      database: appdb
+      user: postgres
+      auth:
+        type: password
+        secret: postgres.password

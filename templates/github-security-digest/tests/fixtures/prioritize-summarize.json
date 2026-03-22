@@ -1,0 +1,36 @@
+{
+  "input": {
+    "netNewAlerts": [
+      {
+        "alertId": 1,
+        "repo": "my-org/api-server",
+        "severity": "critical",
+        "package": "lodash",
+        "ecosystem": "npm",
+        "cvss": 9.8,
+        "epss": 0,
+        "summary": "Prototype Pollution in lodash",
+        "createdAt": "2026-03-20T10:00:00Z",
+        "htmlUrl": "https://github.com/my-org/api-server/security/dependabot/1"
+      }
+    ],
+    "totalStored": 1,
+    "totalNew": 1
+  },
+  "expected": {
+    "digestMarkdown": "## New Security Alerts (1)\n\n- [CRITICAL] my-org/api-server: lodash (CVSS 9.8) - Prototype Pollution in lodash (https://github.com/my-org/api-server/security/dependabot/1)",
+    "criticalCount": 1,
+    "highCount": 0,
+    "mediumCount": 0,
+    "lowCount": 0,
+    "totalNew": 1,
+    "topItems": [
+      {
+        "repo": "my-org/api-server",
+        "package": "lodash",
+        "severity": "critical",
+        "summary": "Prototype Pollution in lodash"
+      }
+    ]
+  }
+}

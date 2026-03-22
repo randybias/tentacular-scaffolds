@@ -1,0 +1,12 @@
+{
+  "input": {
+    "url": "https://example.com/article",
+    "title": "Why Kubernetes Is Over-Engineered for Most Teams",
+    "content": "Kubernetes has become the default choice for container orchestration...",
+    "publishedDate": "2026-03-15T10:00:00Z"
+  },
+  "expected": {
+    "sources": [],
+    "searchType": "adjacent"
+  }
+}

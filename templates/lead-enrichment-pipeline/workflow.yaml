@@ -1,0 +1,99 @@
+name: lead-enrichment-pipeline
+version: "1.0"
+description: "Enrich new leads from Google Sheets with company and person data, score against ICP, and route"
+
+triggers:
+  - type: manual
+  - type: cron
+    name: poll-leads
+    schedule: "*/5 * * * *"
+
+nodes:
+  poll-sheet:
+    path: ./nodes/poll-sheet.ts
+  enrich-company:
+    path: ./nodes/enrich-company.ts
+  enrich-person:
+    path: ./nodes/enrich-person.ts
+  enrich-website:
+    path: ./nodes/enrich-website.ts
+  score-leads:
+    path: ./nodes/score-leads.ts
+  store-and-route:
+    path: ./nodes/store-and-route.ts
+
+edges:
+  # fan-out from poll-sheet to 3 parallel enrichment nodes + score-leads
+  - from: poll-sheet
+    to: enrich-company
+  - from: poll-sheet
+    to: enrich-person
+  - from: poll-sheet
+    to: enrich-website
+  - from: poll-sheet
+    to: score-leads
+  # fan-in: all 3 enrichment nodes feed score-leads
+  - from: enrich-company
+    to: score-leads
+  - from: enrich-person
+    to: score-leads
+  - from: enrich-website
+    to: score-leads
+  # linear tail
+  - from: score-leads
+    to: store-and-route
+
+config:
+  timeout: 180s
+  retries: 1
+  sheets_id: "YOUR_SHEETS_ID"
+  sheet_name: "Leads"
+  icp_criteria: "B2B SaaS, 50-500 employees, Series A-C, technical buyer"
+  enrichment_api_base: "https://api.example.com"
+
+contract:
+  version: "1"
+  dependencies:
+    google-sheets:
+      protocol: https
+      host: sheets.googleapis.com
+      port: 443
+      auth:
+        type: bearer-token
+        secret: google.access_token
+    enrichment-api:
+      protocol: https
+      host: api.example.com
+      port: 443
+      auth:
+        type: bearer-token
+        secret: enrichment.api_key
+    probe-targets:
+      type: dynamic-target
+      protocol: https
+      cidr: "0.0.0.0/0"
+      dynPorts:
+        - "443/TCP"
+    postgres:
+      protocol: postgresql
+      host: postgres-postgresql.postgres.svc.cluster.local
+      port: 5432
+      database: appdb
+      user: postgres
+      auth:
+        type: password
+        secret: postgres.password
+    anthropic:
+      protocol: https
+      host: api.anthropic.com
+      port: 443
+      auth:
+        type: bearer-token
+        secret: anthropic.api_key
+    slack-webhook:
+      protocol: https
+      host: hooks.slack.com
+      port: 443
+      auth:
+        type: webhook-url
+        secret: slack.webhook_url

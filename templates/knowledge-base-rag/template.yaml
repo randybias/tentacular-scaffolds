@@ -1,0 +1,8 @@
+name: knowledge-base-rag
+displayName: "Knowledge Base RAG"
+description: "Ingest documents from Google Drive, generate embeddings, store in pgvector, and answer questions with source citations"
+category: automation
+tags: [rag, embeddings, pgvector, google-drive, document-processing, llm-generation, nats-events, s3-storage]
+author: randybias
+minTentacularVersion: "0.1.0"
+complexity: advanced

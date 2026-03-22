@@ -1,0 +1,25 @@
+{
+  "input": {
+    "messages": [
+      {
+        "messageId": "C0123456789:1711100400.000100",
+        "channelId": "C0123456789",
+        "userId": "U0123456789",
+        "text": "Hello, this is a test message",
+        "threadTs": "",
+        "ts": "1711100400.000100",
+        "files": []
+      }
+    ],
+    "channelCheckpoints": {
+      "C0123456789": "1711100400.000100"
+    }
+  },
+  "expected": {
+    "storedCount": 0,
+    "messagesWithFiles": [],
+    "channelCheckpoints": {
+      "C0123456789": "1711100400.000100"
+    }
+  }
+}

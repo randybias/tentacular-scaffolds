@@ -1,0 +1,16 @@
+{
+  "input": {
+    "severity": "P2",
+    "brief": "API Gateway error rate elevated to 15.2%, threshold is 5.0%",
+    "suggestedActions": ["Check recent deploy abc123", "Review error logs"],
+    "relatedDeploy": "abc123def456",
+    "service": "api-gateway",
+    "metric": "error_rate",
+    "timestamp": "2026-01-15T12:00:00Z"
+  },
+  "expected": {
+    "created": false,
+    "issueUrl": "",
+    "issueNumber": 0
+  }
+}

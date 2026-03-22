@@ -1,0 +1,67 @@
+name: github-security-digest
+version: "1.0"
+description: "Daily digest of Dependabot and code scanning alerts across GitHub repos with LLM-powered prioritization"
+
+triggers:
+  - type: manual
+  - type: cron
+    name: daily-digest
+    schedule: "0 7 * * *"
+
+nodes:
+  fetch-alerts:
+    path: ./nodes/fetch-alerts.ts
+  deduplicate-store:
+    path: ./nodes/deduplicate-store.ts
+  prioritize-summarize:
+    path: ./nodes/prioritize-summarize.ts
+  notify-slack:
+    path: ./nodes/notify-slack.ts
+
+edges:
+  - from: fetch-alerts
+    to: deduplicate-store
+  - from: deduplicate-store
+    to: prioritize-summarize
+  - from: prioritize-summarize
+    to: notify-slack
+
+config:
+  timeout: 120s
+  retries: 1
+  github_org: "my-org"
+  repos: []
+
+contract:
+  version: "1"
+  dependencies:
+    github:
+      protocol: https
+      host: api.github.com
+      port: 443
+      auth:
+        type: bearer-token
+        secret: github.token
+    postgres:
+      protocol: postgresql
+      host: postgres-postgresql.postgres.svc.cluster.local
+      port: 5432
+      database: appdb
+      user: postgres
+      auth:
+        type: password
+        secret: postgres.password
+    anthropic:
+      protocol: https
+      host: api.anthropic.com
+      port: 443
+      auth:
+        type: bearer-token
+        secret: anthropic.api_key
+    slack-webhook:
+      protocol: https
+      host: hooks.slack.com
+      port: 443
+      auth:
+        type: webhook-url
+        secret: slack.webhook_url

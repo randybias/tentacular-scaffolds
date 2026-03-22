@@ -1,0 +1,8 @@
+name: content-response-researcher
+displayName: "Content Response Researcher"
+description: "Research a competitor article, find contrarian angles and evidence gaps, and produce a structured response outline"
+category: reporting
+tags: [content-strategy, research, llm-analysis, fan-out-pattern, gap-analysis, s3-storage]
+author: randybias
+minTentacularVersion: "0.1.0"
+complexity: advanced

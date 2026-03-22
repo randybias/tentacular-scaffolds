@@ -1,0 +1,17 @@
+{
+  "input": {
+    "documents": [
+      {
+        "fileId": "1abc2def3ghi",
+        "fileName": "SaaS-Master-Agreement-Vendor-2026.pdf",
+        "fullText": "Section 5: Limitation of Liability\nNeither party shall be liable for any indirect, incidental, or consequential damages.",
+        "pageCount": 12,
+        "rustfsPath": "contracts/2026-03-22/1abc2def3ghi/SaaS-Master-Agreement-Vendor-2026.pdf"
+      }
+    ]
+  },
+  "expected": {
+    "reviewType": "liability",
+    "findings": []
+  }
+}

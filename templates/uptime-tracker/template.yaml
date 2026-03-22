@@ -1,0 +1,8 @@
+name: uptime-tracker
+displayName: "Uptime Tracker"
+description: "Probe HTTP endpoints every 5 minutes, store time-series data in Postgres, generate weekly uptime and latency reports"
+category: monitoring
+tags: [uptime-monitoring, time-series, latency-tracking, tls-inspection, weekly-reports, postgres-state, s3-storage]
+author: randybias
+minTentacularVersion: "0.1.0"
+complexity: moderate

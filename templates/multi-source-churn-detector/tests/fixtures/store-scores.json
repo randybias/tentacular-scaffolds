@@ -1,0 +1,14 @@
+{
+  "input": {
+    "scores": [
+      { "accountId": "acct-001", "score": 72, "explanation": "Healthy account with good engagement", "redFlags": [], "greenFlags": ["Growing usage", "High NPS"] }
+    ]
+  },
+  "expected": {
+    "scores": [
+      { "accountId": "acct-001", "score": 72, "explanation": "Healthy account with good engagement", "redFlags": [], "greenFlags": ["Growing usage", "High NPS"] }
+    ],
+    "stored": false,
+    "rowsInserted": 0
+  }
+}

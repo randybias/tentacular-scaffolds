@@ -1,0 +1,9 @@
+{
+  "input": {
+    "customers": [],
+    "totalAccounts": 0
+  },
+  "expected": {
+    "scores": []
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "input": {
+    "service": "api-gateway",
+    "metric": "error_rate",
+    "value": "15.2",
+    "threshold": "5.0",
+    "timestamp": "2026-01-15T12:00:00Z",
+    "source": "manual"
+  },
+  "expected": {
+    "recentAlerts": 0,
+    "lastAlert": "",
+    "recurringPattern": false,
+    "averageResolutionTime": 0
+  }
+}
