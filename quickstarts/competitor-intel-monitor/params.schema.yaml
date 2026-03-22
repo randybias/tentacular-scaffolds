@@ -1,0 +1,25 @@
+version: "1"
+description: "Parameters for the competitor-intel-monitor scaffold"
+
+parameters:
+  competitors:
+    path: config.competitors
+    type: list
+    items: map
+    description: >
+      Competitors to monitor. Each entry has a name (string) and urls (list of strings)
+      pointing to pages of interest (pricing, features, blog).
+    required: true
+    example:
+      - name: "Acme Corp"
+        urls:
+          - "https://acme.example.com/pricing"
+          - "https://acme.example.com/features"
+
+  monitor_schedule:
+    path: triggers[name=monitor-competitors].schedule
+    type: string
+    description: "Cron expression for how often to check competitor pages"
+    required: false
+    default: "0 */6 * * *"
+    example: "0 */6 * * *"

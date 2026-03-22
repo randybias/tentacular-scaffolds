@@ -19,7 +19,7 @@ export default async function run(ctx: Context, input: unknown): Promise<Runbook
   const alert = input as NormalizedAlert;
   const service = alert.service;
 
-  const rustfs = ctx.dependency("rustfs");
+  const rustfs = ctx.dependency("tentacular-rustfs");
   if (!rustfs.secret) {
     ctx.log.warn("No RustFS credentials, skipping runbook fetch");
     return { runbookContent: "", found: false };

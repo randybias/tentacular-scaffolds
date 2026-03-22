@@ -1,0 +1,37 @@
+version: "1"
+description: "Parameters for the multi-source-churn-detector scaffold"
+
+parameters:
+  accounts:
+    path: config.accounts
+    type: list
+    items: string
+    description: >
+      Account IDs to monitor for churn signals. Use ["all"] to monitor all accounts.
+    required: false
+    default:
+      - "all"
+    example:
+      - "all"
+
+  analytics_api_base:
+    path: config.analytics_api_base
+    type: string
+    description: "Base URL of the analytics API for fetching product usage data"
+    required: true
+    example: "https://api.example.com/analytics"
+
+  support_api_base:
+    path: config.support_api_base
+    type: string
+    description: "Base URL of the support API for fetching ticket history"
+    required: true
+    example: "https://api.example.com/support"
+
+  health_check_schedule:
+    path: triggers[name=daily-health-check].schedule
+    type: string
+    description: "Cron expression for when to run the daily churn health check"
+    required: false
+    default: "0 6 * * *"
+    example: "0 6 * * *"

@@ -45,7 +45,7 @@ export default async function run(ctx: Context, input: unknown): Promise<StoreRe
     return { storedInvoices: [], pollTimestamp: data.pollTimestamp };
   }
 
-  const rustfs = ctx.dependency("rustfs");
+  const rustfs = ctx.dependency("tentacular-rustfs");
   let s3: S3Client | null = null;
 
   if (rustfs.secret) {

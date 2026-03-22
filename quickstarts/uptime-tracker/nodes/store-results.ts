@@ -53,7 +53,7 @@ RETURNING id;
 export default async function run(ctx: Context, input: unknown): Promise<StoreOutput> {
   const data = input as ProbeOutput;
 
-  const postgres = ctx.dependency("postgres");
+  const postgres = ctx.dependency("tentacular-postgres");
   if (!postgres.secret) {
     ctx.log.warn("No postgres.password in secrets -- skipping storage");
     const unhealthyEndpoints = data.results.filter((r) => !r.isHealthy);

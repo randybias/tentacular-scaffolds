@@ -33,7 +33,7 @@ export default async function run(ctx: Context, input: unknown): Promise<StoreRe
   const data = input as PollResult;
 
   // Access dependency early for contract drift detection
-  const rustfs = ctx.dependency("rustfs");
+  const rustfs = ctx.dependency("tentacular-rustfs");
 
   if (data.files.length === 0) {
     ctx.log.info("No files to store");

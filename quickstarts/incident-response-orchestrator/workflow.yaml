@@ -70,7 +70,7 @@ config:
   alert_metric: ""
   alert_value: ""
   alert_threshold: ""
-  github_org: "randybias"
+  github_org: "my-org"
   service_repos:
     example-service: "example-service-repo"
 
@@ -84,30 +84,12 @@ contract:
       auth:
         type: bearer-token
         secret: github.token
-    rustfs:
-      protocol: https
-      host: rustfs.tentacular-exoskeleton.svc.cluster.local
-      port: 9000
-      auth:
-        type: bearer-token
-        secret: rustfs.access_key
-    postgres:
+    tentacular-rustfs:
+      protocol: http
+    tentacular-postgres:
       protocol: postgresql
-      host: postgres-postgresql.postgres.svc.cluster.local
-      port: 5432
-      database: appdb
-      user: postgres
-      auth:
-        type: password
-        secret: postgres.password
-    nats:
+    tentacular-nats:
       protocol: nats
-      host: nats.tentacular-exoskeleton.svc.cluster.local
-      port: 4222
-      subject: incidents.events
-      auth:
-        type: bearer-token
-        secret: nats.token
     anthropic:
       protocol: https
       host: api.anthropic.com

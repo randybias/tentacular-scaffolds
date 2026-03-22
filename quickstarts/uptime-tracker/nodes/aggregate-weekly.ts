@@ -41,7 +41,7 @@ ORDER BY uptime_pct ASC, avg_response_time DESC;
 
 /** Aggregate last 7 days of probe data into per-endpoint statistics */
 export default async function run(ctx: Context, _input: unknown): Promise<AggregateResult> {
-  const postgres = ctx.dependency("postgres");
+  const postgres = ctx.dependency("tentacular-postgres");
   if (!postgres.secret) {
     ctx.log.error("No postgres.password in secrets -- cannot aggregate data");
     return {

@@ -66,7 +66,7 @@ LIMIT 8;
 export default async function run(ctx: Context, input: unknown): Promise<StoreResult> {
   const snapshot = input as SepSnapshot;
 
-  const pg = ctx.dependency("postgres");
+  const pg = ctx.dependency("tentacular-postgres");
   if (!pg.secret) {
     ctx.log.warn("No postgres credentials, skipping DB operations");
     return { stored: false, snapshotId: 0, weeklyHistory: [] };
@@ -75,7 +75,7 @@ export default async function run(ctx: Context, input: unknown): Promise<StoreRe
   const client = new Client({
     hostname: pg.host,
     port: pg.port,
-    database: pg.metadata?.database as string ?? "sep_analytics",
+    database: pg.database as string ?? "sep_analytics",
     user: pg.metadata?.user as string ?? "postgres",
     password: pg.secret,
     tls: { enabled: false },

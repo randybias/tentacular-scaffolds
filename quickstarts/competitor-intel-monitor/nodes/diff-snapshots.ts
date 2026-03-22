@@ -57,8 +57,8 @@ CREATE INDEX IF NOT EXISTS idx_competitor_snapshots_url
 export default async function run(ctx: Context, input: unknown): Promise<DiffResult> {
   const data = input as FetchResult;
 
-  const rustfs = ctx.dependency("rustfs");
-  const postgres = ctx.dependency("postgres");
+  const rustfs = ctx.dependency("tentacular-rustfs");
+  const postgres = ctx.dependency("tentacular-postgres");
   const competitorChanges: CompetitorChanges[] = [];
 
   // Initialize S3 client if credentials available

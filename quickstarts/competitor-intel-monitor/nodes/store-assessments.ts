@@ -56,7 +56,7 @@ export default async function run(ctx: Context, input: unknown): Promise<StoreRe
     return { storedCount: 0, assessments: [], fetchedAt: data.fetchedAt };
   }
 
-  const postgres = ctx.dependency("postgres");
+  const postgres = ctx.dependency("tentacular-postgres");
   if (!postgres.secret) {
     ctx.log.warn("No postgres.password in secrets -- skipping DB storage");
     return { storedCount: 0, assessments: data.assessments, fetchedAt: data.fetchedAt };

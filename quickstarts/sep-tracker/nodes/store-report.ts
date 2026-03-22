@@ -76,7 +76,7 @@ export default async function run(ctx: Context, input: unknown): Promise<StoreRe
   const report = merged["render-html"];
   const delta = merged["diff-seps"];
 
-  const postgres = ctx.dependency("postgres");
+  const postgres = ctx.dependency("tentacular-postgres");
   if (!postgres.secret) {
     ctx.log.warn("No postgres.password in secrets -- skipping (no credentials)");
     return { stored: false, snapshotId: 0, reportUrl: "" };

@@ -42,7 +42,7 @@ export default async function run(ctx: Context, input: unknown): Promise<StoreRe
   let slackDelivered = false;
 
   // Store in RustFS
-  const rustfs = ctx.dependency("rustfs");
+  const rustfs = ctx.dependency("tentacular-rustfs");
   if (rustfs.secret) {
     const key = `content-research/${datePath}/${Date.now()}-outline.json`;
     const payload = JSON.stringify({ targetUrl, outline, generatedAt: now }, null, 2);
@@ -69,7 +69,7 @@ export default async function run(ctx: Context, input: unknown): Promise<StoreRe
   }
 
   // Store metadata in Postgres
-  const pg = ctx.dependency("postgres");
+  const pg = ctx.dependency("tentacular-postgres");
   if (pg.secret) {
     const client = new Client({
       hostname: pg.host,

@@ -52,7 +52,7 @@ WHERE service = $1
 export default async function run(ctx: Context, input: unknown): Promise<AlertHistory> {
   const alert = input as NormalizedAlert;
 
-  const postgres = ctx.dependency("postgres");
+  const postgres = ctx.dependency("tentacular-postgres");
   if (!postgres.secret) {
     ctx.log.warn("No postgres.password in secrets -- returning empty history");
     return { recentAlerts: 0, lastAlert: "", recurringPattern: false, averageResolutionTime: 0 };

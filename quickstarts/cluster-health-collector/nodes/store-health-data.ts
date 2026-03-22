@@ -45,7 +45,7 @@ RETURNING id;
 export default async function run(ctx: Context, input: unknown): Promise<{ stored: boolean; rowId: number }> {
   const snapshot = input as ClusterHealthSnapshot;
 
-  const postgres = ctx.dependency("postgres");
+  const postgres = ctx.dependency("tentacular-postgres");
   if (!postgres.secret) {
     ctx.log.warn("No postgres.password in secrets -- skipping (no credentials)");
     return { stored: false, rowId: 0 };

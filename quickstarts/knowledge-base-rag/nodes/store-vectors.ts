@@ -60,7 +60,7 @@ export default async function run(ctx: Context, input: unknown): Promise<StoreSt
   const data = input as EmbeddingsResult;
 
   // Access dependency early for contract drift detection
-  const postgres = ctx.dependency("postgres");
+  const postgres = ctx.dependency("tentacular-postgres");
 
   if (data.fileEmbeddings.length === 0) {
     ctx.log.info("No embeddings to store");

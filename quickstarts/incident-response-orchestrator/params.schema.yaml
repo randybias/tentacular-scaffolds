@@ -1,0 +1,21 @@
+version: "1"
+description: "Parameters for the incident-response-orchestrator scaffold"
+
+parameters:
+  github_org:
+    path: config.github_org
+    type: string
+    description: "GitHub organization where runbooks and service repos are stored"
+    required: true
+    example: "my-org"
+
+  service_repos:
+    path: config.service_repos
+    type: map
+    description: >
+      Map of service name to GitHub repo name. Used to look up runbooks and deploy history
+      when an incident is triggered.
+    required: false
+    example:
+      api-server: "api-server-repo"
+      frontend: "frontend-repo"

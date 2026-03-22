@@ -46,7 +46,7 @@ export default async function run(ctx: Context, input: unknown): Promise<StoreRe
   const html = renderHtml(report, now);
 
   // Store HTML in RustFS
-  const rustfs = ctx.dependency("rustfs");
+  const rustfs = ctx.dependency("tentacular-rustfs");
   if (rustfs.secret) {
     const key = `contract-reviews/${datePath}/${Date.now()}-report.html`;
 
@@ -68,7 +68,7 @@ export default async function run(ctx: Context, input: unknown): Promise<StoreRe
   }
 
   // Store in Postgres
-  const pg = ctx.dependency("postgres");
+  const pg = ctx.dependency("tentacular-postgres");
   if (pg.secret) {
     const client = new Client({
       hostname: pg.host,

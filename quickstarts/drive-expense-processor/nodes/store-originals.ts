@@ -35,7 +35,7 @@ export default async function run(ctx: Context, input: unknown): Promise<StoreRe
     return { storedFiles: [], pollTimestamp: data.pollTimestamp };
   }
 
-  const rustfs = ctx.dependency("rustfs");
+  const rustfs = ctx.dependency("tentacular-rustfs");
   if (!rustfs.secret) {
     ctx.log.warn("No RustFS credentials, passing files through without storage");
     return {

@@ -50,9 +50,9 @@ edges:
 config:
   timeout: 180s
   retries: 1
-  target_repo: "modelcontextprotocol/specification"
+  target_repo: "my-org/my-spec-repo"
   sep_label: "sep"
-  azure_blob_base_url: "https://mcpreports9276621.blob.core.windows.net/sep-reports"
+  azure_blob_base_url: "https://mystorageaccount.blob.core.windows.net/sep-reports"
 
 contract:
   version: "1"
@@ -64,15 +64,8 @@ contract:
       auth:
         type: bearer-token
         secret: github.token
-    postgres:
+    tentacular-postgres:
       protocol: postgresql
-      host: postgres-postgresql.postgres.svc.cluster.local
-      port: 5432
-      database: sep_analytics
-      user: postgres
-      auth:
-        type: password
-        secret: postgres.password
     openai:
       protocol: https
       host: api.openai.com
@@ -82,7 +75,7 @@ contract:
         secret: openai.api_key
     azure-blob:
       protocol: https
-      host: mcpreports9276621.blob.core.windows.net
+      host: mystorageaccount.blob.core.windows.net
       port: 443
       auth:
         type: sas-token

@@ -1,0 +1,18 @@
+version: "1"
+description: "Parameters for the content-response-researcher scaffold"
+
+parameters:
+  target_url:
+    path: config.target_url
+    type: string
+    description: "URL of the article or content to research and respond to"
+    required: true
+    example: "https://example.com/article-to-respond-to"
+
+  search_api_provider:
+    path: config.search_api_provider
+    type: string
+    description: "Search API provider to use for finding supporting and contrary research (e.g. tavily)"
+    required: false
+    default: "tavily"
+    example: "tavily"

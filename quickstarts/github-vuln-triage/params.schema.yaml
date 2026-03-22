@@ -1,0 +1,31 @@
+version: "1"
+description: "Parameters for the github-vuln-triage scaffold"
+
+parameters:
+  github_org:
+    path: config.github_org
+    type: string
+    description: "GitHub organization to scan for vulnerability alerts"
+    required: true
+    example: "my-org"
+
+  repo_context:
+    path: config.repo_context
+    type: map
+    description: >
+      Per-repository context used to triage vulnerability severity. Keys are repo names,
+      values are maps with customer_facing (boolean), environment (string), and team (string).
+    required: false
+    example:
+      api-server:
+        customer_facing: true
+        environment: production
+        team: platform
+
+  triage_schedule:
+    path: triggers[name=daily-triage].schedule
+    type: string
+    description: "Cron expression for when to run the daily vulnerability triage"
+    required: false
+    default: "0 7 * * *"
+    example: "0 7 * * *"

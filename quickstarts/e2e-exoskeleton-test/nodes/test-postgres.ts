@@ -19,7 +19,7 @@ export default async function run(ctx: Context, _input: unknown): Promise<Servic
   const tests: TestCase[] = [];
   const tableName = `exo_test_${Date.now()}`;
 
-  const postgres = ctx.dependency("postgres");
+  const postgres = ctx.dependency("tentacular-postgres");
   if (!postgres.secret) {
     ctx.log.error("No postgres.password in secrets");
     return {

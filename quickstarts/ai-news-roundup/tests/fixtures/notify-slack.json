@@ -8,7 +8,7 @@
     "articleCount": 10
   },
   "config": {
-    "cluster_id": "agensys2"
+    "cluster_id": "my-cluster"
   },
   "expected": {
     "delivered": false,

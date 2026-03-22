@@ -50,7 +50,7 @@ export default async function run(ctx: Context, input: unknown): Promise<StoreRe
     return { scores: [], stored: false, rowsInserted: 0 };
   }
 
-  const postgres = ctx.dependency("postgres");
+  const postgres = ctx.dependency("tentacular-postgres");
   if (!postgres.secret) {
     ctx.log.warn("No postgres.password in secrets -- passing scores through without storage");
     return { scores: data.scores, stored: false, rowsInserted: 0 };

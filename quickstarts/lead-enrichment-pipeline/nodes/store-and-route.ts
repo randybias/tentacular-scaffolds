@@ -52,7 +52,7 @@ export default async function run(ctx: Context, input: unknown): Promise<RouteRe
   const lowScore = scoredLeads.filter((l) => l.score < 70);
 
   // Store in Postgres
-  const pg = ctx.dependency("postgres");
+  const pg = ctx.dependency("tentacular-postgres");
   if (pg.secret) {
     const client = new Client({
       hostname: pg.host,

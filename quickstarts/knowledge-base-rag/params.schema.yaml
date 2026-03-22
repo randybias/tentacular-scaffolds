@@ -1,0 +1,28 @@
+version: "1"
+description: "Parameters for the knowledge-base-rag scaffold"
+
+parameters:
+  drive_folder_ids:
+    path: config.drive_folder_ids
+    type: list
+    items: string
+    description: "Google Drive folder IDs to ingest documents from for the knowledge base"
+    required: true
+    example:
+      - "1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms"
+
+  top_k:
+    path: config.top_k
+    type: number
+    description: "Number of most relevant document chunks to retrieve per query"
+    required: false
+    default: 5
+    example: 5
+
+  ingest_schedule:
+    path: triggers[name=ingest-documents].schedule
+    type: string
+    description: "Cron expression for how often to re-ingest documents from Drive"
+    required: false
+    default: "0 2 * * *"
+    example: "0 2 * * *"

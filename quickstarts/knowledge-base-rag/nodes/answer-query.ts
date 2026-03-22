@@ -87,7 +87,7 @@ async function publishUsageEvent(
   query: string,
   sourcesCount: number,
 ): Promise<void> {
-  const nats = ctx.dependency("nats");
+  const nats = ctx.dependency("tentacular-nats");
   if (!nats.secret) {
     ctx.log.warn("No NATS token, skipping usage event");
     return;
@@ -120,9 +120,9 @@ async function publishUsageEvent(
 export default async function run(ctx: Context, _input: unknown): Promise<AnswerResult> {
   // Access dependencies early for contract drift detection
   const _anthropic = ctx.dependency("anthropic");
-  const _nats = ctx.dependency("nats");
+  const _nats = ctx.dependency("tentacular-nats");
   const _slack = ctx.dependency("slack-webhook");
-  const postgres = ctx.dependency("postgres");
+  const postgres = ctx.dependency("tentacular-postgres");
 
   const query = ctx.config.query as string;
   if (!query || query.trim() === "") {

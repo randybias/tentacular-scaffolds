@@ -65,7 +65,7 @@ export default async function run(ctx: Context, input: unknown): Promise<RouteRe
 
   // Store at-risk accounts in weekly digest table
   if (atRiskAccounts.length > 0) {
-    const postgres = ctx.dependency("postgres");
+    const postgres = ctx.dependency("tentacular-postgres");
     if (postgres.secret) {
       const client = new Client({
         hostname: postgres.host,

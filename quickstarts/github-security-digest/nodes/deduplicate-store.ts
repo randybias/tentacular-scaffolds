@@ -66,7 +66,7 @@ RETURNING (xmax = 0) AS is_new;
 export default async function run(ctx: Context, input: unknown): Promise<DeduplicateResult> {
   const data = input as FetchAlertsOutput;
 
-  const pg = ctx.dependency("postgres");
+  const pg = ctx.dependency("tentacular-postgres");
   if (!pg.secret) {
     ctx.log.warn("No postgres credentials, returning all alerts as new");
     return { netNewAlerts: data.alerts, totalStored: 0, totalNew: data.alerts.length };
@@ -77,7 +77,7 @@ export default async function run(ctx: Context, input: unknown): Promise<Dedupli
   const client = new Client({
     hostname: pg.host,
     port: pg.port,
-    database: pg.metadata?.database as string ?? "appdb",
+    database: pg.database as string ?? "appdb",
     user: pg.metadata?.user as string ?? "postgres",
     password: pg.secret,
     tls: { enabled: false },

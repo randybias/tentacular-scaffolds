@@ -29,7 +29,7 @@ edges:
 config:
   timeout: 120s
   retries: 1
-  cluster_id: "agensys2"
+  cluster_id: "my-cluster"
   openai_model: "gpt-4o"
   sources:
     - name: TechCrunch AI

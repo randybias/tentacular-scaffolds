@@ -1,0 +1,21 @@
+version: "1"
+description: "Parameters for the uptime-prober scaffold"
+
+parameters:
+  endpoints:
+    path: config.endpoints
+    type: list
+    items: string
+    description: "URLs to probe for uptime"
+    required: true
+    example:
+      - "https://example.com"
+      - "https://api.example.com/health"
+
+  probe_schedule:
+    path: triggers[name=scheduled-probe].schedule
+    type: string
+    description: "Cron expression for how often to probe endpoints"
+    required: false
+    default: "*/5 * * * *"
+    example: "*/5 * * * *"

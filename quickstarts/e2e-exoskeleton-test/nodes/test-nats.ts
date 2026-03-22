@@ -20,7 +20,7 @@ interface ServiceTestResult {
 export default async function run(ctx: Context, input: unknown): Promise<ServiceTestResult & { previousResults?: unknown }> {
   const tests: TestCase[] = [];
 
-  const nats = ctx.dependency("nats");
+  const nats = ctx.dependency("tentacular-nats");
   if (!nats.secret) {
     ctx.log.error("No NATS token");
     return {

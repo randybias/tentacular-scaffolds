@@ -1,0 +1,11 @@
+version: "1"
+description: "Parameters for the cluster-health-collector scaffold"
+
+parameters:
+  collect_schedule:
+    path: triggers[name=collect-health].schedule
+    type: string
+    description: "Cron expression for how often to collect cluster health data"
+    required: false
+    default: "*/5 * * * *"
+    example: "*/5 * * * *"

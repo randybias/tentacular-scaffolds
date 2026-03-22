@@ -1,0 +1,27 @@
+version: "1"
+description: "Parameters for the pr-review scaffold"
+
+parameters:
+  test_owner:
+    path: config.test_owner
+    type: string
+    description: "GitHub repository owner used when triggered manually (for testing)"
+    required: false
+    default: "my-org"
+    example: "my-org"
+
+  test_repo:
+    path: config.test_repo
+    type: string
+    description: "GitHub repository name used when triggered manually (for testing)"
+    required: false
+    default: "my-repo"
+    example: "my-repo"
+
+  test_pr_number:
+    path: config.test_pr_number
+    type: number
+    description: "PR number to review when triggered manually (for testing)"
+    required: false
+    default: 1
+    example: 42

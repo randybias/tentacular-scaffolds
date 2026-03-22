@@ -75,14 +75,14 @@ export default async function run(ctx: Context, _input: unknown): Promise<FetchM
   }
 
   // Get checkpoints from Postgres
-  const pg = ctx.dependency("postgres");
+  const pg = ctx.dependency("tentacular-postgres");
   const checkpoints: Record<string, string> = {};
 
   if (pg.secret) {
     const client = new Client({
       hostname: pg.host,
       port: pg.port,
-      database: pg.metadata?.database as string ?? "appdb",
+      database: pg.database as string ?? "appdb",
       user: pg.metadata?.user as string ?? "postgres",
       password: pg.secret,
       tls: { enabled: false },

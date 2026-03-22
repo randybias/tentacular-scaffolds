@@ -42,15 +42,8 @@ contract:
       auth:
         type: bearer-token
         secret: github.token
-    postgres:
+    tentacular-postgres:
       protocol: postgresql
-      host: postgres-postgresql.postgres.svc.cluster.local
-      port: 5432
-      database: appdb
-      user: postgres
-      auth:
-        type: password
-        secret: postgres.password
     anthropic:
       protocol: https
       host: api.anthropic.com

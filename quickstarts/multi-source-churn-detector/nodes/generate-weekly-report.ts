@@ -46,8 +46,8 @@ export default async function run(ctx: Context, input: unknown): Promise<ReportR
   const data = input as StoreResult;
 
   // Access dependencies early for contract drift detection
-  const postgres = ctx.dependency("postgres");
-  const _rustfs = ctx.dependency("rustfs");
+  const postgres = ctx.dependency("tentacular-postgres");
+  const _rustfs = ctx.dependency("tentacular-rustfs");
 
   if (!postgres.secret) {
     ctx.log.warn("No postgres.password -- cannot generate weekly report");
@@ -132,7 +132,7 @@ export default async function run(ctx: Context, input: unknown): Promise<ReportR
 
   // Store in RustFS
   let s3Path = "";
-  const rustfs = ctx.dependency("rustfs");
+  const rustfs = ctx.dependency("tentacular-rustfs");
   if (rustfs.secret) {
     s3Path = `/tentacular/reports/churn/${dateStr}/weekly-report.html`;
     try {

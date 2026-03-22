@@ -43,30 +43,12 @@ config:
 contract:
   version: "1"
   dependencies:
-    postgres:
+    tentacular-postgres:
       protocol: postgresql
-      host: postgres-postgresql.tentacular-exoskeleton.svc.cluster.local
-      port: 5432
-      database: tentacular
-      user: postgres
-      auth:
-        type: password
-        secret: postgres.password
-    rustfs:
+    tentacular-rustfs:
       protocol: http
-      host: rustfs-svc.tentacular-exoskeleton.svc.cluster.local
-      port: 9000
-      auth:
-        type: bearer-token
-        secret: rustfs.access_key
-    nats:
+    tentacular-nats:
       protocol: nats
-      host: nats.tentacular-exoskeleton.svc.cluster.local
-      port: 4222
-      subject: test.smoke
-      auth:
-        type: bearer-token
-        secret: nats.token
     slack-webhook:
       protocol: https
       host: hooks.slack.com

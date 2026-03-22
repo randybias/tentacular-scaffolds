@@ -46,7 +46,7 @@ export default async function run(ctx: Context, _input: unknown): Promise<PollRe
 
   // Get last poll checkpoint from Postgres
   let lastPoll = new Date(0).toISOString();
-  const pg = ctx.dependency("postgres");
+  const pg = ctx.dependency("tentacular-postgres");
   let client: Client | null = null;
 
   if (pg.secret) {

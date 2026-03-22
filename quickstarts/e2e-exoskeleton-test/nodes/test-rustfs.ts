@@ -31,7 +31,7 @@ export default async function run(ctx: Context, input: unknown): Promise<Service
   const tests: TestCase[] = [];
   const testKey = `exo-test/${Date.now()}/test-blob.bin`;
 
-  const rustfs = ctx.dependency("rustfs");
+  const rustfs = ctx.dependency("tentacular-rustfs");
   if (!rustfs.secret) {
     ctx.log.error("No RustFS credentials");
     return {

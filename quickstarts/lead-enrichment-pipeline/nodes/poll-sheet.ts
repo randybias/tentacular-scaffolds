@@ -51,7 +51,7 @@ export default async function run(ctx: Context, _input: unknown): Promise<PollRe
 
   // Get last processed row from Postgres
   let lastRow = 1; // row 1 is header
-  const pg = ctx.dependency("postgres");
+  const pg = ctx.dependency("tentacular-postgres");
   let client: Client | null = null;
 
   if (pg.secret) {

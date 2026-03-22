@@ -60,7 +60,7 @@ export default async function run(ctx: Context, input: unknown): Promise<StoreAt
 
   // Access dependencies early to declare network intent for contract drift detection
   const slack = ctx.dependency("slack-api");
-  const rustfs = ctx.dependency("rustfs");
+  const rustfs = ctx.dependency("tentacular-rustfs");
 
   if (data.messagesWithFiles.length === 0) {
     ctx.log.info("No file attachments to store");
@@ -73,14 +73,14 @@ export default async function run(ctx: Context, input: unknown): Promise<StoreAt
   }
 
   // Set up Postgres for file metadata
-  const pg = ctx.dependency("postgres");
+  const pg = ctx.dependency("tentacular-postgres");
   let pgClient: InstanceType<typeof Client> | null = null;
 
   if (pg.secret) {
     pgClient = new Client({
       hostname: pg.host,
       port: pg.port,
-      database: pg.metadata?.database as string ?? "appdb",
+      database: pg.database as string ?? "appdb",
       user: pg.metadata?.user as string ?? "postgres",
       password: pg.secret,
       tls: { enabled: false },

@@ -37,7 +37,7 @@ DO UPDATE SET last_poll = $2;
 export default async function run(ctx: Context, _input: unknown): Promise<PollResult> {
   // Access dependencies early for contract drift detection
   const drive = ctx.dependency("google-drive");
-  const postgres = ctx.dependency("postgres");
+  const postgres = ctx.dependency("tentacular-postgres");
 
   const folderIds = ctx.config.drive_folder_ids as string[];
   if (!folderIds || folderIds.length === 0) {

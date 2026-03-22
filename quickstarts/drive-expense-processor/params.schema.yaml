@@ -1,0 +1,43 @@
+version: "1"
+description: "Parameters for the drive-expense-processor scaffold"
+
+parameters:
+  drive_folder_id:
+    path: config.drive_folder_id
+    type: string
+    description: "Google Drive folder ID to watch for new expense receipt files"
+    required: true
+    example: "1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms"
+
+  sheets_id:
+    path: config.sheets_id
+    type: string
+    description: "Google Sheets ID where processed expense records are written"
+    required: true
+    example: "1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms"
+
+  allowed_categories:
+    path: config.allowed_categories
+    type: list
+    items: string
+    description: "Expense categories to accept. Receipts with other categories are flagged for review."
+    required: false
+    default:
+      - Travel
+      - Meals
+      - Software
+      - Office
+      - Equipment
+      - Other
+    example:
+      - Travel
+      - Meals
+      - Software
+
+  poll_schedule:
+    path: triggers[name=poll-receipts].schedule
+    type: string
+    description: "Cron expression for how often to check Drive for new receipts"
+    required: false
+    default: "*/10 * * * *"
+    example: "*/10 * * * *"

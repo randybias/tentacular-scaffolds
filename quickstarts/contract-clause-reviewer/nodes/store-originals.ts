@@ -23,7 +23,7 @@ export default async function run(ctx: Context, input: unknown): Promise<StoreRe
     return { files: [], storedCount: 0 };
   }
 
-  const rustfs = ctx.dependency("rustfs");
+  const rustfs = ctx.dependency("tentacular-rustfs");
   const datePath = new Date().toISOString().substring(0, 10);
   const storedFiles: StoredFile[] = [];
   let storedCount = 0;

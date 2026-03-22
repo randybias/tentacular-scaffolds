@@ -31,7 +31,7 @@ ORDER BY collected_at ASC;
 
 /** Query the last 24 hours of cluster health snapshots from Postgres */
 export default async function run(ctx: Context, _input: unknown): Promise<HealthHistory> {
-  const postgres = ctx.dependency("postgres");
+  const postgres = ctx.dependency("tentacular-postgres");
   if (!postgres.secret) {
     ctx.log.warn("No postgres.password in secrets -- skipping (no credentials)");
     return { records: [], periodStart: "", periodEnd: "", snapshotCount: 0 };

@@ -83,7 +83,7 @@ export default async function run(ctx: Context, input: unknown): Promise<StoreNo
 
   // --- Store in Postgres ---
   let storedCount = 0;
-  const postgres = ctx.dependency("postgres");
+  const postgres = ctx.dependency("tentacular-postgres");
 
   if (postgres.secret) {
     const client = new Client({

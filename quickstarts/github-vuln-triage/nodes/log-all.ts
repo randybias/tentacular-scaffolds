@@ -54,7 +54,7 @@ export default async function run(ctx: Context, input: unknown): Promise<LogResu
   let rustfsPath = "";
 
   // Log to Postgres
-  const pg = ctx.dependency("postgres");
+  const pg = ctx.dependency("tentacular-postgres");
   if (pg.secret) {
     const client = new Client({
       hostname: pg.host,
@@ -96,7 +96,7 @@ export default async function run(ctx: Context, input: unknown): Promise<LogResu
   }
 
   // Archive full triage report to RustFS
-  const rustfs = ctx.dependency("rustfs");
+  const rustfs = ctx.dependency("tentacular-rustfs");
   if (rustfs.secret) {
     const now = new Date().toISOString();
     const datePath = now.substring(0, 10);

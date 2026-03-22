@@ -1,0 +1,26 @@
+version: "1"
+description: "Parameters for the sep-tracker scaffold"
+
+parameters:
+  target_repo:
+    path: config.target_repo
+    type: string
+    description: "GitHub repository to track for SEP (specification/enhancement proposal) issues, in owner/name format"
+    required: true
+    example: "my-org/my-spec-repo"
+
+  sep_label:
+    path: config.sep_label
+    type: string
+    description: "GitHub label used to identify SEP issues"
+    required: false
+    default: "sep"
+    example: "sep"
+
+  track_schedule:
+    path: triggers[name=weekly-sunday].schedule
+    type: string
+    description: "Cron expression for how often to sync SEP state"
+    required: false
+    default: "0 0 * * 0"
+    example: "0 0 * * 0"

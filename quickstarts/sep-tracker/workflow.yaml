@@ -52,7 +52,7 @@ edges:
 config:
   timeout: 120s
   retries: 1
-  target_repo: "modelcontextprotocol/specification"
+  target_repo: "my-org/my-spec-repo"
   sep_label: "sep"
 
 contract:
@@ -65,18 +65,11 @@ contract:
       auth:
         type: bearer-token
         secret: github.token
-    postgres:
+    tentacular-postgres:
       protocol: postgresql
-      host: postgres-postgresql.postgres.svc.cluster.local
-      port: 5432
-      database: appdb
-      user: postgres
-      auth:
-        type: password
-        secret: postgres.password
     azure-blob:
       protocol: https
-      host: mcpreports9276621.blob.core.windows.net
+      host: mystorageaccount.blob.core.windows.net
       port: 443
       auth:
         type: sas-token

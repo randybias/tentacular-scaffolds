@@ -34,7 +34,7 @@ DO UPDATE SET last_poll = $2;
 
 /** Poll Google Drive folder for new receipt uploads since last checkpoint */
 export default async function run(ctx: Context, _input: unknown): Promise<PollResult> {
-  const postgres = ctx.dependency("postgres");
+  const postgres = ctx.dependency("tentacular-postgres");
   const drive = ctx.dependency("google-drive");
 
   const folderId = ctx.config.drive_folder_id as string;

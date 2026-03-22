@@ -1,0 +1,21 @@
+version: "1"
+description: "Parameters for the site-change-detector scaffold"
+
+parameters:
+  urls:
+    path: config.urls
+    type: list
+    items: string
+    description: "URLs to monitor for content changes"
+    required: true
+    example:
+      - "https://example.com/pricing"
+      - "https://example.com/docs"
+
+  check_schedule:
+    path: triggers[name=check-changes].schedule
+    type: string
+    description: "Cron expression for how often to check for site changes"
+    required: false
+    default: "0 */4 * * *"
+    example: "0 */4 * * *"

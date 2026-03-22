@@ -57,22 +57,10 @@ contract:
       dynPorts:
         - "443/TCP"
         - "80/TCP"
-    postgres:
+    tentacular-postgres:
       protocol: postgresql
-      host: postgres-postgresql.postgres.svc.cluster.local
-      port: 5432
-      database: appdb
-      user: postgres
-      auth:
-        type: password
-        secret: postgres.password
-    rustfs:
-      protocol: https
-      host: rustfs.tentacular-exoskeleton.svc.cluster.local
-      port: 9000
-      auth:
-        type: bearer-token
-        secret: rustfs.access_key
+    tentacular-rustfs:
+      protocol: http
     anthropic:
       protocol: https
       host: api.anthropic.com

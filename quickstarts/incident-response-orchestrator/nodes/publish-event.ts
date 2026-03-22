@@ -20,7 +20,7 @@ interface PublishResult {
 export default async function run(ctx: Context, input: unknown): Promise<PublishResult> {
   const brief = input as IncidentBrief;
 
-  const nats = ctx.dependency("nats");
+  const nats = ctx.dependency("tentacular-nats");
   if (!nats.secret) {
     ctx.log.warn("No NATS token, skipping event publish");
     return { published: false, subject: "" };

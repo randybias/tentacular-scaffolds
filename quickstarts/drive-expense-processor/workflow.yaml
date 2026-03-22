@@ -60,22 +60,10 @@ contract:
       auth:
         type: bearer-token
         secret: google.access_token
-    rustfs:
-      protocol: https
-      host: rustfs.tentacular-exoskeleton.svc.cluster.local
-      port: 9000
-      auth:
-        type: bearer-token
-        secret: rustfs.access_key
-    postgres:
+    tentacular-rustfs:
+      protocol: http
+    tentacular-postgres:
       protocol: postgresql
-      host: postgres-postgresql.postgres.svc.cluster.local
-      port: 5432
-      database: appdb
-      user: postgres
-      auth:
-        type: password
-        secret: postgres.password
     anthropic:
       protocol: https
       host: api.anthropic.com

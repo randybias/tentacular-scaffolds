@@ -1,0 +1,33 @@
+version: "1"
+description: "Parameters for the lead-enrichment-pipeline scaffold"
+
+parameters:
+  sheets_id:
+    path: config.sheets_id
+    type: string
+    description: "Google Sheets ID containing the lead list to enrich"
+    required: true
+    example: "1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms"
+
+  sheet_name:
+    path: config.sheet_name
+    type: string
+    description: "Name of the sheet tab within the spreadsheet"
+    required: false
+    default: "Leads"
+    example: "Leads"
+
+  icp_criteria:
+    path: config.icp_criteria
+    type: string
+    description: "Ideal Customer Profile description used to score and qualify leads"
+    required: true
+    example: "B2B SaaS, 50-500 employees, Series A-C, technical buyer"
+
+  poll_schedule:
+    path: triggers[name=poll-leads].schedule
+    type: string
+    description: "Cron expression for how often to check the sheet for new leads"
+    required: false
+    default: "*/30 * * * *"
+    example: "*/30 * * * *"

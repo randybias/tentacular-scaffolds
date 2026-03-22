@@ -100,7 +100,7 @@ export default async function run(ctx: Context, input: unknown): Promise<LogResu
   }
 
   // Store in Postgres
-  const postgres = ctx.dependency("postgres");
+  const postgres = ctx.dependency("tentacular-postgres");
   if (!postgres.secret) {
     ctx.log.warn("No postgres.password in secrets -- logging to stdout only");
     for (const entry of entries) {

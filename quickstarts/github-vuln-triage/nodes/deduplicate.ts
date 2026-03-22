@@ -100,7 +100,7 @@ export default async function run(ctx: Context, input: unknown): Promise<Dedupli
 
   ctx.log.info(`Deduplicating ${allAlerts.length} total alerts (dependabot=${dependabot.alerts.length}, codescan=${codescan.alerts.length})`);
 
-  const pg = ctx.dependency("postgres");
+  const pg = ctx.dependency("tentacular-postgres");
   if (!pg.secret) {
     ctx.log.warn("No postgres credentials, returning all alerts as new");
     return { newAlerts: allAlerts, totalFetched: allAlerts.length, totalNew: allAlerts.length, org: dependabot.org };

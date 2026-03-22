@@ -23,7 +23,7 @@ export default async function run(ctx: Context, input: unknown): Promise<Publish
   let uploaded = false;
   let reportPath = "";
 
-  const rustfs = ctx.dependency("rustfs");
+  const rustfs = ctx.dependency("tentacular-rustfs");
   if (rustfs.secret) {
     const s3 = new S3Client({
       endPoint: rustfs.host,

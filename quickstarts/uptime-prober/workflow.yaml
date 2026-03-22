@@ -29,7 +29,7 @@ edges:
 config:
   timeout: 60s
   retries: 1
-  cluster_id: "agensys2"
+  cluster_id: "my-cluster"
   endpoints:
     - https://www.google.com
     - https://thisdomaindoesnotexist.invalid

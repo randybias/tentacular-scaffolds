@@ -39,7 +39,7 @@ export default async function run(ctx: Context, input: unknown): Promise<UpdateC
     return { updated: false, channelsUpdated: 0 };
   }
 
-  const pg = ctx.dependency("postgres");
+  const pg = ctx.dependency("tentacular-postgres");
   if (!pg.secret) {
     ctx.log.warn("No postgres credentials, skipping checkpoint update");
     return { updated: false, channelsUpdated: 0 };
@@ -48,7 +48,7 @@ export default async function run(ctx: Context, input: unknown): Promise<UpdateC
   const client = new Client({
     hostname: pg.host,
     port: pg.port,
-    database: pg.metadata?.database as string ?? "appdb",
+    database: pg.database as string ?? "appdb",
     user: pg.metadata?.user as string ?? "postgres",
     password: pg.secret,
     tls: { enabled: false },

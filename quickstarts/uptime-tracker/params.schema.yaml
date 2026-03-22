@@ -1,0 +1,33 @@
+version: "1"
+description: "Parameters for the uptime-tracker scaffold"
+
+parameters:
+  endpoints:
+    path: config.endpoints
+    type: list
+    items: map
+    description: >
+      HTTP endpoints to probe for uptime monitoring. Each entry has a url (string)
+      and optional expected_body (string) for response body matching.
+    required: true
+    example:
+      - url: "https://example.com"
+        expected_body: ""
+      - url: "https://api.example.com/health"
+        expected_body: ""
+
+  latency_threshold_ms:
+    path: config.latency_threshold_ms
+    type: number
+    description: "Maximum acceptable response time in milliseconds before alerting"
+    required: false
+    default: 2000
+    example: 2000
+
+  probe_schedule:
+    path: triggers[name=probe-cycle].schedule
+    type: string
+    description: "Cron expression for how often to probe endpoints"
+    required: false
+    default: "*/5 * * * *"
+    example: "*/5 * * * *"

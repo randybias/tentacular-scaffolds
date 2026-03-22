@@ -75,7 +75,7 @@ function s3Key(bucket: string, url: string): string {
 
 /** Download previous snapshot from RustFS (S3-compatible) */
 async function downloadSnapshot(ctx: Context, bucket: string, url: string): Promise<string | null> {
-  const rustfs = ctx.dependency("rustfs");
+  const rustfs = ctx.dependency("tentacular-rustfs");
   const key = s3Key(bucket, url);
 
   try {
@@ -97,7 +97,7 @@ async function downloadSnapshot(ctx: Context, bucket: string, url: string): Prom
 
 /** Upload new snapshot to RustFS (S3-compatible) */
 async function uploadSnapshot(ctx: Context, bucket: string, url: string, content: string): Promise<void> {
-  const rustfs = ctx.dependency("rustfs");
+  const rustfs = ctx.dependency("tentacular-rustfs");
   const key = s3Key(bucket, url);
 
   const res = await rustfs.fetch!(key, {
@@ -124,9 +124,9 @@ export default async function run(ctx: Context, input: unknown): Promise<DiffRes
   }
 
   // Check if RustFS is available for snapshot storage
-  const rustfs = ctx.dependency("rustfs");
+  const rustfs = ctx.dependency("tentacular-rustfs");
   // Access postgres dependency for change logging
-  const pg = ctx.dependency("postgres");
+  const pg = ctx.dependency("tentacular-postgres");
 
   if (!rustfs.secret) {
     ctx.log.warn("No RustFS credentials, cannot compare snapshots");
@@ -141,7 +141,7 @@ export default async function run(ctx: Context, input: unknown): Promise<DiffRes
     pgClient = new Client({
       hostname: pg.host,
       port: pg.port,
-      database: pg.metadata?.database as string ?? "appdb",
+      database: pg.database as string ?? "appdb",
       user: pg.metadata?.user as string ?? "postgres",
       password: pg.secret,
       tls: { enabled: false },

@@ -63,7 +63,7 @@ export default async function run(ctx: Context, input: unknown): Promise<StoreMe
     return { storedCount: 0, messagesWithFiles: [], channelCheckpoints: data.channelCheckpoints };
   }
 
-  const pg = ctx.dependency("postgres");
+  const pg = ctx.dependency("tentacular-postgres");
   if (!pg.secret) {
     ctx.log.warn("No postgres credentials, skipping message storage");
     const messagesWithFiles = data.messages.filter((m) => m.files.length > 0);
@@ -75,7 +75,7 @@ export default async function run(ctx: Context, input: unknown): Promise<StoreMe
   const client = new Client({
     hostname: pg.host,
     port: pg.port,
-    database: pg.metadata?.database as string ?? "appdb",
+    database: pg.database as string ?? "appdb",
     user: pg.metadata?.user as string ?? "postgres",
     password: pg.secret,
     tls: { enabled: false },

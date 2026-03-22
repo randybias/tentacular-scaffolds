@@ -53,7 +53,7 @@ function extractSummary(body: string | null, title: string): string {
 
 /** Fetch open SEP PRs from GitHub */
 export default async function run(ctx: Context, input: unknown): Promise<SepSnapshot> {
-  const repo = (ctx.config.target_repo as string) ?? "modelcontextprotocol/specification";
+  const repo = (ctx.config.target_repo as string) ?? "my-org/my-spec-repo";
   const sepLabel = (ctx.config.sep_label as string) ?? "sep";
 
   ctx.log.info(`Fetching PRs from ${repo}`);

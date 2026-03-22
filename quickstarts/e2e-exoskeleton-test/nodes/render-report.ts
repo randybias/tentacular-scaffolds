@@ -30,7 +30,7 @@ export default async function run(ctx: Context, input: unknown): Promise<RenderR
   const data = input as CollectedResults;
 
   // Store in RustFS
-  const rustfs = ctx.dependency("rustfs");
+  const rustfs = ctx.dependency("tentacular-rustfs");
   let s3Path = "";
   let stored = false;
 

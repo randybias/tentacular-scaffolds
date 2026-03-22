@@ -1,0 +1,30 @@
+version: "1"
+description: "Parameters for the contract-clause-reviewer scaffold"
+
+parameters:
+  drive_folder_id:
+    path: config.drive_folder_id
+    type: string
+    description: "Google Drive folder ID to watch for new contract documents"
+    required: true
+    example: "1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms"
+
+  compliance_frameworks:
+    path: config.compliance_frameworks
+    type: list
+    items: string
+    description: "Compliance frameworks to check contracts against (e.g. GDPR, CCPA, SOC2)"
+    required: false
+    default:
+      - GDPR
+    example:
+      - GDPR
+      - CCPA
+
+  poll_schedule:
+    path: triggers[name=poll-contracts].schedule
+    type: string
+    description: "Cron expression for how often to check Drive for new contracts"
+    required: false
+    default: "*/15 * * * *"
+    example: "*/15 * * * *"

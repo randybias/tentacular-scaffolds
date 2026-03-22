@@ -54,7 +54,7 @@ function extractHeader(headers: Array<{ name: string; value: string }>, name: st
 /** Poll Gmail API for invoice emails with attachments */
 export default async function run(ctx: Context, _input: unknown): Promise<PollResult> {
   const gmail = ctx.dependency("gmail");
-  const postgres = ctx.dependency("postgres");
+  const postgres = ctx.dependency("tentacular-postgres");
 
   if (!gmail.secret) {
     ctx.log.error("No google.access_token in secrets");

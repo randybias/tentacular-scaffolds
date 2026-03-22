@@ -62,7 +62,7 @@ function compareSeps(prev: Sep, curr: Sep): string[] | null {
 export default async function run(ctx: Context, input: unknown): Promise<SepDelta> {
   const snapshot = input as SepSnapshot;
 
-  const pg = ctx.dependency("postgres");
+  const pg = ctx.dependency("tentacular-postgres");
 
   let previousSeps: Sep[] | null = null;
   let previousTimestamp: string | null = null;
