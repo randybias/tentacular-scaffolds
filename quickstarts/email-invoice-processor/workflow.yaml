@@ -1,0 +1,66 @@
+name: email-invoice-processor
+version: "1.0"
+description: "Poll Gmail for invoice emails, extract structured data from PDF attachments with AI, validate, and store"
+
+triggers:
+  - type: manual
+  - type: cron
+    name: poll-invoices
+    schedule: "*/10 * * * *"
+
+nodes:
+  poll-email:
+    path: ./nodes/poll-email.ts
+  store-originals:
+    path: ./nodes/store-originals.ts
+  extract-fields:
+    path: ./nodes/extract-fields.ts
+  validate-totals:
+    path: ./nodes/validate-totals.ts
+  store-and-notify:
+    path: ./nodes/store-and-notify.ts
+
+edges:
+  - from: poll-email
+    to: store-originals
+  - from: store-originals
+    to: extract-fields
+  - from: extract-fields
+    to: validate-totals
+  - from: validate-totals
+    to: store-and-notify
+
+config:
+  timeout: 120s
+  retries: 1
+  gmail_query: "label:invoices has:attachment"
+  checkpoint_table: "email_invoice_checkpoints"
+
+contract:
+  version: "1"
+  dependencies:
+    gmail:
+      protocol: https
+      host: gmail.googleapis.com
+      port: 443
+      auth:
+        type: bearer-token
+        secret: google.access_token
+    tentacular-rustfs:
+      protocol: http
+    tentacular-postgres:
+      protocol: postgresql
+    anthropic:
+      protocol: https
+      host: api.anthropic.com
+      port: 443
+      auth:
+        type: bearer-token
+        secret: anthropic.api_key
+    slack-webhook:
+      protocol: https
+      host: hooks.slack.com
+      port: 443
+      auth:
+        type: webhook-url
+        secret: slack.webhook_url

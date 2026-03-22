@@ -1,0 +1,17 @@
+{
+  "input": {
+    "scores": [
+      { "accountId": "acct-001", "score": 25, "explanation": "Critical: declining usage and failed payments", "redFlags": ["Declining usage", "Failed payments"], "greenFlags": [] },
+      { "accountId": "acct-002", "score": 50, "explanation": "At risk: low feature adoption", "redFlags": ["Low feature adoption"], "greenFlags": [] },
+      { "accountId": "acct-003", "score": 85, "explanation": "Healthy account", "redFlags": [], "greenFlags": ["Growing usage"] }
+    ],
+    "stored": true,
+    "rowsInserted": 3
+  },
+  "expected": {
+    "urgent": 1,
+    "atRisk": 1,
+    "healthy": 1,
+    "slackNotified": false
+  }
+}

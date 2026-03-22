@@ -1,0 +1,8 @@
+name: drive-expense-processor
+displayName: "Drive Expense Processor"
+description: "Watch a Google Drive folder for receipt uploads, extract expense data with AI, and log to Postgres and Google Sheets"
+category: automation
+tags: [google-drive, llm-extraction, expense-management, google-sheets, postgres-state, s3-storage]
+author: randybias
+minTentacularVersion: "0.1.0"
+complexity: moderate

@@ -1,0 +1,10 @@
+{
+  "input": {
+    "files": [],
+    "pollTimestamp": ""
+  },
+  "expected": {
+    "files": [],
+    "storedCount": 0
+  }
+}

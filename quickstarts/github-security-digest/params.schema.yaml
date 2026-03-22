@@ -1,0 +1,31 @@
+version: "1"
+description: "Parameters for the github-security-digest scaffold"
+
+parameters:
+  github_org:
+    path: config.github_org
+    type: string
+    description: "GitHub organization to scan for security alerts"
+    required: true
+    example: "my-org"
+
+  repos:
+    path: config.repos
+    type: list
+    items: string
+    description: >
+      Specific repositories to scan within the org. Leave empty to scan all repos
+      in the organization.
+    required: false
+    default: []
+    example:
+      - "api-server"
+      - "frontend"
+
+  digest_schedule:
+    path: triggers[name=daily-digest].schedule
+    type: string
+    description: "Cron expression for when to send the daily security digest"
+    required: false
+    default: "0 8 * * *"
+    example: "0 8 * * *"

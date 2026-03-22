@@ -1,0 +1,45 @@
+{
+  "input": {
+    "criticalAction": [
+      {
+        "source": "dependabot",
+        "repo": "payments-api",
+        "alertId": 1,
+        "severity": "critical",
+        "identifier": "lodash",
+        "summary": "Prototype Pollution in lodash",
+        "cvss": 9.8,
+        "htmlUrl": "https://github.com/my-org/payments-api/security/dependabot/1",
+        "createdAt": "2026-03-20T10:00:00Z",
+        "repoContext": { "customer_facing": true, "environment": "production", "team": "platform" },
+        "priority": "critical_action",
+        "triageReason": "Critical severity in customer-facing production repo",
+        "suggestedRemediation": "Update lodash to latest patched version"
+      }
+    ],
+    "highTrack": [],
+    "lowLog": [
+      {
+        "source": "codescan",
+        "repo": "internal-tools",
+        "alertId": 3,
+        "severity": "medium",
+        "identifier": "js/missing-rate-limiting",
+        "summary": "Missing rate limiting",
+        "cvss": 0,
+        "htmlUrl": "https://github.com/my-org/internal-tools/security/code-scanning/3",
+        "createdAt": "2026-03-21T09:00:00Z",
+        "repoContext": { "customer_facing": false, "environment": "internal", "team": "devex" },
+        "priority": "low_log",
+        "triageReason": "medium severity in internal environment",
+        "suggestedRemediation": "Add rate limiting middleware"
+      }
+    ],
+    "totalTriaged": 2,
+    "org": "my-org"
+  },
+  "expected": {
+    "logged": 0,
+    "rustfsPath": ""
+  }
+}

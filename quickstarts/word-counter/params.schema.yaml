@@ -1,0 +1,4 @@
+version: "1"
+description: "Parameters for the word-counter scaffold"
+
+parameters: {}

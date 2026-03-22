@@ -1,0 +1,37 @@
+{
+  "input": {
+    "competitorChanges": [
+      {
+        "competitor": "Acme Corp",
+        "changedSources": [
+          {
+            "type": "pricing",
+            "url": "https://acme.example.com/pricing",
+            "previousContent": "<html><body>Pricing: $79/mo</body></html>",
+            "currentContent": "<html><body>New pricing: $99/mo</body></html>",
+            "changeSizeBytes": 50
+          }
+        ]
+      }
+    ],
+    "totalChanges": 1,
+    "fetchedAt": "2026-03-22T10:00:00.000Z"
+  },
+  "expected": {
+    "assessments": [
+      {
+        "competitor": "Acme Corp",
+        "changes": [
+          {
+            "source": "https://acme.example.com/pricing",
+            "whatChanged": "Content changed (50 bytes delta)",
+            "significance": 5,
+            "businessImplication": "Review manually -- LLM analysis unavailable"
+          }
+        ],
+        "overallSignificance": 5
+      }
+    ],
+    "fetchedAt": "2026-03-22T10:00:00.000Z"
+  }
+}

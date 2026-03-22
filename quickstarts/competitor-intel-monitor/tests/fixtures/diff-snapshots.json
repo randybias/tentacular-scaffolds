@@ -1,0 +1,37 @@
+{
+  "input": {
+    "competitorSources": [
+      {
+        "competitor": "Acme Corp",
+        "sources": [
+          {
+            "type": "pricing",
+            "url": "https://acme.example.com/pricing",
+            "content": "<html><body>New pricing: $99/mo</body></html>",
+            "fetchedAt": "2026-03-22T10:00:00.000Z",
+            "statusCode": 200
+          }
+        ]
+      }
+    ],
+    "fetchedAt": "2026-03-22T10:00:00.000Z"
+  },
+  "expected": {
+    "competitorChanges": [
+      {
+        "competitor": "Acme Corp",
+        "changedSources": [
+          {
+            "type": "pricing",
+            "url": "https://acme.example.com/pricing",
+            "previousContent": "",
+            "currentContent": "<html><body>New pricing: $99/mo</body></html>",
+            "changeSizeBytes": 45
+          }
+        ]
+      }
+    ],
+    "totalChanges": 1,
+    "fetchedAt": "2026-03-22T10:00:00.000Z"
+  }
+}

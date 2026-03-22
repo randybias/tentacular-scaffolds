@@ -1,0 +1,8 @@
+name: multi-source-churn-detector
+displayName: "Multi-Source Churn Detector"
+description: "Aggregate usage, support, billing, and survey signals to score customer health and detect churn risk"
+category: reporting
+tags: [customer-health, churn-detection, multi-source, llm-scoring, conditional-routing, postgres-state, s3-storage]
+author: randybias
+minTentacularVersion: "0.1.0"
+complexity: advanced

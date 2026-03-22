@@ -1,0 +1,25 @@
+{
+  "input": {
+    "service": "rustfs",
+    "passed": true,
+    "tests": [
+      { "name": "put_object", "passed": true, "latency_ms": 15 },
+      { "name": "get_object_integrity", "passed": true, "latency_ms": 10 },
+      { "name": "list_objects", "passed": true, "latency_ms": 8 },
+      { "name": "delete_object", "passed": true, "latency_ms": 5 },
+      { "name": "verify_deletion", "passed": true, "latency_ms": 3 }
+    ],
+    "previousResults": {
+      "service": "postgres",
+      "passed": true,
+      "tests": []
+    }
+  },
+  "expected": {
+    "service": "nats",
+    "passed": false,
+    "tests": [
+      { "name": "connect", "passed": false, "latency_ms": 0, "error": "No credentials" }
+    ]
+  }
+}

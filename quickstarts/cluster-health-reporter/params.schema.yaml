@@ -1,0 +1,11 @@
+version: "1"
+description: "Parameters for the cluster-health-reporter scaffold"
+
+parameters:
+  report_schedule:
+    path: triggers[name=daily-report].schedule
+    type: string
+    description: "Cron expression for when to generate and send the daily health report"
+    required: false
+    default: "0 8 * * *"
+    example: "0 8 * * *"

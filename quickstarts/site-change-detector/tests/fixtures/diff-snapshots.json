@@ -1,0 +1,16 @@
+{
+  "input": {
+    "pages": [
+      {
+        "url": "https://example.com",
+        "content": "Example Domain This domain is for use in illustrative examples in documents. Updated content here.",
+        "fetchedAt": "2026-03-22T12:00:00Z",
+        "statusCode": 200
+      }
+    ]
+  },
+  "expected": {
+    "changedPages": [],
+    "unchangedCount": 1
+  }
+}

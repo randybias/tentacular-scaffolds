@@ -1,0 +1,20 @@
+{
+  "input": {
+    "mainThesis": "Kubernetes is over-engineered for most teams",
+    "supportStrength": "moderate",
+    "weaknesses": ["Ignores platform engineering", "No TCO data for alternatives"],
+    "unexploredAngles": ["WASM runtimes", "Developer experience as the real issue"],
+    "contrarian_opportunity": {
+      "angle": "The problem is not Kubernetes but the absence of platform engineering",
+      "evidence": "Platform teams reduce K8s friction by 80%",
+      "why_it_matters": "Choosing simpler tools delays the inevitable need for a platform strategy"
+    }
+  },
+  "expected": {
+    "titleOptions": ["Response to: Kubernetes is over-engineered for most teams"],
+    "thesis": "The problem is not Kubernetes but the absence of platform engineering",
+    "sections": [],
+    "contrarian_hook": "The problem is not Kubernetes but the absence of platform engineering",
+    "estimated_word_count": 0
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "input": {
+    "service": "nats",
+    "passed": true,
+    "tests": [
+      { "name": "connect", "passed": true, "latency_ms": 3 },
+      { "name": "publish_subscribe_roundtrip", "passed": true, "latency_ms": 5 },
+      { "name": "flush", "passed": true, "latency_ms": 1 },
+      { "name": "disconnect", "passed": true, "latency_ms": 1 }
+    ],
+    "previousResults": {
+      "service": "rustfs",
+      "passed": true,
+      "tests": [],
+      "previousResults": {
+        "service": "postgres",
+        "passed": true,
+        "tests": [
+          { "name": "connect", "passed": true, "latency_ms": 5 }
+        ]
+      }
+    }
+  },
+  "expected": {
+    "service": "spire",
+    "passed": false,
+    "tests": [
+      { "name": "socket_exists", "passed": false, "latency_ms": 0, "error": "SPIRE socket not found at /run/spire/sockets/agent.sock" },
+      { "name": "read_svid_cert", "passed": false, "latency_ms": 0, "error": "No SVID certificate found at any expected path" },
+      { "name": "spiffe_id_pattern", "passed": false, "latency_ms": 0, "error": "Could not determine SPIFFE ID from files or environment" }
+    ]
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "input": {
+    "extract-text": {
+      "documents": [
+        { "fileId": "1abc2def3ghi", "fileName": "SaaS-Master-Agreement-Vendor-2026.pdf", "fullText": "...", "pageCount": 12, "rustfsPath": "contracts/2026-03-22/1abc2def3ghi/SaaS-Master-Agreement-Vendor-2026.pdf" }
+      ]
+    },
+    "review-liability": {
+      "reviewType": "liability",
+      "findings": [
+        { "clause": "One-sided indemnification", "location": "Section 8", "risk_level": "high", "explanation": "Customer bears all risk." }
+      ]
+    },
+    "review-ip-rights": {
+      "reviewType": "ip-rights",
+      "findings": [
+        { "clause": "Broad data usage license", "location": "Section 6", "risk_level": "high", "explanation": "Vendor can use customer data to improve service." }
+      ]
+    },
+    "review-termination": {
+      "reviewType": "termination",
+      "findings": [
+        { "clause": "90-day auto-renewal notice", "location": "Section 12", "risk_level": "medium", "explanation": "Aggressive notice period." }
+      ]
+    },
+    "review-compliance": {
+      "reviewType": "compliance",
+      "findings": [
+        { "clause": "MISSING: DPA", "location": "Section 10", "risk_level": "critical", "explanation": "No GDPR DPA." }
+      ]
+    }
+  },
+  "expected": {
+    "overallRiskScore": 5,
+    "criticalFindings": [],
+    "negotiationPoints": [],
+    "summary": "AI synthesis unavailable.",
+    "reviewsByType": {
+      "liability": {
+        "reviewType": "liability",
+        "findings": [
+          { "clause": "One-sided indemnification", "location": "Section 8", "risk_level": "high", "explanation": "Customer bears all risk." }
+        ]
+      },
+      "ip-rights": {
+        "reviewType": "ip-rights",
+        "findings": [
+          { "clause": "Broad data usage license", "location": "Section 6", "risk_level": "high", "explanation": "Vendor can use customer data to improve service." }
+        ]
+      },
+      "termination": {
+        "reviewType": "termination",
+        "findings": [
+          { "clause": "90-day auto-renewal notice", "location": "Section 12", "risk_level": "medium", "explanation": "Aggressive notice period." }
+        ]
+      },
+      "compliance": {
+        "reviewType": "compliance",
+        "findings": [
+          { "clause": "MISSING: DPA", "location": "Section 10", "risk_level": "critical", "explanation": "No GDPR DPA." }
+        ]
+      }
+    }
+  }
+}

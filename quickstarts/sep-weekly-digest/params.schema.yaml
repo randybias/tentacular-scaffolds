@@ -1,0 +1,33 @@
+version: "1"
+description: "Parameters for the sep-weekly-digest scaffold"
+
+parameters:
+  target_repo:
+    path: config.target_repo
+    type: string
+    description: "GitHub repository to generate weekly SEP digest from, in owner/name format"
+    required: true
+    example: "my-org/my-spec-repo"
+
+  sep_label:
+    path: config.sep_label
+    type: string
+    description: "GitHub label used to identify SEP issues"
+    required: false
+    default: "sep"
+    example: "sep"
+
+  azure_blob_base_url:
+    path: config.azure_blob_base_url
+    type: string
+    description: "Base URL of the Azure Blob Storage container where weekly digest reports are published"
+    required: true
+    example: "https://mystorageaccount.blob.core.windows.net/sep-reports"
+
+  digest_schedule:
+    path: triggers[name=weekly-sunday].schedule
+    type: string
+    description: "Cron expression for when to generate and publish the weekly digest"
+    required: false
+    default: "0 6 * * 0"
+    example: "0 6 * * 0"

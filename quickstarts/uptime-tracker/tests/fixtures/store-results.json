@@ -1,0 +1,39 @@
+{
+  "input": {
+    "results": [
+      {
+        "url": "https://www.google.com",
+        "statusCode": 200,
+        "responseTimeMs": 85,
+        "tlsExpiryDays": null,
+        "bodyMatchPassed": null,
+        "isHealthy": true
+      },
+      {
+        "url": "https://thisdomaindoesnotexist.invalid",
+        "statusCode": 0,
+        "responseTimeMs": 3012,
+        "tlsExpiryDays": null,
+        "bodyMatchPassed": null,
+        "isHealthy": false,
+        "error": "DNS resolution failed"
+      }
+    ],
+    "probedAt": "2026-03-22T10:00:00.000Z"
+  },
+  "expected": {
+    "storedCount": 0,
+    "unhealthyEndpoints": [
+      {
+        "url": "https://thisdomaindoesnotexist.invalid",
+        "statusCode": 0,
+        "responseTimeMs": 3012,
+        "tlsExpiryDays": null,
+        "bodyMatchPassed": null,
+        "isHealthy": false,
+        "error": "DNS resolution failed"
+      }
+    ],
+    "probedAt": "2026-03-22T10:00:00.000Z"
+  }
+}

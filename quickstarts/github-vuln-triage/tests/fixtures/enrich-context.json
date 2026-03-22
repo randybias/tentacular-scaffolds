@@ -1,0 +1,41 @@
+{
+  "input": {
+    "newAlerts": [
+      {
+        "source": "dependabot",
+        "repo": "payments-api",
+        "alertId": 1,
+        "severity": "critical",
+        "identifier": "lodash",
+        "summary": "Prototype Pollution in lodash",
+        "cvss": 9.8,
+        "htmlUrl": "https://github.com/my-org/payments-api/security/dependabot/1",
+        "createdAt": "2026-03-20T10:00:00Z"
+      }
+    ],
+    "totalFetched": 1,
+    "totalNew": 1,
+    "org": "my-org"
+  },
+  "expected": {
+    "alerts": [
+      {
+        "source": "dependabot",
+        "repo": "payments-api",
+        "alertId": 1,
+        "severity": "critical",
+        "identifier": "lodash",
+        "summary": "Prototype Pollution in lodash",
+        "cvss": 9.8,
+        "htmlUrl": "https://github.com/my-org/payments-api/security/dependabot/1",
+        "createdAt": "2026-03-20T10:00:00Z",
+        "repoContext": {
+          "customer_facing": false,
+          "environment": "unknown",
+          "team": "unassigned"
+        }
+      }
+    ],
+    "org": "my-org"
+  }
+}

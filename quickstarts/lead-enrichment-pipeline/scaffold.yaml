@@ -1,0 +1,8 @@
+name: lead-enrichment-pipeline
+displayName: "Lead Enrichment Pipeline"
+description: "Enrich new leads from Google Sheets with company and person data from multiple sources, score against ICP, and route"
+category: automation
+tags: [lead-enrichment, google-sheets, llm-scoring, fan-out-pattern, sales-automation, postgres-state]
+author: randybias
+minTentacularVersion: "0.1.0"
+complexity: advanced

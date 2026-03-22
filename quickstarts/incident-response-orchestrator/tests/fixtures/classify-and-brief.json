@@ -1,0 +1,36 @@
+{
+  "input": {
+    "receive-alert": {
+      "service": "api-gateway",
+      "metric": "error_rate",
+      "value": "15.2",
+      "threshold": "5.0",
+      "timestamp": "2026-01-15T12:00:00Z",
+      "source": "manual"
+    },
+    "query-history": {
+      "recentAlerts": 3,
+      "lastAlert": "2026-01-14T08:00:00Z",
+      "recurringPattern": true,
+      "averageResolutionTime": 1800
+    },
+    "fetch-runbook": {
+      "runbookContent": "# API Gateway Runbook\n\nCheck error logs first.",
+      "found": true
+    },
+    "query-deploys": {
+      "recentDeploys": [
+        { "sha": "abc123def456", "author": "dev", "message": "feat: add rate limiting", "mergedAt": "2026-01-15T10:00:00Z" }
+      ]
+    }
+  },
+  "expected": {
+    "severity": "P3",
+    "brief": "Alert for api-gateway: error_rate = 15.2 (threshold: 5.0)",
+    "suggestedActions": ["Investigate manually"],
+    "relatedDeploy": "",
+    "service": "api-gateway",
+    "metric": "error_rate",
+    "timestamp": "2026-01-15T12:00:00Z"
+  }
+}

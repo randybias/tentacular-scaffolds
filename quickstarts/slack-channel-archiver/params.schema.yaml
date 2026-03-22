@@ -1,0 +1,21 @@
+version: "1"
+description: "Parameters for the slack-channel-archiver scaffold"
+
+parameters:
+  channels:
+    path: config.channels
+    type: list
+    items: string
+    description: "Slack channel IDs to archive. Use the channel ID (starts with C), not the name."
+    required: true
+    example:
+      - "C0123456789"
+      - "C9876543210"
+
+  sync_schedule:
+    path: triggers[name=hourly-sync].schedule
+    type: string
+    description: "Cron expression for how often to sync channel messages"
+    required: false
+    default: "0 * * * *"
+    example: "0 * * * *"

@@ -1,0 +1,8 @@
+name: site-change-detector
+displayName: "Site Change Detector"
+description: "Monitor web pages for changes, store snapshots in S3, and deliver LLM-summarized change alerts"
+category: monitoring
+tags: [web-monitoring, change-detection, llm-analysis, s3-storage, postgres-state]
+author: randybias
+minTentacularVersion: "0.1.0"
+complexity: moderate

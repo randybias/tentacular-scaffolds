@@ -1,0 +1,18 @@
+{
+  "input": {
+    "storedFiles": [
+      {
+        "fileId": "abc123",
+        "fileName": "receipt-coffee.jpg",
+        "mimeType": "image/jpeg",
+        "s3Path": "receipts/2026-03-22/abc123/receipt-coffee.jpg",
+        "content": "dGVzdA=="
+      }
+    ],
+    "pollTimestamp": "2026-03-22T10:00:00.000Z"
+  },
+  "expected": {
+    "expenses": [],
+    "pollTimestamp": "2026-03-22T10:00:00.000Z"
+  }
+}

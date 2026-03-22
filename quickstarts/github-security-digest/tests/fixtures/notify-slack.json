@@ -1,0 +1,15 @@
+{
+  "input": {
+    "digestMarkdown": "No new security alerts today.",
+    "criticalCount": 0,
+    "highCount": 0,
+    "mediumCount": 0,
+    "lowCount": 0,
+    "totalNew": 0,
+    "topItems": []
+  },
+  "expected": {
+    "delivered": false,
+    "status": 0
+  }
+}

@@ -1,0 +1,8 @@
+name: email-invoice-processor
+displayName: "Email Invoice Processor"
+description: "Poll Gmail for invoice emails, extract structured data from PDF attachments with AI, validate, and store"
+category: automation
+tags: [gmail-api, pdf-processing, llm-extraction, invoice-management, postgres-state, s3-storage]
+author: randybias
+minTentacularVersion: "0.1.0"
+complexity: moderate

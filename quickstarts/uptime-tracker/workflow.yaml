@@ -1,0 +1,77 @@
+name: uptime-tracker
+version: "1.0"
+description: "Probe HTTP endpoints every 5 minutes, store time-series data in Postgres, generate weekly uptime and latency reports"
+
+triggers:
+  - type: manual
+  - type: cron
+    name: probe-cycle
+    schedule: "*/5 * * * *"
+
+nodes:
+  # Probe path (runs every 5 minutes)
+  probe-endpoints:
+    path: ./nodes/probe-endpoints.ts
+  store-results:
+    path: ./nodes/store-results.ts
+  alert-failures:
+    path: ./nodes/alert-failures.ts
+
+  # Report path (triggered manually for weekly reports)
+  aggregate-weekly:
+    path: ./nodes/aggregate-weekly.ts
+  generate-report:
+    path: ./nodes/generate-report.ts
+  publish-report:
+    path: ./nodes/publish-report.ts
+
+edges:
+  # Probe path
+  - from: probe-endpoints
+    to: store-results
+  - from: store-results
+    to: alert-failures
+  # Report path (independent entry point via manual trigger)
+  - from: aggregate-weekly
+    to: generate-report
+  - from: generate-report
+    to: publish-report
+
+config:
+  timeout: 60s
+  retries: 1
+  latency_threshold_ms: 2000
+  endpoints:
+    - url: https://www.google.com
+      expected_body: ""
+    - url: https://api.github.com
+      expected_body: ""
+
+contract:
+  version: "1"
+  dependencies:
+    probe-targets:
+      type: dynamic-target
+      protocol: https
+      cidr: "0.0.0.0/0"
+      dynPorts:
+        - "443/TCP"
+        - "80/TCP"
+    tentacular-postgres:
+      protocol: postgresql
+    tentacular-rustfs:
+      protocol: http
+    anthropic:
+      protocol: https
+      host: api.anthropic.com
+      port: 443
+      auth:
+        type: bearer-token
+        secret: anthropic.api_key
+    slack-webhook:
+      protocol: https
+      host: hooks.slack.com
+      port: 443
+      auth:
+        type: webhook-url
+        secret: slack.webhook_url

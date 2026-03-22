@@ -1,0 +1,39 @@
+{
+  "input": {
+    "fetch-article": {
+      "url": "https://example.com/article",
+      "title": "Why Kubernetes Is Over-Engineered for Most Teams",
+      "content": "Kubernetes has become the default choice for container orchestration...",
+      "publishedDate": "2026-03-15T10:00:00Z"
+    },
+    "research-supporting": {
+      "sources": [
+        { "title": "The Hidden Costs of Kubernetes Adoption", "url": "https://blog.example.com/k8s-costs", "snippet": "65% of startups reported increased operational overhead.", "relevance": "supporting" }
+      ],
+      "searchType": "supporting"
+    },
+    "research-contrary": {
+      "sources": [
+        { "title": "Kubernetes Simplifies Operations at Scale", "url": "https://engineering.example.com/k8s-simplifies", "snippet": "40% reduction in deployment failures.", "relevance": "contrary" }
+      ],
+      "searchType": "contrary"
+    },
+    "research-adjacent": {
+      "sources": [
+        { "title": "Platform Engineering: The Missing Layer", "url": "https://platformeng.example.com/missing-layer", "snippet": "The real problem is the absence of internal developer platforms.", "relevance": "adjacent" }
+      ],
+      "searchType": "adjacent"
+    }
+  },
+  "expected": {
+    "mainThesis": "Why Kubernetes Is Over-Engineered for Most Teams",
+    "supportStrength": "unknown (no AI available)",
+    "weaknesses": [],
+    "unexploredAngles": [],
+    "contrarian_opportunity": {
+      "angle": "N/A",
+      "evidence": "N/A",
+      "why_it_matters": "AI analysis unavailable"
+    }
+  }
+}

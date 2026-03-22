@@ -1,0 +1,113 @@
+name: incident-response-orchestrator
+version: "1.0"
+description: "Receive monitoring alerts, gather context from history and runbooks, classify severity with AI, and orchestrate response actions"
+
+triggers:
+  - type: manual
+
+nodes:
+  receive-alert:
+    path: ./nodes/receive-alert.ts
+  query-history:
+    path: ./nodes/query-history.ts
+  fetch-runbook:
+    path: ./nodes/fetch-runbook.ts
+  query-deploys:
+    path: ./nodes/query-deploys.ts
+  classify-and-brief:
+    path: ./nodes/classify-and-brief.ts
+  create-ticket:
+    path: ./nodes/create-ticket.ts
+  notify-slack:
+    path: ./nodes/notify-slack.ts
+  publish-event:
+    path: ./nodes/publish-event.ts
+  page-oncall:
+    path: ./nodes/page-oncall.ts
+  log-actions:
+    path: ./nodes/log-actions.ts
+
+edges:
+  # First fan-out: gather context
+  - from: receive-alert
+    to: query-history
+  - from: receive-alert
+    to: fetch-runbook
+  - from: receive-alert
+    to: query-deploys
+  # First fan-in: classify with all context
+  - from: receive-alert
+    to: classify-and-brief
+  - from: query-history
+    to: classify-and-brief
+  - from: fetch-runbook
+    to: classify-and-brief
+  - from: query-deploys
+    to: classify-and-brief
+  # Second fan-out: respond
+  - from: classify-and-brief
+    to: create-ticket
+  - from: classify-and-brief
+    to: notify-slack
+  - from: classify-and-brief
+    to: publish-event
+  - from: classify-and-brief
+    to: page-oncall
+  # Second fan-in: log everything
+  - from: create-ticket
+    to: log-actions
+  - from: notify-slack
+    to: log-actions
+  - from: publish-event
+    to: log-actions
+  - from: page-oncall
+    to: log-actions
+
+config:
+  timeout: 180s
+  retries: 1
+  alert_service: ""
+  alert_metric: ""
+  alert_value: ""
+  alert_threshold: ""
+  github_org: "my-org"
+  service_repos:
+    example-service: "example-service-repo"
+
+contract:
+  version: "1"
+  dependencies:
+    github:
+      protocol: https
+      host: api.github.com
+      port: 443
+      auth:
+        type: bearer-token
+        secret: github.token
+    tentacular-rustfs:
+      protocol: http
+    tentacular-postgres:
+      protocol: postgresql
+    tentacular-nats:
+      protocol: nats
+    anthropic:
+      protocol: https
+      host: api.anthropic.com
+      port: 443
+      auth:
+        type: bearer-token
+        secret: anthropic.api_key
+    slack-webhook:
+      protocol: https
+      host: hooks.slack.com
+      port: 443
+      auth:
+        type: webhook-url
+        secret: slack.webhook_url
+    pagerduty:
+      protocol: https
+      host: api.pagerduty.com
+      port: 443
+      auth:
+        type: bearer-token
+        secret: pagerduty.api_key

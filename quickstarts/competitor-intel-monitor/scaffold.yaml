@@ -1,0 +1,8 @@
+name: competitor-intel-monitor
+displayName: "Competitor Intelligence Monitor"
+description: "Track competitor web pages, news mentions, and GitHub activity with AI-powered change analysis and significance scoring"
+category: reporting
+tags: [competitor-monitoring, web-scraping, change-detection, llm-analysis, multi-source, postgres-state, s3-storage]
+author: randybias
+minTentacularVersion: "0.1.0"
+complexity: advanced

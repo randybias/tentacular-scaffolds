@@ -1,0 +1,13 @@
+{
+  "input": {
+    "scores": [],
+    "stored": false,
+    "rowsInserted": 0
+  },
+  "expected": {
+    "generated": false,
+    "s3Path": "",
+    "summary": "",
+    "slackNotified": false
+  }
+}

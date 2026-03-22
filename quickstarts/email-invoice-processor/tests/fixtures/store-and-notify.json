@@ -1,0 +1,37 @@
+{
+  "input": {
+    "validated": [
+      {
+        "messageId": "msg-001",
+        "from": "billing@acme.com",
+        "subject": "Invoice #INV-2026-001",
+        "filename": "invoice-2026-001.pdf",
+        "s3Path": "invoices/2026/03/msg-001/invoice-2026-001.pdf",
+        "vendor": "Acme Corp",
+        "invoiceNumber": "INV-2026-001",
+        "lineItems": [
+          {
+            "description": "Widget A",
+            "quantity": 10,
+            "unitPrice": 100.00,
+            "amount": 1000.00
+          }
+        ],
+        "subtotal": 1000.00,
+        "tax": 80.00,
+        "total": 1080.00,
+        "dueDate": "2026-04-15",
+        "paymentTerms": "Net 30",
+        "validationStatus": "PASS",
+        "validationErrors": []
+      }
+    ],
+    "passCount": 1,
+    "failCount": 0,
+    "pollTimestamp": "2026-03-22T10:00:00.000Z"
+  },
+  "expected": {
+    "storedCount": 0,
+    "slackNotified": false
+  }
+}

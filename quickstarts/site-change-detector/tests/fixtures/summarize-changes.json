@@ -1,0 +1,24 @@
+{
+  "input": {
+    "changedPages": [
+      {
+        "url": "https://example.com",
+        "previousContent": "Example Domain This domain is for use in illustrative examples.",
+        "currentContent": "Example Domain This domain is for use in illustrative examples. New pricing page added.",
+        "diff": "+ New pricing page added",
+        "changedAt": "2026-03-22T12:00:00Z"
+      }
+    ],
+    "unchangedCount": 0
+  },
+  "expected": {
+    "summaries": [
+      {
+        "url": "https://example.com",
+        "summary": "+ New pricing page added",
+        "changedAt": "2026-03-22T12:00:00Z"
+      }
+    ],
+    "totalChanged": 1
+  }
+}

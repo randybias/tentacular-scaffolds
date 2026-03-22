@@ -1,0 +1,63 @@
+name: site-change-detector
+version: "1.0"
+description: "Monitor web pages for changes, store snapshots in S3, and deliver LLM-summarized change alerts"
+
+triggers:
+  - type: manual
+  - type: cron
+    name: check-changes
+    schedule: "0 */4 * * *"
+
+nodes:
+  fetch-pages:
+    path: ./nodes/fetch-pages.ts
+  diff-snapshots:
+    path: ./nodes/diff-snapshots.ts
+  summarize-changes:
+    path: ./nodes/summarize-changes.ts
+  notify-slack:
+    path: ./nodes/notify-slack.ts
+
+edges:
+  - from: fetch-pages
+    to: diff-snapshots
+  - from: diff-snapshots
+    to: summarize-changes
+  - from: summarize-changes
+    to: notify-slack
+
+config:
+  timeout: 120s
+  retries: 1
+  urls:
+    - https://example.com
+  s3_bucket: "tentacular"
+
+contract:
+  version: "1"
+  dependencies:
+    probe-targets:
+      type: dynamic-target
+      protocol: https
+      cidr: "0.0.0.0/0"
+      dynPorts:
+        - "443/TCP"
+        - "80/TCP"
+    tentacular-rustfs:
+      protocol: http
+    tentacular-postgres:
+      protocol: postgresql
+    anthropic:
+      protocol: https
+      host: api.anthropic.com
+      port: 443
+      auth:
+        type: bearer-token
+        secret: anthropic.api_key
+    slack-webhook:
+      protocol: https
+      host: hooks.slack.com
+      port: 443
+      auth:
+        type: webhook-url
+        secret: slack.webhook_url

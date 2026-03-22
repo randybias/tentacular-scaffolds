@@ -1,0 +1,34 @@
+{
+  "input": {
+    "triage": {
+      "criticalAction": [
+        {
+          "source": "dependabot",
+          "repo": "payments-api",
+          "alertId": 1,
+          "severity": "critical",
+          "identifier": "lodash",
+          "cvss": 9.8,
+          "htmlUrl": "https://github.com/my-org/payments-api/security/dependabot/1",
+          "repoContext": { "customer_facing": true, "environment": "production", "team": "platform" },
+          "priority": "critical_action",
+          "triageReason": "Critical severity in customer-facing production repo"
+        }
+      ],
+      "highTrack": [],
+      "lowLog": [],
+      "totalTriaged": 1,
+      "org": "my-org"
+    },
+    "create-issues": {
+      "createdIssues": [
+        { "repo": "payments-api", "alertId": 1, "severity": "critical" }
+      ],
+      "triageOutput": {}
+    }
+  },
+  "expected": {
+    "delivered": false,
+    "alertCount": 0
+  }
+}

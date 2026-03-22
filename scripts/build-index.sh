@@ -2,8 +2,8 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-CATALOG_FILE="$REPO_ROOT/catalog.yaml"
-TEMPLATES_DIR="$REPO_ROOT/templates"
+INDEX_FILE="$REPO_ROOT/scaffolds-index.yaml"
+QUICKSTARTS_DIR="$REPO_ROOT/quickstarts"
 
 check_dependencies() {
   if ! command -v yq &> /dev/null; then
@@ -13,55 +13,55 @@ check_dependencies() {
   fi
 }
 
-list_template_files() {
-  local template_dir="$1"
-  # List all files relative to the template directory.
+list_scaffold_files() {
+  local scaffold_dir="$1"
+  # List all files relative to the scaffold directory.
   # Exclude hidden files except .secrets.yaml.example.
-  find "$template_dir" -type f \
-    | sed "s|^${template_dir}/||" \
+  find "$scaffold_dir" -type f \
+    | sed "s|^${scaffold_dir}/||" \
     | grep -v '^\.' \
     | sort
   # Include .secrets.yaml.example if it exists
-  if [ -f "$template_dir/.secrets.yaml.example" ]; then
+  if [ -f "$scaffold_dir/.secrets.yaml.example" ]; then
     echo ".secrets.yaml.example"
   fi
 }
 
-build_template_entry() {
-  local template_dir="$1"
+build_scaffold_entry() {
+  local scaffold_dir="$1"
   local name
-  name="$(basename "$template_dir")"
-  local tmpl="$template_dir/template.yaml"
+  name="$(basename "$scaffold_dir")"
+  local scaffold="$scaffold_dir/scaffold.yaml"
 
-  if [ ! -f "$tmpl" ]; then
-    echo "WARNING: skipping $name -- no template.yaml" >&2
+  if [ ! -f "$scaffold" ]; then
+    echo "WARNING: skipping $name -- no scaffold.yaml" >&2
     return
   fi
 
-  if [ ! -f "$template_dir/workflow.yaml" ]; then
+  if [ ! -f "$scaffold_dir/workflow.yaml" ]; then
     echo "WARNING: skipping $name -- no workflow.yaml" >&2
     return
   fi
 
-  # Read metadata fields from template.yaml
+  # Read metadata fields from scaffold.yaml
   local display_name description category author min_version complexity
-  display_name="$(yq eval '.displayName' "$tmpl")"
-  description="$(yq eval '.description' "$tmpl")"
-  category="$(yq eval '.category' "$tmpl")"
-  author="$(yq eval '.author' "$tmpl")"
-  min_version="$(yq eval '.minTentacularVersion' "$tmpl")"
-  complexity="$(yq eval '.complexity' "$tmpl")"
+  display_name="$(yq eval '.displayName' "$scaffold")"
+  description="$(yq eval '.description' "$scaffold")"
+  category="$(yq eval '.category' "$scaffold")"
+  author="$(yq eval '.author' "$scaffold")"
+  min_version="$(yq eval '.minTentacularVersion' "$scaffold")"
+  complexity="$(yq eval '.complexity' "$scaffold")"
 
   # Build tags array
   local tags
-  tags="$(yq eval '.tags' "$tmpl")"
+  tags="$(yq eval '.tags' "$scaffold")"
 
   # Build files array
   local files_yaml=""
   while IFS= read -r file; do
     [ -z "$file" ] && continue
     files_yaml="${files_yaml}      - \"${file}\""$'\n'
-  done < <(list_template_files "$template_dir")
+  done < <(list_scaffold_files "$scaffold_dir")
 
   printf '    - name: "%s"\n' "$name"
   printf '      displayName: "%s"\n' "$display_name"
@@ -71,12 +71,12 @@ build_template_entry() {
   printf '      author: "%s"\n' "$author"
   printf '      minTentacularVersion: "%s"\n' "$min_version"
   printf '      complexity: "%s"\n' "$complexity"
-  printf '      path: "templates/%s"\n' "$name"
+  printf '      path: "quickstarts/%s"\n' "$name"
   printf '      files:\n'
   printf '%s' "$files_yaml"
 }
 
-build_catalog() {
+build_index() {
   local generated
   generated="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
 
@@ -84,43 +84,43 @@ build_catalog() {
   header="$(cat <<HEADER
 version: "1"
 generated: "${generated}"
-templates:
+scaffolds:
 HEADER
 )"
 
   local entries=""
-  # Sort template directories by name
-  for template_dir in $(find "$TEMPLATES_DIR" -mindepth 1 -maxdepth 1 -type d | sort); do
+  # Sort scaffold directories by name
+  for scaffold_dir in $(find "$QUICKSTARTS_DIR" -mindepth 1 -maxdepth 1 -type d | sort); do
     local entry
-    entry="$(build_template_entry "$template_dir")"
+    entry="$(build_scaffold_entry "$scaffold_dir")"
     if [ -n "$entry" ]; then
       entries="${entries}${entry}"$'\n'
     fi
   done
 
   if [ -z "$entries" ]; then
-    # No templates found -- write empty catalog
-    cat > "$CATALOG_FILE" <<EOF
+    # No scaffolds found -- write empty index
+    cat > "$INDEX_FILE" <<EOF
 version: "1"
 generated: "${generated}"
-templates: []
+scaffolds: []
 EOF
   else
-    printf '%s\n%s' "$header" "$entries" > "$CATALOG_FILE"
+    printf '%s\n%s' "$header" "$entries" > "$INDEX_FILE"
   fi
 
-  echo "Generated $CATALOG_FILE"
+  echo "Generated $INDEX_FILE"
 }
 
 main() {
   check_dependencies
 
-  if [ ! -d "$TEMPLATES_DIR" ]; then
-    echo "No templates/ directory found. Creating empty catalog." >&2
-    mkdir -p "$TEMPLATES_DIR"
+  if [ ! -d "$QUICKSTARTS_DIR" ]; then
+    echo "No quickstarts/ directory found. Creating empty index." >&2
+    mkdir -p "$QUICKSTARTS_DIR"
   fi
 
-  build_catalog
+  build_index
 }
 
 main "$@"

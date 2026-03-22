@@ -1,0 +1,73 @@
+name: competitor-intel-monitor
+version: "1.0"
+description: "Track competitor web pages, news mentions, and GitHub activity with AI-powered change analysis and significance scoring"
+
+triggers:
+  - type: manual
+  - type: cron
+    name: monitor-competitors
+    schedule: "0 */6 * * *"
+
+nodes:
+  fetch-sources:
+    path: ./nodes/fetch-sources.ts
+  diff-snapshots:
+    path: ./nodes/diff-snapshots.ts
+  analyze-changes:
+    path: ./nodes/analyze-changes.ts
+  store-assessments:
+    path: ./nodes/store-assessments.ts
+  notify-digest:
+    path: ./nodes/notify-digest.ts
+
+edges:
+  - from: fetch-sources
+    to: diff-snapshots
+  - from: diff-snapshots
+    to: analyze-changes
+  - from: analyze-changes
+    to: store-assessments
+  - from: store-assessments
+    to: notify-digest
+
+config:
+  timeout: 180s
+  retries: 1
+  competitors:
+    - name: "Acme Corp"
+      urls:
+        - https://acme.example.com/pricing
+        - https://acme.example.com/features
+        - https://acme.example.com/blog
+    - name: "Beta Inc"
+      urls:
+        - https://beta.example.com/pricing
+
+contract:
+  version: "1"
+  dependencies:
+    probe-targets:
+      type: dynamic-target
+      protocol: https
+      cidr: "0.0.0.0/0"
+      dynPorts:
+        - "443/TCP"
+        - "80/TCP"
+    tentacular-rustfs:
+      protocol: http
+    tentacular-postgres:
+      protocol: postgresql
+    anthropic:
+      protocol: https
+      host: api.anthropic.com
+      port: 443
+      auth:
+        type: bearer-token
+        secret: anthropic.api_key
+    slack-webhook:
+      protocol: https
+      host: hooks.slack.com
+      port: 443
+      auth:
+        type: webhook-url
+        secret: slack.webhook_url

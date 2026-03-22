@@ -1,0 +1,24 @@
+version: "1"
+description: "Parameters for the agent-activity-report scaffold"
+
+parameters:
+  repos:
+    path: config.repos
+    type: list
+    items: map
+    description: >
+      GitHub repositories to track for activity. Each entry has an owner (string)
+      and name (string).
+    required: true
+    example:
+      - owner: "my-org"
+        name: "my-repo"
+      - owner: "another-org"
+        name: "another-repo"
+
+  azure_blob_base_url:
+    path: config.azure_blob_base_url
+    type: string
+    description: "Base URL of the Azure Blob Storage container where reports are published"
+    required: true
+    example: "https://mystorageaccount.blob.core.windows.net/reports"

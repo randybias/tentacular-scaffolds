@@ -1,0 +1,18 @@
+version: "1"
+description: "Parameters for the email-invoice-processor scaffold"
+
+parameters:
+  gmail_query:
+    path: config.gmail_query
+    type: string
+    description: "Gmail search query to find invoice emails (uses Gmail search syntax)"
+    required: true
+    example: "label:invoices has:attachment"
+
+  poll_schedule:
+    path: triggers[name=poll-invoices].schedule
+    type: string
+    description: "Cron expression for how often to check Gmail for new invoices"
+    required: false
+    default: "*/15 * * * *"
+    example: "*/15 * * * *"

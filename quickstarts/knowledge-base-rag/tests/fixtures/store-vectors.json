@@ -1,0 +1,13 @@
+{
+  "input": {
+    "fileEmbeddings": [],
+    "totalEmbeddings": 0,
+    "dimensions": 1536
+  },
+  "expected": {
+    "filesProcessed": 0,
+    "chunksInserted": 0,
+    "chunksDeleted": 0,
+    "errors": 0
+  }
+}

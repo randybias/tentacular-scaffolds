@@ -1,0 +1,32 @@
+{
+  "input": {
+    "storedFiles": [
+      {
+        "fileId": "abc123",
+        "fileName": "readme.txt",
+        "mimeType": "text/plain",
+        "s3Path": "kb/abc123/readme.txt",
+        "content": "SGVsbG8gV29ybGQ=",
+        "modifiedAt": "2026-01-15T05:30:00Z"
+      }
+    ],
+    "pollTimestamp": "2026-01-15T06:00:00.000Z"
+  },
+  "expected": {
+    "fileChunks": [
+      {
+        "fileId": "abc123",
+        "fileName": "readme.txt",
+        "chunks": [
+          {
+            "chunkIndex": 0,
+            "text": "Hello World",
+            "startChar": 0,
+            "endChar": 11
+          }
+        ]
+      }
+    ],
+    "totalChunks": 1
+  }
+}

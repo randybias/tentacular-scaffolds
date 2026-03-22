@@ -1,0 +1,11 @@
+{
+  "input": {},
+  "expected": {
+    "service": "unknown",
+    "metric": "unknown",
+    "value": "0",
+    "threshold": "0",
+    "timestamp": "",
+    "source": "manual"
+  }
+}

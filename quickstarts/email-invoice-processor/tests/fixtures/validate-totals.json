@@ -1,0 +1,120 @@
+{
+  "input": {
+    "invoices": [
+      {
+        "messageId": "msg-001",
+        "from": "billing@acme.com",
+        "subject": "Invoice #INV-2026-001",
+        "filename": "invoice-2026-001.pdf",
+        "s3Path": "invoices/2026/03/msg-001/invoice-2026-001.pdf",
+        "vendor": "Acme Corp",
+        "invoiceNumber": "INV-2026-001",
+        "lineItems": [
+          {
+            "description": "Widget A",
+            "quantity": 10,
+            "unitPrice": 100.00,
+            "amount": 1000.00
+          },
+          {
+            "description": "Widget B",
+            "quantity": 5,
+            "unitPrice": 650.00,
+            "amount": 3250.00
+          }
+        ],
+        "subtotal": 4250.00,
+        "tax": 340.00,
+        "total": 4590.00,
+        "dueDate": "2026-04-15",
+        "paymentTerms": "Net 30"
+      },
+      {
+        "messageId": "msg-002",
+        "from": "billing@beta.com",
+        "subject": "Invoice #B-999",
+        "filename": "beta-invoice.pdf",
+        "s3Path": "invoices/2026/03/msg-002/beta-invoice.pdf",
+        "vendor": "Beta Inc",
+        "invoiceNumber": "B-999",
+        "lineItems": [
+          {
+            "description": "Service Fee",
+            "quantity": 1,
+            "unitPrice": 500.00,
+            "amount": 500.00
+          }
+        ],
+        "subtotal": 500.00,
+        "tax": 0.00,
+        "total": 400.00,
+        "dueDate": "2026-04-01",
+        "paymentTerms": "Due on receipt"
+      }
+    ],
+    "pollTimestamp": "2026-03-22T10:00:00.000Z"
+  },
+  "expected": {
+    "validated": [
+      {
+        "messageId": "msg-001",
+        "from": "billing@acme.com",
+        "subject": "Invoice #INV-2026-001",
+        "filename": "invoice-2026-001.pdf",
+        "s3Path": "invoices/2026/03/msg-001/invoice-2026-001.pdf",
+        "vendor": "Acme Corp",
+        "invoiceNumber": "INV-2026-001",
+        "lineItems": [
+          {
+            "description": "Widget A",
+            "quantity": 10,
+            "unitPrice": 100.00,
+            "amount": 1000.00
+          },
+          {
+            "description": "Widget B",
+            "quantity": 5,
+            "unitPrice": 650.00,
+            "amount": 3250.00
+          }
+        ],
+        "subtotal": 4250.00,
+        "tax": 340.00,
+        "total": 4590.00,
+        "dueDate": "2026-04-15",
+        "paymentTerms": "Net 30",
+        "validationStatus": "PASS",
+        "validationErrors": []
+      },
+      {
+        "messageId": "msg-002",
+        "from": "billing@beta.com",
+        "subject": "Invoice #B-999",
+        "filename": "beta-invoice.pdf",
+        "s3Path": "invoices/2026/03/msg-002/beta-invoice.pdf",
+        "vendor": "Beta Inc",
+        "invoiceNumber": "B-999",
+        "lineItems": [
+          {
+            "description": "Service Fee",
+            "quantity": 1,
+            "unitPrice": 500.00,
+            "amount": 500.00
+          }
+        ],
+        "subtotal": 500.00,
+        "tax": 0.00,
+        "total": 400.00,
+        "dueDate": "2026-04-01",
+        "paymentTerms": "Due on receipt",
+        "validationStatus": "FAIL",
+        "validationErrors": [
+          "Subtotal ($500.00) + tax ($0.00) = $500.00 but total shows $400.00"
+        ]
+      }
+    ],
+    "passCount": 1,
+    "failCount": 1,
+    "pollTimestamp": "2026-03-22T10:00:00.000Z"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "input": {
+    "leads": [
+      { "rowNumber": 2, "name": "Jane Chen", "email": "jane@acmesaas.com", "company": "Acme SaaS", "notes": "" }
+    ],
+    "pollTimestamp": "2026-03-22T07:00:00Z"
+  },
+  "expected": {
+    "enrichments": [
+      {
+        "company": "Acme SaaS",
+        "summary": "Website fetched but no LLM available",
+        "targetMarket": "unknown",
+        "recentActivity": "unknown"
+      }
+    ]
+  }
+}

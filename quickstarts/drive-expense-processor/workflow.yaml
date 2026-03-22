@@ -1,0 +1,80 @@
+name: drive-expense-processor
+version: "1.0"
+description: "Watch a Google Drive folder for receipt uploads, extract expense data with AI, and log to Postgres and Google Sheets"
+
+triggers:
+  - type: manual
+  - type: cron
+    name: poll-receipts
+    schedule: "*/15 * * * *"
+
+nodes:
+  poll-drive:
+    path: ./nodes/poll-drive.ts
+  store-originals:
+    path: ./nodes/store-originals.ts
+  extract-fields:
+    path: ./nodes/extract-fields.ts
+  validate-record:
+    path: ./nodes/validate-record.ts
+  store-and-notify:
+    path: ./nodes/store-and-notify.ts
+
+edges:
+  - from: poll-drive
+    to: store-originals
+  - from: store-originals
+    to: extract-fields
+  - from: extract-fields
+    to: validate-record
+  - from: validate-record
+    to: store-and-notify
+
+config:
+  timeout: 120s
+  retries: 1
+  drive_folder_id: "YOUR_FOLDER_ID"
+  sheets_id: "YOUR_SHEETS_ID"
+  allowed_categories:
+    - Travel
+    - Meals
+    - Software
+    - Office
+    - Equipment
+    - Other
+
+contract:
+  version: "1"
+  dependencies:
+    google-drive:
+      protocol: https
+      host: www.googleapis.com
+      port: 443
+      auth:
+        type: bearer-token
+        secret: google.access_token
+    google-sheets:
+      protocol: https
+      host: sheets.googleapis.com
+      port: 443
+      auth:
+        type: bearer-token
+        secret: google.access_token
+    tentacular-rustfs:
+      protocol: http
+    tentacular-postgres:
+      protocol: postgresql
+    anthropic:
+      protocol: https
+      host: api.anthropic.com
+      port: 443
+      auth:
+        type: bearer-token
+        secret: anthropic.api_key
+    slack-webhook:
+      protocol: https
+      host: hooks.slack.com
+      port: 443
+      auth:
+        type: webhook-url
+        secret: slack.webhook_url

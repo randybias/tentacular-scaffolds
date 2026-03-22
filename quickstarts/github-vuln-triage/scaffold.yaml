@@ -1,0 +1,8 @@
+name: github-vuln-triage
+displayName: "GitHub Vulnerability Triage"
+description: "Aggregate Dependabot and CodeQL alerts across a GitHub org, enrich with repo context, triage with AI, and auto-create issues"
+category: automation
+tags: [github-security, dependabot, codeql, llm-triage, fan-out-pattern, auto-remediation, postgres-state, s3-storage]
+author: randybias
+minTentacularVersion: "0.1.0"
+complexity: advanced

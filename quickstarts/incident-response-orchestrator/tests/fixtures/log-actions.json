@@ -1,0 +1,17 @@
+{
+  "input": {
+    "create-ticket": { "created": true, "issueUrl": "https://github.com/randybias/example/issues/42", "issueNumber": 42 },
+    "notify-slack": { "delivered": true, "status": 200 },
+    "publish-event": { "published": true, "subject": "tentacular.incidents.p2.api-gateway" },
+    "page-oncall": { "paged": false, "skipped": true, "reason": "Severity P3 below paging threshold" }
+  },
+  "expected": {
+    "logged": false,
+    "entries": [
+      { "action": "create-ticket", "success": true, "details": "Issue: https://github.com/randybias/example/issues/42" },
+      { "action": "notify-slack", "success": true, "details": "Slack status: 200" },
+      { "action": "publish-event", "success": true, "details": "NATS subject: tentacular.incidents.p2.api-gateway" },
+      { "action": "page-oncall", "success": false, "details": "Severity P3 below paging threshold" }
+    ]
+  }
+}
