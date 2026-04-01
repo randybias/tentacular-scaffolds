@@ -1,0 +1,8 @@
+{
+  "input": {},
+  "expected": {
+    "video_path": "/shared/input/video.mp4",
+    "size_bytes": 968000,
+    "source_url": "https://example.com/sample.mp4"
+  }
+}

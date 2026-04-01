@@ -1,0 +1,8 @@
+name: doc-converter
+displayName: "Document Converter"
+description: "Convert documents between formats using a pandoc sidecar and summarize with Claude"
+category: data-pipeline
+tags: [sidecar, pandoc, document-conversion, llm-synthesis, http-body]
+author: randybias
+minTentacularVersion: "0.7.0"
+complexity: moderate

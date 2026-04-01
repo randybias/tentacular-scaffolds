@@ -1,0 +1,8 @@
+name: video-frame-analyzer
+displayName: "Video Frame Analyzer"
+description: "Extract frames from video using an ffmpeg sidecar and analyze with Claude Vision"
+category: data-pipeline
+tags: [sidecar, ffmpeg, video-processing, llm-synthesis, shared-volume]
+author: randybias
+minTentacularVersion: "0.7.0"
+complexity: moderate

@@ -1,0 +1,35 @@
+version: "1"
+description: "Parameters for the video-frame-analyzer scaffold"
+
+parameters:
+  video_url:
+    path: config.video_url
+    type: string
+    description: "URL of the video to fetch and analyze"
+    required: false
+    default: "https://example.com/sample.mp4"
+    example: "https://storage.example.com/meeting-recording.mp4"
+
+  fps:
+    path: config.fps
+    type: number
+    description: "Frames per second to extract (1 = one frame per second of video)"
+    required: false
+    default: 1
+    example: 2
+
+  output_format:
+    path: config.output_format
+    type: string
+    description: "Output image format for extracted frames"
+    required: false
+    default: "jpg"
+    example: "png"
+
+  max_frames:
+    path: config.max_frames
+    type: number
+    description: "Maximum number of frames to send to Claude Vision (controls API cost)"
+    required: false
+    default: 10
+    example: 20

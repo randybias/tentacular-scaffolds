@@ -1,0 +1,56 @@
+name: video-frame-analyzer
+version: "1.0"
+description: "Extract frames from video using ffmpeg sidecar, analyze with Claude Vision"
+
+sidecars:
+  - name: ffmpeg
+    image: ghcr.io/randybias/tentacular-ffmpeg-sidecar:v1.0.0
+    port: 9000
+    healthPath: /health
+    resources:
+      requests:
+        cpu: 500m
+        memory: 256Mi
+      limits:
+        cpu: 1000m
+        memory: 512Mi
+
+triggers:
+  - type: manual
+
+nodes:
+  ingest-video:
+    path: ./nodes/ingest-video.ts
+  extract-frames:
+    path: ./nodes/extract-frames.ts
+  analyze-frames:
+    path: ./nodes/analyze-frames.ts
+
+edges:
+  - from: ingest-video
+    to: extract-frames
+  - from: extract-frames
+    to: analyze-frames
+
+config:
+  timeout: 300s
+  retries: 0
+  video_url: "https://example.com/sample.mp4"
+  fps: 1
+  output_format: jpg
+  max_frames: 10
+
+contract:
+  version: "1"
+  dependencies:
+    anthropic:
+      protocol: https
+      host: api.anthropic.com
+      port: 443
+      auth:
+        type: bearer-token
+        secret: anthropic.api_key
+    video-source:
+      protocol: https
+      host: example.com
+      port: 443
