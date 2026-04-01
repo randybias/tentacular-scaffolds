@@ -6,7 +6,9 @@ sidecars:
   - name: pandoc
     image: pandoc/core:3.6
     command: ["pandoc-server"]
-    args: ["--port", "3030"]
+    args:
+      - "--port"
+      - "3030"
     port: 3030
     healthPath: /version
     resources:
