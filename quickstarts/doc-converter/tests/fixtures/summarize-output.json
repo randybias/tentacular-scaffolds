@@ -1,0 +1,17 @@
+{
+  "input": {
+    "converted": "<h1 id=\"tentacular-skill\">Tentacular Skill</h1>\n<p>This document describes the Tentacular agent skill.</p>\n",
+    "from_format": "markdown",
+    "to_format": "html",
+    "char_count": 101,
+    "source_url": "https://raw.githubusercontent.com/randybias/tentacular-skill/main/README.md"
+  },
+  "expected": {
+    "summary": "Mock summary: converted 101 chars from markdown to html. Source: https://raw.githubusercontent.com/randybias/tentacular-skill/main/README.md",
+    "model": "mock",
+    "from_format": "markdown",
+    "to_format": "html",
+    "source_url": "https://raw.githubusercontent.com/randybias/tentacular-skill/main/README.md",
+    "converted_chars": 101
+  }
+}

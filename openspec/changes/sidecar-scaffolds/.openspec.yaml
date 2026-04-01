@@ -1,0 +1,7 @@
+name: sidecar-scaffolds
+status: proposed
+description: >
+  Add sidecar-enabled scaffold quickstarts: video-frame-analyzer (ffmpeg)
+  and a second use case scaffold, with regenerated scaffolds-index.yaml.
+artifacts:
+  - proposal

@@ -1,0 +1,58 @@
+name: doc-converter
+version: "1.0"
+description: "Convert documents between formats using pandoc sidecar, then summarize with Claude"
+
+sidecars:
+  - name: pandoc
+    image: pandoc/core:3.6
+    command: ["pandoc-server"]
+    args: ["--port", "3030"]
+    port: 3030
+    healthPath: /version
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 500m
+        memory: 256Mi
+
+triggers:
+  - type: manual
+
+nodes:
+  fetch-document:
+    path: ./nodes/fetch-document.ts
+  convert-document:
+    path: ./nodes/convert-document.ts
+  summarize-output:
+    path: ./nodes/summarize-output.ts
+
+edges:
+  - from: fetch-document
+    to: convert-document
+  - from: convert-document
+    to: summarize-output
+
+config:
+  timeout: 120s
+  retries: 0
+  document_url: "https://raw.githubusercontent.com/randybias/tentacular-skill/main/README.md"
+  input_format: markdown
+  output_format: html
+  max_summary_chars: 2000
+
+contract:
+  version: "1"
+  dependencies:
+    doc-source:
+      protocol: https
+      host: raw.githubusercontent.com
+      port: 443
+    anthropic:
+      protocol: https
+      host: api.anthropic.com
+      port: 443
+      auth:
+        type: bearer-token
+        secret: anthropic.api_key

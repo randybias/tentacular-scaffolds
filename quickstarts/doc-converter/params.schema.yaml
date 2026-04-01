@@ -1,0 +1,35 @@
+version: "1"
+description: "Parameters for the doc-converter scaffold"
+
+parameters:
+  document_url:
+    path: config.document_url
+    type: string
+    description: "URL of the document to fetch and convert"
+    required: false
+    default: "https://raw.githubusercontent.com/randybias/tentacular-skill/main/README.md"
+    example: "https://raw.githubusercontent.com/myorg/myrepo/main/CHANGELOG.md"
+
+  input_format:
+    path: config.input_format
+    type: string
+    description: "pandoc input format (markdown, html, docx, rst, org, etc.)"
+    required: false
+    default: "markdown"
+    example: "rst"
+
+  output_format:
+    path: config.output_format
+    type: string
+    description: "pandoc output format (html, markdown, docx, plain, latex, etc.)"
+    required: false
+    default: "html"
+    example: "plain"
+
+  max_summary_chars:
+    path: config.max_summary_chars
+    type: number
+    description: "Maximum characters of converted output to send to Claude for summarization"
+    required: false
+    default: 2000
+    example: 5000

@@ -1,0 +1,9 @@
+{
+  "input": {},
+  "expected": {
+    "content": "# Tentacular Skill\n\nThis document describes the Tentacular agent skill.\n",
+    "detected_format": "markdown",
+    "source_url": "https://raw.githubusercontent.com/randybias/tentacular-skill/main/README.md",
+    "content_length": 69
+  }
+}
