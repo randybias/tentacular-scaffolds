@@ -39,7 +39,13 @@ export default async function run(
   for (const framePath of framePaths) {
     try {
       const bytes = await Deno.readFile(framePath);
-      const b64 = btoa(String.fromCharCode(...bytes));
+      // Chunk the conversion to avoid stack overflow on large files.
+      // String.fromCharCode(...bytes) exceeds the call stack for >~10KB.
+      const chunks: string[] = [];
+      for (let i = 0; i < bytes.length; i += 8192) {
+        chunks.push(String.fromCharCode(...bytes.subarray(i, i + 8192)));
+      }
+      const b64 = btoa(chunks.join(""));
       frameImages.push({
         type: "image",
         source: { type: "base64", media_type: "image/jpeg", data: b64 },

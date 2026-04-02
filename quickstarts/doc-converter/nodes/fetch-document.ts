@@ -45,8 +45,11 @@ export default async function run(
 
   ctx.log.info(`Fetching document from ${docUrl}`);
 
-  const docSource = ctx.dependency("doc-source");
-  const res = await docSource.fetch!(docUrl);
+  // Use globalThis.fetch for absolute URLs. dependency.fetch() prepends the
+  // dependency's base URL, which doubles the URL for absolute paths.
+  // The "doc-source" dependency is declared in the contract so the engine
+  // grants network access to the host — but fetch goes direct.
+  const res = await globalThis.fetch(docUrl);
 
   if (!res.ok) {
     throw new Error(`Failed to fetch document: HTTP ${res.status} from ${docUrl}`);
