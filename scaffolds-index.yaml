@@ -1,5 +1,5 @@
 version: "1"
-generated: "2026-04-02T16:27:31Z"
+generated: "2026-04-03T19:07:21Z"
 scaffolds:
     - name: "agent-activity-report"
       displayName: "Agent Activity Report"
