@@ -41,3 +41,36 @@ complexity: simple         # simple | moderate | advanced
 - **simple** -- Single node or minimal DAG, no external dependencies.
 - **moderate** -- Multiple nodes, some external dependencies or secrets.
 - **advanced** -- Complex DAG, multiple dependencies, cron triggers, error handling.
+
+## Contract Format
+
+Scaffolds declare external dependencies in the `contract:` block of `workflow.yaml`. Each dependency gets a named entry under `contract.dependencies` with protocol, host, port, and auth fields.
+
+### Slack Dependency with Channel Declaration
+
+Scaffolds that post to Slack via incoming webhook should include a `channels:` block inside the Slack dependency. This declares which channels the tentacle needs access to beyond its home enclave channel:
+
+```yaml
+contract:
+  version: "1"
+  dependencies:
+    slack:
+      protocol: https
+      host: hooks.slack.com
+      port: 443
+      auth:
+        type: webhook-url
+        secret: slack.webhook_url
+      channels:
+        - name: default
+          access: post
+```
+
+The `channels:` block is a list of objects with two fields:
+
+| Field | Description |
+|-------|-------------|
+| `name` | Channel name. Use `default` for the enclave's primary channel. |
+| `access` | Access level: `post` (send messages), `listen` (receive events), or `listen+post` (both). |
+
+The `channels:` block is optional — scaffolds without it have no declared channel requirements beyond what the webhook URL itself provides. When a tentacle needs to post to a specific named channel, set `name` to the channel name (e.g., `incidents`, `alerts`) instead of `default`.

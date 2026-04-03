@@ -104,6 +104,9 @@ contract:
       auth:
         type: webhook-url
         secret: slack.webhook_url
+      channels:
+        - name: default
+          access: post
     pagerduty:
       protocol: https
       host: api.pagerduty.com
