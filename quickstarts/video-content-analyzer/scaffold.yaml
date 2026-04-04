@@ -1,0 +1,8 @@
+name: video-content-analyzer
+displayName: "Video Content Analyzer"
+description: "Extract frames from video via ffmpeg sidecar, deduplicate with perceptual hashing, analyze with batched Claude Vision, and compile templated HTML/Markdown reports with editorial audit"
+category: data-pipeline
+tags: [sidecar, ffmpeg, video-processing, llm-synthesis, shared-volume, nunjucks, templates, perceptual-hash, reporting]
+author: randybias
+minTentacularVersion: "0.7.0"
+complexity: advanced
