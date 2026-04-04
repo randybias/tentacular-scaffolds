@@ -1,5 +1,5 @@
 version: "1"
-generated: "2026-04-03T19:07:21Z"
+generated: "2026-04-04T19:05:40Z"
 scaffolds:
     - name: "agent-activity-report"
       displayName: "Agent Activity Report"
@@ -237,6 +237,7 @@ scaffolds:
       - "nodes/collect-results.ts"
       - "nodes/notify.ts"
       - "nodes/render-report.ts"
+      - "nodes/s3.ts"
       - "nodes/test-nats.ts"
       - "nodes/test-postgres.ts"
       - "nodes/test-rustfs.ts"
@@ -682,6 +683,18 @@ scaffolds:
       - "tests/fixtures/store-results.json"
       - "workflow.yaml"
       - ".secrets.yaml.example"
+    - name: "video-content-analyzer"
+      displayName: "Video Content Analyzer"
+      description: "Extract frames from video via ffmpeg sidecar, deduplicate with perceptual hashing, analyze with batched Claude Vision, and compile templated HTML/Markdown reports with editorial audit"
+      category: "data-pipeline"
+      tags: [sidecar, ffmpeg, video-processing, llm-synthesis, shared-volume, nunjucks, templates, perceptual-hash, reporting]
+      author: "randybias"
+      minTentacularVersion: "0.7.0"
+      complexity: "advanced"
+      path: "quickstarts/video-content-analyzer"
+      files:
+      - "scaffold.yaml"
+      - "workflow.yaml"
     - name: "video-frame-analyzer"
       displayName: "Video Frame Analyzer"
       description: "Extract frames from video using an ffmpeg sidecar and analyze with Claude Vision"
