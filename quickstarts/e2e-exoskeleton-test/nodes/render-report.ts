@@ -1,4 +1,5 @@
 import type { Context } from "tentacular";
+import { parseS3Credentials, s3Fetch } from "./s3.ts";
 
 interface TestCase {
   name: string;
@@ -29,30 +30,30 @@ interface RenderResult {
 export default async function run(ctx: Context, input: unknown): Promise<RenderResult> {
   const data = input as CollectedResults;
 
-  // Store in RustFS
-  const rustfs = ctx.dependency("tentacular-rustfs");
+  // Store in RustFS via S3 API
+  const s3 = parseS3Credentials(ctx.secrets);
   let s3Path = "";
   let stored = false;
 
-  if (!rustfs.secret) {
+  if (!s3) {
     ctx.log.warn("No RustFS credentials, skipping report storage");
     return { s3Path, stored };
   }
 
+  const prefix = ctx.secrets["tentacular-rustfs"]?.prefix ?? "";
   const collectedAt = data.collectedAt ?? new Date().toISOString();
   const dateStr = collectedAt.split("T")[0];
   const html = generateHtml({ ...data, collectedAt });
 
-  s3Path = `/tentacular/reports/exo-test/${dateStr}/report-${Date.now()}.html`;
+  s3Path = `${prefix}reports/exo-test/${dateStr}/report-${Date.now()}.html`;
   try {
-    const res = await rustfs.fetch!(s3Path, {
-      method: "PUT",
-      headers: { "Content-Type": "text/html; charset=utf-8" },
+    const res = await s3Fetch(s3, "PUT", s3Path, {
       body: html,
+      contentType: "text/html; charset=utf-8",
     });
     stored = res.ok;
     if (res.ok) {
-      ctx.log.info(`Stored test report at ${s3Path}`);
+      ctx.log.info(`Stored test report at ${s3.bucket}/${s3Path}`);
     } else {
       ctx.log.warn(`RustFS PUT failed: ${res.status}`);
     }
