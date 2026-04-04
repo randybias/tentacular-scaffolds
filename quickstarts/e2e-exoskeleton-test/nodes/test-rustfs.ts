@@ -1,4 +1,5 @@
 import type { Context } from "tentacular";
+import { parseS3Credentials, s3Fetch, sha256Hex } from "./s3.ts";
 
 interface TestCase {
   name: string;
@@ -19,59 +20,52 @@ interface PreviousResults {
   tests: TestCase[];
 }
 
-/** Compute SHA-256 hash of a Uint8Array */
-async function sha256(data: Uint8Array): Promise<string> {
-  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
-}
-
-/** Test RustFS: PUT, GET (verify integrity), DELETE via raw S3 HTTP API */
+/** Test RustFS: PUT, GET (verify integrity), DELETE via S3 API with AWS Signature V4 */
 export default async function run(ctx: Context, input: unknown): Promise<ServiceTestResult & { previousResults?: PreviousResults }> {
   const tests: TestCase[] = [];
-  const testKey = `exo-test/${Date.now()}/test-blob.bin`;
 
-  const rustfs = ctx.dependency("tentacular-rustfs");
-  if (!rustfs.secret) {
-    ctx.log.error("No RustFS credentials");
+  const s3 = parseS3Credentials(ctx.secrets);
+  if (!s3) {
+    ctx.log.error("No RustFS credentials (need access_key and secret_key in tentacular-rustfs secret)");
     return {
       service: "rustfs",
       passed: false,
-      tests: [{ name: "connect", passed: false, latency_ms: 0, error: "No credentials" }],
+      tests: [{ name: "connect", passed: false, latency_ms: 0, error: "No S3 credentials" }],
     };
   }
 
-  // Build base URL — use protocol from contract dependency (http or https)
-  const scheme = rustfs.protocol === "http" ? "http" : "https";
-  const baseUrl = `${scheme}://${rustfs.host}:${rustfs.port}`;
+  // Use prefix from secret config for scoped object paths
+  const prefix = ctx.secrets["tentacular-rustfs"]?.prefix ?? "";
+  const testKey = `${prefix}exo-test/${Date.now()}/test-blob.bin`;
+
+  ctx.log.info(`RustFS endpoint: ${s3.endpoint}, bucket: ${s3.bucket}, prefix: ${prefix}`);
 
   // Generate random test data
   const testData = new Uint8Array(1024);
   crypto.getRandomValues(testData);
-  const originalHash = await sha256(testData);
+  const originalHash = await sha256Hex(testData);
 
   try {
     // Test: PUT object
     let start = performance.now();
-    const putRes = await globalThis.fetch(`${baseUrl}/${testKey}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/octet-stream" },
+    const putRes = await s3Fetch(s3, "PUT", testKey, {
       body: testData,
+      contentType: "application/octet-stream",
     });
     const putPassed = putRes.ok;
     tests.push({
       name: "put_object",
       passed: putPassed,
       latency_ms: Math.round(performance.now() - start),
-      error: putPassed ? undefined : `PUT failed: ${putRes.status}`,
+      error: putPassed ? undefined : `PUT failed: ${putRes.status} ${await putRes.text()}`,
     });
 
     // Test: GET object and verify round-trip integrity
     start = performance.now();
-    const getRes = await globalThis.fetch(`${baseUrl}/${testKey}`, { method: "GET" });
+    const getRes = await s3Fetch(s3, "GET", testKey);
     if (getRes.ok) {
       const retrieved = new Uint8Array(await getRes.arrayBuffer());
-      const retrievedHash = await sha256(retrieved);
+      const retrievedHash = await sha256Hex(retrieved);
       const integrityPassed = originalHash === retrievedHash;
       tests.push({
         name: "get_object_integrity",
@@ -90,7 +84,7 @@ export default async function run(ctx: Context, input: unknown): Promise<Service
 
     // Test: DELETE object
     start = performance.now();
-    const delRes = await globalThis.fetch(`${baseUrl}/${testKey}`, { method: "DELETE" });
+    const delRes = await s3Fetch(s3, "DELETE", testKey);
     const delPassed = delRes.ok || delRes.status === 204;
     tests.push({
       name: "delete_object",
@@ -99,9 +93,9 @@ export default async function run(ctx: Context, input: unknown): Promise<Service
       error: delPassed ? undefined : `DELETE failed: ${delRes.status}`,
     });
 
-    // Test: Verify deletion (GET should fail with 404)
+    // Test: Verify deletion (GET should fail with 404 or 403)
     start = performance.now();
-    const verifyRes = await globalThis.fetch(`${baseUrl}/${testKey}`, { method: "GET" });
+    const verifyRes = await s3Fetch(s3, "GET", testKey);
     const deletionVerified = verifyRes.status === 404 || verifyRes.status === 403;
     tests.push({
       name: "verify_deletion",
@@ -116,7 +110,7 @@ export default async function run(ctx: Context, input: unknown): Promise<Service
 
     // Cleanup
     try {
-      await globalThis.fetch(`${baseUrl}/${testKey}`, { method: "DELETE" });
+      await s3Fetch(s3, "DELETE", testKey);
     } catch {
       // Ignore cleanup errors
     }
