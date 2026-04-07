@@ -18,7 +18,7 @@ export default async function run(ctx: Context, input: Input): Promise<Output> {
   const prompt = input.prompt ?? "Reply with one word: hello";
   ctx.log.info(`otel-llm-echo: sending prompt to ${MODEL}`);
 
-  const apiKey = await ctx.secrets.get("anthropic.api_key");
+  const dep = ctx.dependency("anthropic");
 
   const requestBody = {
     model: MODEL,
@@ -32,7 +32,7 @@ export default async function run(ctx: Context, input: Input): Promise<Output> {
     method: "POST",
     headers: {
       "content-type": "application/json",
-      "x-api-key": apiKey,
+      "x-api-key": dep.secret,
       "anthropic-version": "2023-06-01",
     },
     body: JSON.stringify(requestBody),

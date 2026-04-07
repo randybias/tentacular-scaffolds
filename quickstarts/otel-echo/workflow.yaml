@@ -9,6 +9,8 @@ nodes:
   echo:
     path: ./nodes/echo.ts
 
+edges: []
+
 config:
   timeout: 10s
 

@@ -9,6 +9,8 @@ nodes:
   fail:
     path: ./nodes/fail.ts
 
+edges: []
+
 config:
   timeout: 10s
 
