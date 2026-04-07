@@ -1,0 +1,8 @@
+name: otel-multi-node
+displayName: "OTel Multi-Node"
+description: "Validation scaffold: 3-node DAG (fetch-data → transform → notify) to validate parent-child span hierarchy, per-node timing, and DAG stage boundaries in SigNoz."
+category: observability
+tags: [observability, otel, multi-node, span-hierarchy, validation, e2e-test]
+author: randybias
+minTentacularVersion: "0.1.0"
+complexity: moderate

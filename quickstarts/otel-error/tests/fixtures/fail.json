@@ -1,0 +1,4 @@
+{
+  "input": {},
+  "expected_error": "deliberate error: validating OTel error span production"
+}

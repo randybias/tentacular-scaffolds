@@ -1,0 +1,9 @@
+version: "1"
+description: "Parameters for the otel-llm-echo scaffold"
+
+parameters:
+  prompt:
+    type: string
+    description: "Short prompt to send to the LLM"
+    default: "Reply with one word: hello"
+    required: false

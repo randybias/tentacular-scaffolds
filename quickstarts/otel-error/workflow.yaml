@@ -1,0 +1,17 @@
+name: otel-error
+version: "1.0"
+description: "OTel error validation — deliberately fails to validate error span status and health reporting"
+
+triggers:
+  - type: manual
+
+nodes:
+  fail:
+    path: ./nodes/fail.ts
+
+config:
+  timeout: 10s
+
+contract:
+  version: "1"
+  dependencies: {}

@@ -1,0 +1,8 @@
+name: otel-echo
+displayName: "OTel Echo"
+description: "Validation scaffold: single-node workflow that echoes input. Validates basic OTel trace production — invoke_workflow span, execute_node span, and correlated console logs."
+category: observability
+tags: [observability, otel, validation, e2e-test]
+author: randybias
+minTentacularVersion: "0.1.0"
+complexity: simple

@@ -1,0 +1,8 @@
+{
+  "input": {
+    "prompt": "Reply with one word: hello"
+  },
+  "expected": {
+    "model": "claude-haiku-4-5"
+  }
+}

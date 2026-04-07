@@ -1,0 +1,6 @@
+{
+  "input": {},
+  "expected": {
+    "fetchedAt": "__any_string__"
+  }
+}

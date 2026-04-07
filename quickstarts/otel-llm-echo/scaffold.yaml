@@ -1,0 +1,8 @@
+name: otel-llm-echo
+displayName: "OTel LLM Echo"
+description: "Validation scaffold: makes a minimal Anthropic API call to validate GenAI span attributes — gen_ai.usage.input_tokens, gen_ai.system, gen_ai.request.model. Content capture off by default."
+category: observability
+tags: [observability, otel, genai, llm, validation, e2e-test]
+author: randybias
+minTentacularVersion: "0.1.0"
+complexity: simple

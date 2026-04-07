@@ -1,0 +1,10 @@
+{
+  "input": {
+    "data": { "slideshow": { "author": "Yours Truly" } },
+    "fetchedAt": "2026-01-01T00:00:00.000Z"
+  },
+  "expected": {
+    "keyCount": 1,
+    "summary": "Fetched at 2026-01-01T00:00:00.000Z: 1 top-level keys"
+  }
+}
