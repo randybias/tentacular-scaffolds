@@ -1,0 +1,17 @@
+name: otel-echo
+version: "1.0"
+description: "OTel validation — echo input back to validate basic trace production"
+
+triggers:
+  - type: manual
+
+nodes:
+  echo:
+    path: ./nodes/echo.ts
+
+config:
+  timeout: 10s
+
+contract:
+  version: "1"
+  dependencies: {}

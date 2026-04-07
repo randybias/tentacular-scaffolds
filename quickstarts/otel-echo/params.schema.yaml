@@ -1,0 +1,9 @@
+version: "1"
+description: "Parameters for the otel-echo scaffold"
+
+parameters:
+  message:
+    type: string
+    description: "Message to echo back"
+    default: "hello from otel-echo"
+    required: false

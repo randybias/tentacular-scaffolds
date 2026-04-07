@@ -1,0 +1,8 @@
+{
+  "input": {
+    "message": "hello from otel-echo"
+  },
+  "expected": {
+    "echoed": "hello from otel-echo"
+  }
+}

@@ -1,0 +1,31 @@
+name: otel-multi-node
+version: "1.0"
+description: "OTel span hierarchy validation — 3-node DAG to validate parent-child spans"
+
+triggers:
+  - type: manual
+
+nodes:
+  fetch-data:
+    path: ./nodes/fetch-data.ts
+  transform:
+    path: ./nodes/transform.ts
+  notify:
+    path: ./nodes/notify.ts
+
+edges:
+  - from: fetch-data
+    to: transform
+  - from: transform
+    to: notify
+
+config:
+  timeout: 30s
+
+contract:
+  version: "1"
+  dependencies:
+    httpbin:
+      protocol: https
+      host: httpbin.org
+      port: 443

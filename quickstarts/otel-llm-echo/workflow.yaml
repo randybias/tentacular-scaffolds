@@ -1,0 +1,24 @@
+name: otel-llm-echo
+version: "1.0"
+description: "OTel GenAI validation — minimal Anthropic API call to validate GenAI span attributes"
+
+triggers:
+  - type: manual
+
+nodes:
+  llm-call:
+    path: ./nodes/llm-call.ts
+
+config:
+  timeout: 30s
+
+contract:
+  version: "1"
+  dependencies:
+    anthropic:
+      protocol: https
+      host: api.anthropic.com
+      port: 443
+      auth:
+        type: bearer-token
+        secret: anthropic.api_key

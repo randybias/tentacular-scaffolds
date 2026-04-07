@@ -1,0 +1,11 @@
+{
+  "input": {
+    "summary": "Fetched at 2026-01-01T00:00:00.000Z: 1 top-level keys",
+    "keyCount": 1,
+    "transformedAt": "2026-01-01T00:00:01.000Z"
+  },
+  "expected": {
+    "notified": true,
+    "message": "Fetched at 2026-01-01T00:00:00.000Z: 1 top-level keys"
+  }
+}
