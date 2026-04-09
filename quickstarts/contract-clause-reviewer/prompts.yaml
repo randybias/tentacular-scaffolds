@@ -1,0 +1,258 @@
+version: "1"
+
+prompts:
+  - node: review-liability
+    name: review-liability-clauses
+    description: "Analyze contract text for liability and indemnification clauses, assessing risk level for each finding"
+    model: claude-sonnet-4-5
+    system_prompt: ""
+    user_prompt_template: |
+      You are a legal contract analyst specializing in liability and indemnification.
+
+      Analyze the following contract text and identify all liability and indemnification clauses. For each clause found, assess the risk level.
+
+      Contract: {{input.fileName}}
+      Text:
+      {{input.fullText}}
+
+      Respond ONLY with JSON:
+      {
+        "findings": [
+          {
+            "clause": "the relevant clause text or summary",
+            "location": "section/paragraph reference if identifiable",
+            "risk_level": "low|medium|high|critical",
+            "explanation": "why this clause matters and what risk it poses"
+          }
+        ]
+      }
+
+      Focus on:
+      - Unlimited liability exposure
+      - Indemnification obligations (one-sided vs mutual)
+      - Cap on damages (or lack thereof)
+      - Consequential/indirect damages exclusions
+      - Insurance requirements
+      - Hold harmless provisions
+
+  - node: review-ip-rights
+    name: review-ip-rights-clauses
+    description: "Analyze contract text for IP assignment, data rights, and confidentiality terms, assessing risk level for each finding"
+    model: claude-sonnet-4-5
+    system_prompt: ""
+    user_prompt_template: |
+      You are a legal contract analyst specializing in intellectual property and data rights.
+
+      Analyze the following contract text and identify all IP, data rights, and confidentiality clauses. For each clause found, assess the risk level.
+
+      Contract: {{input.fileName}}
+      Text:
+      {{input.fullText}}
+
+      Respond ONLY with JSON:
+      {
+        "findings": [
+          {
+            "clause": "the relevant clause text or summary",
+            "location": "section/paragraph reference if identifiable",
+            "risk_level": "low|medium|high|critical",
+            "explanation": "why this clause matters and what risk it poses"
+          }
+        ]
+      }
+
+      Focus on:
+      - IP assignment clauses (who owns work product)
+      - Work-for-hire provisions
+      - Pre-existing IP carve-outs (or lack thereof)
+      - Data ownership and usage rights
+      - Confidentiality scope and duration
+      - Non-compete implications on IP
+      - License grants (exclusive vs non-exclusive)
+      - Rights upon termination
+
+  - node: review-termination
+    name: review-termination-clauses
+    description: "Analyze contract text for termination rights, auto-renewal, exit terms, and notice periods, assessing risk level for each finding"
+    model: claude-sonnet-4-5
+    system_prompt: ""
+    user_prompt_template: |
+      You are a legal contract analyst specializing in termination and exit provisions.
+
+      Analyze the following contract text and identify all termination, renewal, and exit clauses. For each clause found, assess the risk level.
+
+      Contract: {{input.fileName}}
+      Text:
+      {{input.fullText}}
+
+      Respond ONLY with JSON:
+      {
+        "findings": [
+          {
+            "clause": "the relevant clause text or summary",
+            "location": "section/paragraph reference if identifiable",
+            "risk_level": "low|medium|high|critical",
+            "explanation": "why this clause matters and what risk it poses"
+          }
+        ]
+      }
+
+      Focus on:
+      - Termination for convenience (who can, notice period)
+      - Termination for cause (what constitutes cause, cure periods)
+      - Auto-renewal clauses and opt-out windows
+      - Notice period requirements
+      - Exit assistance / transition obligations
+      - Data return / destruction upon termination
+      - Survival clauses (what persists after termination)
+      - Early termination penalties or fees
+
+  - node: review-compliance
+    name: review-compliance-clauses
+    description: "Analyze contract text for regulatory compliance gaps against configured frameworks (GDPR, SOX, HIPAA, etc.)"
+    model: claude-sonnet-4-5
+    system_prompt: ""
+    user_prompt_template: |
+      You are a legal contract analyst specializing in regulatory compliance.
+
+      Analyze the following contract text for compliance with these regulatory frameworks:
+      {{config.compliance_frameworks}}
+
+      Contract: {{input.fileName}}
+      Text:
+      {{input.fullText}}
+
+      Respond ONLY with JSON:
+      {
+        "findings": [
+          {
+            "clause": "the relevant clause text or summary (or 'MISSING' if required clause is absent)",
+            "location": "section/paragraph reference if identifiable",
+            "risk_level": "low|medium|high|critical",
+            "explanation": "compliance gap or concern and remediation suggestion"
+          }
+        ]
+      }
+
+      For each framework, check for:
+      - Required clauses that are present (note if they are adequate or insufficient)
+      - Required clauses that are MISSING (these are typically high/critical risk)
+      - Clauses that conflict with regulatory requirements
+
+  - node: synthesize-report
+    name: synthesize-risk-report
+    description: "Synthesize all clause-level findings from parallel reviews into a unified executive risk report with score, critical findings, and negotiation points"
+    model: claude-sonnet-4-5
+    system_prompt: ""
+    user_prompt_template: |
+      You are a senior legal risk analyst synthesizing clause-level findings into an executive risk report.
+
+      ## Documents Reviewed
+      {{input.extract-text.documents}}
+
+      ## Liability & Indemnification Findings
+      {{input.review-liability.findings}}
+
+      ## IP & Data Rights Findings
+      {{input.review-ip-rights.findings}}
+
+      ## Termination & Exit Findings
+      {{input.review-termination.findings}}
+
+      ## Regulatory Compliance Findings
+      {{input.review-compliance.findings}}
+
+      ## Your Task
+
+      Produce a unified risk assessment. Respond ONLY with JSON:
+      {
+        "overallRiskScore": <1-10, where 1=minimal risk, 10=do not sign>,
+        "criticalFindings": ["list of findings that must be addressed before signing"],
+        "negotiationPoints": ["list of specific clauses to negotiate, with suggested changes"],
+        "summary": "2-3 paragraph executive summary of the contract risk posture"
+      }
+
+      Rules:
+      - Be specific about clause references
+      - Critical findings = anything that could cause significant financial or legal exposure
+      - Negotiation points = concrete changes, not vague suggestions
+      - Score 1-3: low risk (standard terms). 4-6: moderate (some concerning clauses). 7-8: high (significant risk). 9-10: critical (do not sign without major changes)
+
+templates:
+  - node: store-and-notify
+    name: contract-review-slack-notification
+    description: "Slack notification with contract review results including risk score, critical findings, and summary"
+    format: slack-blocks
+    template: |
+      [
+        {
+          "type": "header",
+          "text": { "type": "plain_text", "text": "Contract Review Complete" }
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "{{riskEmoji}} *Overall Risk Score: {{input.overallRiskScore}}/10*"
+          }
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "*Critical Findings ({{input.criticalFindings.length}}):*\n{{input.criticalFindings}}"
+          }
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "{{input.summary}}"
+          }
+        },
+        {
+          "type": "context",
+          "elements": [
+            { "type": "mrkdwn", "text": "Generated by Tentacular Contract Clause Reviewer | {{timestamp}}" }
+          ]
+        }
+      ]
+
+  - node: store-and-notify
+    name: contract-review-html-report
+    description: "HTML risk report with overall score, critical findings, negotiation points, and executive summary"
+    format: html
+    template: |
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <title>Contract Risk Report - {{timestamp}}</title>
+        <style>
+          body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+          .risk-score { font-size: 48px; font-weight: bold; color: {{riskColor}}; }
+          h1, h2 { color: #333; }
+          ul { line-height: 1.6; }
+          .summary { background: #f8f9fa; padding: 16px; border-radius: 8px; margin: 16px 0; }
+          .footer { color: #666; font-size: 12px; margin-top: 40px; border-top: 1px solid #eee; padding-top: 10px; }
+        </style>
+      </head>
+      <body>
+        <h1>Contract Risk Report</h1>
+        <p class="risk-score">{{input.overallRiskScore}}/10</p>
+
+        <div class="summary">
+          <p>{{input.summary}}</p>
+        </div>
+
+        <h2>Critical Findings</h2>
+        <ul>{{input.criticalFindings}}</ul>
+
+        <h2>Negotiation Points</h2>
+        <ul>{{input.negotiationPoints}}</ul>
+
+        <div class="footer">
+          <p>Generated by Tentacular Contract Clause Reviewer | {{timestamp}}</p>
+        </div>
+      </body>
+      </html>

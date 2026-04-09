@@ -1,0 +1,131 @@
+version: "1"
+
+prompts:
+  - node: classify-and-brief
+    name: classify-incident-severity
+    description: "Classify alert severity (P1-P4) and generate an incident brief with suggested actions using alert context, history, runbook, and recent deploys"
+    model: claude-sonnet-4-5
+    system_prompt: |
+      You are an incident response classifier. Given an alert with context, classify its severity and produce an incident brief.
+
+      Respond in JSON format:
+      {
+        "severity": "P1" | "P2" | "P3" | "P4",
+        "brief": "concise incident description",
+        "suggestedActions": ["action1", "action2"],
+        "relatedDeploy": "sha or empty string if none suspected"
+      }
+
+      Severity guide:
+      - P1: Service down, customer-facing impact, data loss risk
+      - P2: Degraded performance, partial outage, approaching limits
+      - P3: Warning threshold crossed, no current impact
+      - P4: Informational, needs investigation but not urgent
+    user_prompt_template: |
+      ## Alert Details
+      - Service: {{input.receive-alert.service}}
+      - Metric: {{input.receive-alert.metric}}
+      - Current Value: {{input.receive-alert.value}}
+      - Threshold: {{input.receive-alert.threshold}}
+      - Timestamp: {{input.receive-alert.timestamp}}
+
+      ## Alert History (30 days)
+      - Recent alerts: {{input.query-history.recentAlerts}}
+      - Last alert: {{input.query-history.lastAlert}}
+      - Recurring pattern: {{input.query-history.recurringPattern}}
+      - Average resolution time: {{input.query-history.averageResolutionTime}}s
+
+      ## Runbook
+      {{input.fetch-runbook.runbookContent}}
+
+      ## Recent Deploys (last 48h)
+      {{input.query-deploys.recentDeploys}}
+
+templates:
+  - node: create-ticket
+    name: incident-github-issue
+    description: "GitHub issue body for incident tickets with severity, brief, suggested actions, and related deploy info"
+    format: markdown
+    template: |
+      ## Incident Brief
+
+      **Severity:** {{input.severity}}
+      **Service:** {{input.service}}
+      **Metric:** {{input.metric}}
+      **Timestamp:** {{input.timestamp}}
+
+      {{input.brief}}
+
+      ## Suggested Actions
+
+      {{input.suggestedActions}}
+
+      ## Possibly Related Deploy
+
+      `{{input.relatedDeploy}}`
+
+      ---
+      *Created by Tentacular Incident Response Orchestrator*
+
+  - node: notify-slack
+    name: incident-slack-notification
+    description: "Slack notification for incident alerts with severity, service, metric, brief, and suggested actions"
+    format: slack-blocks
+    template: |
+      [
+        {
+          "type": "header",
+          "text": {
+            "type": "plain_text",
+            "text": "{{input.severity}} Incident: {{input.service}}"
+          }
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "{{severityEmoji}} *{{input.severity}}* | *{{input.service}}* | `{{input.metric}}`\n\n{{input.brief}}"
+          }
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "*Suggested Actions:*\n{{input.suggestedActions}}"
+          }
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "*Possibly Related Deploy:* `{{input.relatedDeploy}}`"
+          }
+        },
+        { "type": "divider" },
+        {
+          "type": "context",
+          "elements": [
+            {
+              "type": "mrkdwn",
+              "text": "Tentacular Incident Response Orchestrator | {{input.timestamp}}"
+            }
+          ]
+        }
+      ]
+
+  - node: publish-event
+    name: incident-nats-event
+    description: "NATS event payload published for downstream incident consumers"
+    format: text
+    template: |
+      {
+        "type": "incident.created",
+        "severity": "{{input.severity}}",
+        "service": "{{input.service}}",
+        "metric": "{{input.metric}}",
+        "brief": "{{input.brief}}",
+        "suggestedActions": {{input.suggestedActions}},
+        "relatedDeploy": "{{input.relatedDeploy}}",
+        "timestamp": "{{input.timestamp}}",
+        "publishedAt": "{{publishedAt}}"
+      }

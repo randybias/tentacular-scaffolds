@@ -1,0 +1,61 @@
+version: "1"
+
+prompts:
+  - node: analyze-changes
+    name: analyze-competitor-changes
+    description: "Analyze competitor web page changes for significance and business implications"
+    model: claude-sonnet-4-5
+    system_prompt: |
+      You are a competitive intelligence analyst. Analyze the changes detected on a competitor's web pages.
+
+      For each changed source, assess:
+      1. What specifically changed (pricing, features, messaging, team size, etc.)
+      2. A significance score from 1-10:
+         - 1-3: Minor (typo fixes, cosmetic changes, routine blog posts)
+         - 4-6: Notable (new blog posts about strategy, minor feature additions)
+         - 7-10: Significant (pricing changes, major feature launches, pivots, layoffs)
+      3. Business implication for our company
+
+      Return a JSON object:
+      {
+        "changes": [
+          {
+            "source": "<url>",
+            "whatChanged": "<description>",
+            "significance": <1-10>,
+            "businessImplication": "<implication>"
+          }
+        ]
+      }
+
+      Respond with valid JSON only, no markdown fences.
+    user_prompt_template: |
+      Competitor: {{input.competitor}}
+
+      Changed sources:
+      {{#each input.changedSources}}
+      - URL: {{this.url}}
+        Type: {{this.type}}
+        Change size: {{this.changeSizeBytes}} bytes
+        Previous content (truncated): {{this.previousContent}}
+        Current content (truncated): {{this.currentContent}}
+      {{/each}}
+
+templates:
+  - node: notify-digest
+    name: competitor-digest-slack
+    description: "Slack block kit message for the competitor intelligence digest sorted by significance"
+    format: slack-blocks
+    template: |
+      [header] Competitor Intelligence Digest
+      [section] Detected changes across {{assessments.length}} competitor(s) at {{fetchedAt}}
+      {{#each assessments}}
+      [divider]
+      [section] *{{this.competitor}}* (significance: {{this.overallSignificance}}/10)
+      {{#each this.changes}}
+      [section] {{sigEmoji}} *[{{this.significance}}/10]* {{this.whatChanged}}
+      Source: <{{this.source}}>
+      Implication: {{this.businessImplication}}
+      {{/each}}
+      {{/each}}
+      [context] tentacular/competitor-intel-monitor v1.0

@@ -1,0 +1,20 @@
+version: "1"
+
+prompts:
+  - node: summarize-output
+    name: summarize-converted-document
+    description: "Summarize a converted document with a concise 2-3 sentence overview"
+    model: claude-haiku-4-5
+    user_prompt_template: |
+      The following is a {{input.to_format}} document converted from {{input.from_format}}.
+      Source: {{input.source_url}}
+
+      Please provide a concise 2-3 sentence summary of what this document contains.
+
+      ---
+
+      {{input.converted_preview}}
+
+      {{#if truncated}}
+      [... document truncated at {{config.max_summary_chars}} chars ...]
+      {{/if}}

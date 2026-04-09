@@ -1,0 +1,27 @@
+version: "1"
+
+prompts:
+  - node: analyze-prs
+    name: pr-digest-analysis
+    description: "Summarize open pull requests into a concise digest grouped by theme, suitable for a Slack message"
+    model: claude-haiku-4-5
+    user_prompt_template: |
+      You are a senior developer reviewing open pull requests for {{input.repo}}. Summarize the following {{input.prCount}} open PRs in a concise digest suitable for a Slack message. Group them by theme if possible. Use bullet points. Keep it under 500 words.
+
+      PRs:
+      {{#each input.prs}}
+      #{{this.number}}: {{this.title}}{{#if this.draft}} (DRAFT){{/if}}{{#if this.labels}} [{{join this.labels ', '}}]{{/if}}
+        by {{this.author}} | {{truncate this.body 200}}
+
+      {{/each}}
+
+templates:
+  - node: notify-slack
+    name: pr-digest-slack-message
+    description: "Slack message with the PR digest summary"
+    format: text
+    template: |
+      *PR Digest: {{input.repo}}*
+      _{{input.prCount}} open PRs_
+
+      {{input.summary}}

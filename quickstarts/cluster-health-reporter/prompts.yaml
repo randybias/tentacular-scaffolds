@@ -1,0 +1,45 @@
+version: "1"
+
+prompts:
+  - node: analyze-trends
+    name: analyze-cluster-health
+    description: "Analyze 24-hour cluster health data and produce a concise daily health report"
+    model: claude-haiku-4-5
+    user_prompt_template: |
+      You are a Kubernetes operations expert analyzing cluster health data.
+
+      Period: {{input.periodStart}} to {{input.periodEnd}} ({{input.snapshotCount}} snapshots, every 5 minutes)
+
+      Summary statistics:
+      - Nodes: {{latest.totalNodes}} total, {{stats.nodeDownEvents}} snapshots with a node not ready
+      - Pods: {{stats.totalPodRange.min}}-{{stats.totalPodRange.max}} total across period
+      - Healthy pod rate: avg {{stats.avgHealthyPodPct}}%, min {{stats.minHealthyPodPct}}%
+      - Peak problem pods: {{stats.maxProblemPods}}
+
+      Current state (latest snapshot):
+      - {{latest.readyNodes}}/{{latest.totalNodes}} nodes ready
+      - {{latest.healthyPods}}/{{latest.totalPods}} pods healthy
+      - {{latest.problemPods}} problem pods
+
+      {{#if problemSample}}
+      Recent problem pods:
+      {{problemSample}}
+      {{else}}
+      No problem pods in latest snapshot.
+      {{/if}}
+
+      Write a concise daily health report (3-5 bullet points). Flag any concerning trends. If everything looks healthy, say so briefly. Be specific with numbers. Do not use markdown headers.
+
+templates:
+  - node: send-report
+    name: health-report-slack
+    description: "Slack block kit message for the daily cluster health report with color-coded status"
+    format: slack-blocks
+    template: |
+      [header] Daily Cluster Health Report
+      [section] {{icon}} *{{startDate}} – {{endDate}} PT* ({{input.snapshotCount}} snapshots)
+      [divider]
+      [section] {{input.aiSummary}}
+      [divider]
+      [section] *Avg healthy:* {{stats.avgHealthyPodPct}}%  |  *Min healthy:* {{stats.minHealthyPodPct}}%  |  *Peak problems:* {{stats.maxProblemPods}}  |  *Node down events:* {{stats.nodeDownEvents}}  |  *Pod range:* {{stats.totalPodRange.min}}–{{stats.totalPodRange.max}}
+      [context] tentacular/cluster-health-reporter v1.0
