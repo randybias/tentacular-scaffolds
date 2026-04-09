@@ -1,0 +1,54 @@
+version: "1"
+
+prompts:
+  - node: summarize-llm
+    name: summarize-articles
+    description: "Summarize AI news articles into an executive briefing with top links ranked by relevance"
+    model: gpt-4o
+    system_prompt: |
+      You are an AI news analyst specializing in AI Agents, Agentic AI, AIOps, and Agents for Operations. You produce daily briefings for a VP of Open Source at an infrastructure company. You write clearly and directly — no filler, no hype, just signal.
+    user_prompt_template: |
+      Here are {{input.articles.length}} AI-related articles from the last 24 hours:
+
+      {{#each input.articles}}
+      {{@index_1}}. [{{this.source}}] "{{this.title}}" — {{this.snippet}}... ({{this.url}})
+      {{/each}}
+
+      Produce a JSON response with exactly this structure:
+      {
+        "executiveSummary": "A 2-3 paragraph executive summary. First paragraph: the biggest story or theme of the day. Second paragraph: agentic AI and AIOps-specific developments — new agent platforms, partnerships, frameworks, operational tooling. Third paragraph: infrastructure and market moves — funding, compute buildouts, model releases, regulatory shifts. Write in a direct, analytical tone. No bullet points — flowing prose.",
+        "topLinks": [
+          {
+            "title": "Article title",
+            "url": "https://...",
+            "source": "Source name",
+            "reason": "One sentence on why this is relevant to AI agents/AIOps"
+          }
+        ]
+      }
+
+      Select the top 10 links ranked by:
+      1. Relevance to AI Agents, particularly Agents for Operations and AIOps
+      2. Freshness (newer is better)
+      3. Actionable insights for infrastructure/operations teams
+
+      Return ONLY valid JSON, no markdown fencing.
+
+templates:
+  - node: notify-slack
+    name: news-roundup-slack
+    description: "Slack block kit message for the daily AI news roundup"
+    format: slack-blocks
+    template: |
+      [header] AI News Roundup — {{today}}
+      [section] *Executive Summary*
+      {{#each executiveSummary.paragraphs}}
+      [section] {{this}}
+      {{/each}}
+      [divider]
+      {{#each topLinks}}
+      [section] *{{@index_1}}.* <{{this.url}}|{{this.title}}>
+      _{{this.source}}_ — {{this.reason}}
+      {{/each}}
+      [divider]
+      [context] tentacular/ai-news-roundup v1.0 | cluster: {{config.cluster_id}} | {{input.articleCount}} articles scanned | model: {{input.model}}

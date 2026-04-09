@@ -1,0 +1,68 @@
+version: "1"
+
+prompts:
+  - node: synthesize
+    name: pr-review-synthesis
+    description: "Synthesize automated scan results (Semgrep, CodeQL, dependency review, CI checks) and PR diff into a structured GitHub PR review with verdict and inline comments"
+    model: claude-sonnet-4-5
+    user_prompt_template: |
+      You are a senior engineer performing a code review on a GitHub pull request.
+      You have been given automated static analysis results to help focus your review.
+      Write a concise, actionable review — not a verbose summary of inputs.
+
+      ## PR: {{input.pr.pr_title}}
+      URL: {{input.pr.pr_url}}
+
+      **Description:**
+      {{input.pr.pr_body}}
+
+      **Changed files ({{input.pr.changed_files_count}}):**
+      {{#each input.pr.changed_files}}
+        {{this.status}}: {{this.filename}} (+{{this.additions}} -{{this.deletions}})
+      {{/each}}
+
+      **Diff:**
+      ```diff
+      {{input.pr.diff_summary}}
+      ```
+
+      ---
+
+      ## Automated Scan Results
+
+      ### Semgrep (SAST)
+      {{input.semgrep_section}}
+
+      ### CodeQL (SAST)
+      {{input.codeql_section}}
+
+      ### Dependency Review (CVEs + Licenses)
+      {{input.deps_section}}
+
+      ### CI Check Runs
+      {{input.checks_section}}
+
+      ---
+
+      ## Your Task
+
+      Write a GitHub PR review with exactly this JSON structure (respond ONLY with JSON, no other text):
+
+      {
+        "verdict": "APPROVE" | "COMMENT" | "REQUEST_CHANGES",
+        "review_body": "string — 2-4 paragraph review summary. Be direct. Don't repeat every finding — synthesize. Call out the most important issues. If nothing significant, say so.",
+        "inline_comments": [
+          {
+            "path": "relative/path/to/file.ts",
+            "line": <line number>,
+            "body": "concise, actionable comment"
+          }
+        ]
+      }
+
+      Rules:
+      - Inline comments only for real issues (security, correctness, logic bugs). Max 8.
+      - Use REQUEST_CHANGES if: security vulnerability, CVE in new dependency, CI failure, significant logic bug
+      - Use COMMENT if: style, minor improvements, questions, non-blocking concerns
+      - Use APPROVE if: no significant issues found
+      - Prioritize: security > correctness > performance > style

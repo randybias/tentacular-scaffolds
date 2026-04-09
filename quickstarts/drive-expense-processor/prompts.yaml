@@ -1,0 +1,44 @@
+version: "1"
+
+prompts:
+  - node: extract-fields
+    name: extract-expense-fields
+    description: "Extract structured expense data from receipt images or PDFs using vision and text analysis"
+    model: claude-sonnet-4-5
+    system_prompt: |
+      You are an expense receipt parser. Extract structured data from the provided receipt content.
+
+      Return a JSON object with these fields:
+      - "vendor": The business/merchant name
+      - "amount": The total amount as a number (no currency symbols)
+      - "currency": The 3-letter currency code (e.g., "USD", "EUR")
+      - "date": The receipt date in ISO 8601 format (YYYY-MM-DD)
+      - "category": Best-fit category from: Travel, Meals, Software, Office, Equipment, Other
+      - "description": A brief one-line description of the expense
+      - "confidence": "high", "medium", or "low" indicating extraction confidence
+
+      Respond with valid JSON only, no markdown fences.
+    user_prompt_template: |
+      {{#if input.isImage}}
+      [image: base64-encoded receipt image attached]
+      Extract expense data from this receipt image.
+      {{else}}
+      Receipt file: {{input.fileName}}
+
+      Base64 content (decode to read):
+      {{input.content_preview}}
+      {{/if}}
+
+templates:
+  - node: store-and-notify
+    name: expense-summary-slack
+    description: "Slack text summary of processed expense receipts with validation status"
+    format: text
+    template: |
+      *Expense Processor Summary*
+      Processed {{input.validated.length}} receipt(s): {{input.validCount}} valid, {{input.flaggedCount}} flagged
+      Total (valid): ${{totalValidAmount}}
+
+      {{#each input.validated}}
+      - [{{#if this.valid}}VALID{{else}}FLAGGED{{/if}}] {{this.vendor}}: {{this.currency}} {{this.amount}} ({{this.category}}) -- {{this.fileName}}
+      {{/each}}

@@ -1,0 +1,43 @@
+version: "1"
+
+prompts:
+  - node: extract-fields
+    name: extract-invoice-fields
+    description: "Extract structured invoice data from PDF attachments including line items, totals, and payment terms"
+    model: claude-sonnet-4-5
+    system_prompt: |
+      You are an invoice data extractor. Extract structured data from the provided invoice PDF content.
+
+      Return a JSON object with these fields:
+      - "vendor": The company/vendor name on the invoice
+      - "invoiceNumber": The invoice number/reference
+      - "lineItems": An array of line items, each with:
+        - "description": Item description
+        - "quantity": Quantity as a number
+        - "unitPrice": Unit price as a number
+        - "amount": Line item total as a number
+      - "subtotal": Subtotal before tax as a number
+      - "tax": Tax amount as a number
+      - "total": Grand total as a number
+      - "dueDate": Due date in ISO 8601 format (YYYY-MM-DD)
+      - "paymentTerms": Payment terms (e.g., "Net 30", "Due on receipt")
+
+      If a field cannot be determined, use null for strings, 0 for numbers, and [] for arrays.
+      Respond with valid JSON only, no markdown fences.
+    user_prompt_template: |
+      [document: base64-encoded PDF invoice attached]
+      Extract all invoice data from this PDF. Email subject: "{{input.subject}}", from: "{{input.from}}"
+
+templates:
+  - node: store-and-notify
+    name: invoice-summary-slack
+    description: "Slack text summary of processed invoices with validation results"
+    format: text
+    template: |
+      *Invoice Processor Summary*
+      Processed {{input.validated.length}} invoice(s): {{input.passCount}} PASS, {{input.failCount}} FAIL
+      Total value: ${{totalAmount}}
+
+      {{#each input.validated}}
+      - Invoice from {{this.vendor}}, ${{this.total}}{{#if this.dueDate}} due {{this.dueDate}}{{/if}}. {{this.lineItems.length}} line item(s). Validation: {{this.validationStatus}}{{#if validationFailed}}: {{this.validationErrors.[0]}}{{/if}}
+      {{/each}}

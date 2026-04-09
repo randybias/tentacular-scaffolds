@@ -1,0 +1,9 @@
+version: "1"
+
+prompts:
+  - node: llm-call
+    name: otel-echo-prompt
+    description: "Minimal Anthropic API call to validate OpenTelemetry GenAI span attributes - sends a simple prompt and returns token usage metrics"
+    model: claude-haiku-4-5
+    user_prompt_template: |
+      {{input.prompt | default: "Reply with one word: hello"}}

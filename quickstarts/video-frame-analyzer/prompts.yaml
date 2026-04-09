@@ -1,0 +1,12 @@
+version: "1"
+
+prompts:
+  - node: analyze-frames
+    name: video-frame-vision-analysis
+    description: "Analyze extracted video frames using Claude Vision to describe video content, visible subjects, notable events, and changes across frames"
+    model: claude-opus-4-5
+    user_prompt_template: |
+      These are {{input.frameCount}} frames extracted from a video at 1 frame per second. Please provide a concise analysis of the video content: what is happening, who or what is visible, any notable events or changes across frames, and a brief overall summary.
+    tools:
+      - name: vision
+        description: "Claude Vision multimodal input - frames are sent as base64-encoded JPEG images in the messages content array alongside the text prompt"

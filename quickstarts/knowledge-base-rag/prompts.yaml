@@ -1,0 +1,17 @@
+version: "1"
+
+prompts:
+  - node: answer-query
+    name: answer-knowledge-base-query
+    description: "Answer a user question using retrieved document chunks with source citations"
+    model: claude-sonnet-4-5
+    system_prompt: |
+      You are a helpful knowledge base assistant. Answer the user's question based ONLY on the provided source documents. Always cite your sources using [Source N] notation. If the sources don't contain enough information to answer, say so clearly.
+    user_prompt_template: |
+      Here are the relevant source documents:
+
+      {{sources}}
+
+      ---
+
+      Question: {{config.query}}

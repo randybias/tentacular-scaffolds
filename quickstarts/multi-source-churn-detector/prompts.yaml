@@ -1,0 +1,140 @@
+version: "1"
+
+prompts:
+  - node: score-health
+    name: customer-health-scoring
+    description: "Score each customer's health 1-100 based on usage, support, billing, and survey signals"
+    model: claude-sonnet-4-5
+    system_prompt: |
+      You are a customer health scoring engine. For each customer, analyze all available signals and return a health score from 1 to 100.
+
+      Respond with a JSON array of objects:
+      [{
+        "accountId": "string",
+        "score": number (1-100, where 100 is healthiest),
+        "explanation": "brief explanation",
+        "redFlags": ["flag1", "flag2"],
+        "greenFlags": ["flag1", "flag2"]
+      }]
+
+      Scoring guidelines:
+      - Usage decline + open escalations + failed payments = very high churn risk (score < 30)
+      - Declining NPS + reduced seats + low feature adoption = moderate risk (score 30-60)
+      - Growing usage + good NPS + expanding seats = healthy (score > 60)
+      - Weight missing data as neutral, note it in explanation
+    user_prompt_template: |
+      {{#each input.customerBatch}}
+      {"accountId":"{{this.accountId}}","dataCompleteness":{{this.dataCompleteness}},"usage":{{json this.usage}},"tickets":{{json this.tickets}},"billing":{{json this.billing}},"surveys":{{json this.surveys}}}
+
+      {{/each}}
+
+  - node: generate-weekly-report
+    name: weekly-health-narrative
+    description: "Generate a concise weekly health report narrative highlighting top risks, improvements, and recommended actions"
+    model: claude-sonnet-4-5
+    system_prompt: |
+      You are a customer success analyst. Write a concise weekly health report narrative based on the data provided. Highlight top risks, improvements, and recommended actions.
+    user_prompt_template: |
+      Weekly scores ({{input.weeklyScoresCount}} entries):
+      {{json input.weeklyScores}}
+
+      30-day trends ({{input.trendsCount}} accounts):
+      {{json input.trends}}
+
+templates:
+  - node: route-alerts
+    name: urgent-churn-slack-alert
+    description: "Slack notification for urgent churn risk accounts (score < 40)"
+    format: slack-blocks
+    template: |
+      [
+        {
+          "type": "header",
+          "text": { "type": "plain_text", "text": "Churn Risk Alert: {{input.urgentCount}} Urgent Account(s)" }
+        },
+        {{#each input.urgentAccounts}}
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": ":rotating_light: *{{this.accountId}}* - Score: *{{this.score}}/100*\n{{this.explanation}}\n{{#if this.redFlags}}Red flags: {{join this.redFlags ', '}}{{/if}}"
+          }
+        },
+        {{/each}}
+        { "type": "divider" },
+        {
+          "type": "context",
+          "elements": [{ "type": "mrkdwn", "text": "Tentacular Churn Detector | {{timestamp}}" }]
+        }
+      ]
+
+  - node: generate-weekly-report
+    name: weekly-report-slack-summary
+    description: "Slack summary of the weekly customer health report with score distribution"
+    format: slack-blocks
+    template: |
+      [
+        {
+          "type": "header",
+          "text": { "type": "plain_text", "text": "Weekly Customer Health Report - {{input.date}}" }
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": ":bar_chart: *{{input.totalScored}} accounts scored*\n:red_circle: {{input.atRisk}} critical | :large_yellow_circle: {{input.moderate}} at-risk | :white_check_mark: {{input.healthy}} healthy"
+          }
+        },
+        {
+          "type": "section",
+          "text": { "type": "mrkdwn", "text": "{{input.narrative}}" }
+        },
+        { "type": "divider" },
+        {
+          "type": "context",
+          "elements": [{ "type": "mrkdwn", "text": "Tentacular Churn Detector | {{timestamp}}" }]
+        }
+      ]
+
+  - node: generate-weekly-report
+    name: weekly-report-html
+    description: "Full HTML weekly health report with score tables and trend analysis"
+    format: html
+    template: |
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Customer Health Report - {{input.date}}</title>
+        <style>
+          body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 1200px; margin: 0 auto; padding: 20px; }
+          table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+          th, td { padding: 8px 12px; border: 1px solid #dee2e6; text-align: left; }
+          th { background: #f8f9fa; }
+          .narrative { background: #f8f9fa; padding: 16px; border-radius: 8px; margin: 20px 0; }
+        </style>
+      </head>
+      <body>
+        <h1>Customer Health Report</h1>
+        <p>Generated: {{input.date}}</p>
+        <div class="narrative"><h2>Summary</h2><p>{{input.narrative}}</p></div>
+        <h2>Current Scores ({{input.scoresCount}})</h2>
+        <table>
+          <thead><tr><th>Account</th><th>Score</th><th>Explanation</th><th>Scored At</th></tr></thead>
+          <tbody>
+            {{#each input.scores}}
+            <tr><td>{{this.accountId}}</td><td style="color:{{this.color}};font-weight:bold">{{this.score}}</td><td>{{this.explanation}}</td><td>{{this.scoredAt}}</td></tr>
+            {{/each}}
+          </tbody>
+        </table>
+        <h2>30-Day Trends ({{input.trendsCount}})</h2>
+        <table>
+          <thead><tr><th>Account</th><th>Avg</th><th>Min</th><th>Max</th><th>Data Points</th></tr></thead>
+          <tbody>
+            {{#each input.trends}}
+            <tr><td>{{this.accountId}}</td><td>{{this.avgScore}}</td><td>{{this.minScore}}</td><td>{{this.maxScore}}</td><td>{{this.dataPoints}}</td></tr>
+            {{/each}}
+          </tbody>
+        </table>
+        <footer><p>Generated by Tentacular Churn Detector</p></footer>
+      </body>
+      </html>
