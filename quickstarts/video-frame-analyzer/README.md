@@ -64,3 +64,7 @@ The image runs on ARM64 and AMD64, compatible with gVisor and PSA restricted pro
 - A `/tmp` emptyDir is also mounted for the ffmpeg sidecar (required for temp files with `readOnlyRootFilesystem: true`)
 - Both containers run as uid 65534 (nobody) — files created on the shared volume are cross-readable
 - Update the `video-source` contract dependency if you change `video_url` to a different hostname
+
+## Prompts
+
+1 prompt defined in `prompts.yaml`.
