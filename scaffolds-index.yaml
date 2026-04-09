@@ -1,5 +1,5 @@
 version: "1"
-generated: "2026-04-09T13:43:47Z"
+generated: "2026-04-09T13:48:46Z"
 scaffolds:
     - name: "agent-activity-report"
       displayName: "Agent Activity Report"
@@ -11,6 +11,7 @@ scaffolds:
       complexity: "advanced"
       path: "quickstarts/agent-activity-report"
       files:
+      - "README.md"
       - "nodes/compute-metrics.ts"
       - "nodes/fetch-codex.ts"
       - "nodes/fetch-gemini.ts"
@@ -42,6 +43,7 @@ scaffolds:
       complexity: "advanced"
       path: "quickstarts/ai-news-roundup"
       files:
+      - "README.md"
       - "contract-summary.md"
       - "nodes/fetch-feeds.ts"
       - "nodes/filter-24h.ts"
@@ -67,6 +69,7 @@ scaffolds:
       complexity: "moderate"
       path: "quickstarts/cluster-health-collector"
       files:
+      - "README.md"
       - "nodes/fetch-cluster-state.ts"
       - "nodes/store-health-data.ts"
       - "params.schema.yaml"
@@ -85,6 +88,7 @@ scaffolds:
       complexity: "moderate"
       path: "quickstarts/cluster-health-reporter"
       files:
+      - "README.md"
       - "nodes/analyze-trends.ts"
       - "nodes/query-health-history.ts"
       - "nodes/send-report.ts"
@@ -106,6 +110,7 @@ scaffolds:
       complexity: "advanced"
       path: "quickstarts/competitor-intel-monitor"
       files:
+      - "README.md"
       - "nodes/analyze-changes.ts"
       - "nodes/diff-snapshots.ts"
       - "nodes/fetch-sources.ts"
@@ -131,6 +136,7 @@ scaffolds:
       complexity: "advanced"
       path: "quickstarts/content-response-researcher"
       files:
+      - "README.md"
       - "nodes/fetch-article.ts"
       - "nodes/generate-outline.ts"
       - "nodes/research-adjacent.ts"
@@ -160,6 +166,7 @@ scaffolds:
       complexity: "advanced"
       path: "quickstarts/contract-clause-reviewer"
       files:
+      - "README.md"
       - "nodes/extract-text.ts"
       - "nodes/poll-drive.ts"
       - "nodes/review-compliance.ts"
@@ -217,6 +224,7 @@ scaffolds:
       complexity: "moderate"
       path: "quickstarts/drive-expense-processor"
       files:
+      - "README.md"
       - "nodes/extract-fields.ts"
       - "nodes/poll-drive.ts"
       - "nodes/store-and-notify.ts"
@@ -242,6 +250,7 @@ scaffolds:
       complexity: "advanced"
       path: "quickstarts/e2e-exoskeleton-test"
       files:
+      - "README.md"
       - "nodes/collect-results.ts"
       - "nodes/notify.ts"
       - "nodes/render-report.ts"
@@ -271,6 +280,7 @@ scaffolds:
       complexity: "moderate"
       path: "quickstarts/email-invoice-processor"
       files:
+      - "README.md"
       - "nodes/extract-fields.ts"
       - "nodes/poll-email.ts"
       - "nodes/store-and-notify.ts"
@@ -296,6 +306,7 @@ scaffolds:
       complexity: "moderate"
       path: "quickstarts/github-digest"
       files:
+      - "README.md"
       - "nodes/fetch-repos.ts"
       - "nodes/notify.ts"
       - "nodes/summarize.ts"
@@ -316,6 +327,7 @@ scaffolds:
       complexity: "moderate"
       path: "quickstarts/github-security-digest"
       files:
+      - "README.md"
       - "nodes/deduplicate-store.ts"
       - "nodes/fetch-alerts.ts"
       - "nodes/notify-slack.ts"
@@ -339,6 +351,7 @@ scaffolds:
       complexity: "advanced"
       path: "quickstarts/github-vuln-triage"
       files:
+      - "README.md"
       - "nodes/alert-critical.ts"
       - "nodes/create-issues.ts"
       - "nodes/deduplicate.ts"
@@ -370,6 +383,7 @@ scaffolds:
       complexity: "moderate"
       path: "quickstarts/hn-digest"
       files:
+      - "README.md"
       - "nodes/fetch-stories.ts"
       - "nodes/filter-stories.ts"
       - "nodes/format-digest.ts"
@@ -389,6 +403,7 @@ scaffolds:
       complexity: "advanced"
       path: "quickstarts/incident-response-orchestrator"
       files:
+      - "README.md"
       - "nodes/classify-and-brief.ts"
       - "nodes/create-ticket.ts"
       - "nodes/fetch-runbook.ts"
@@ -424,6 +439,7 @@ scaffolds:
       complexity: "advanced"
       path: "quickstarts/knowledge-base-rag"
       files:
+      - "README.md"
       - "nodes/answer-query.ts"
       - "nodes/extract-and-chunk.ts"
       - "nodes/generate-embeddings.ts"
@@ -451,6 +467,7 @@ scaffolds:
       complexity: "advanced"
       path: "quickstarts/lead-enrichment-pipeline"
       files:
+      - "README.md"
       - "nodes/enrich-company.ts"
       - "nodes/enrich-person.ts"
       - "nodes/enrich-website.ts"
@@ -478,6 +495,7 @@ scaffolds:
       complexity: "advanced"
       path: "quickstarts/multi-source-churn-detector"
       files:
+      - "README.md"
       - "nodes/fetch-billing.ts"
       - "nodes/fetch-surveys.ts"
       - "nodes/fetch-tickets.ts"
@@ -511,6 +529,7 @@ scaffolds:
       complexity: "simple"
       path: "quickstarts/otel-echo"
       files:
+      - "README.md"
       - "contract-summary.md"
       - "nodes/echo.ts"
       - "params.schema.yaml"
@@ -527,6 +546,7 @@ scaffolds:
       complexity: "simple"
       path: "quickstarts/otel-error"
       files:
+      - "README.md"
       - "contract-summary.md"
       - "nodes/fail.ts"
       - "params.schema.yaml"
@@ -543,6 +563,7 @@ scaffolds:
       complexity: "simple"
       path: "quickstarts/otel-llm-echo"
       files:
+      - "README.md"
       - "contract-summary.md"
       - "nodes/llm-call.ts"
       - "params.schema.yaml"
@@ -561,6 +582,7 @@ scaffolds:
       complexity: "moderate"
       path: "quickstarts/otel-multi-node"
       files:
+      - "README.md"
       - "contract-summary.md"
       - "nodes/fetch-data.ts"
       - "nodes/notify.ts"
@@ -581,6 +603,7 @@ scaffolds:
       complexity: "moderate"
       path: "quickstarts/pr-digest"
       files:
+      - "README.md"
       - "nodes/analyze-prs.ts"
       - "nodes/fetch-prs.ts"
       - "nodes/notify-slack.ts"
@@ -602,6 +625,7 @@ scaffolds:
       complexity: "advanced"
       path: "quickstarts/pr-review"
       files:
+      - "README.md"
       - "contract-summary.md"
       - "nodes/check-runs.ts"
       - "nodes/code-scan.ts"
@@ -660,6 +684,7 @@ scaffolds:
       complexity: "advanced"
       path: "quickstarts/sep-weekly-digest"
       files:
+      - "README.md"
       - "nodes/analyze-activity.ts"
       - "nodes/fetch-seps.ts"
       - "nodes/generate-report.ts"
@@ -689,6 +714,7 @@ scaffolds:
       complexity: "moderate"
       path: "quickstarts/site-change-detector"
       files:
+      - "README.md"
       - "nodes/diff-snapshots.ts"
       - "nodes/fetch-pages.ts"
       - "nodes/notify-slack.ts"
@@ -712,6 +738,7 @@ scaffolds:
       complexity: "moderate"
       path: "quickstarts/slack-channel-archiver"
       files:
+      - "README.md"
       - "nodes/fetch-messages.ts"
       - "nodes/store-attachments.ts"
       - "nodes/store-messages.ts"
@@ -734,6 +761,7 @@ scaffolds:
       complexity: "moderate"
       path: "quickstarts/uptime-prober"
       files:
+      - "README.md"
       - "nodes/analyze-results.ts"
       - "nodes/format-report.ts"
       - "nodes/notify-slack.ts"
@@ -756,6 +784,7 @@ scaffolds:
       complexity: "moderate"
       path: "quickstarts/uptime-tracker"
       files:
+      - "README.md"
       - "nodes/aggregate-weekly.ts"
       - "nodes/alert-failures.ts"
       - "nodes/generate-report.ts"
@@ -783,6 +812,7 @@ scaffolds:
       complexity: "advanced"
       path: "quickstarts/video-content-analyzer"
       files:
+      - "README.md"
       - "scaffold.yaml"
       - "workflow.yaml"
     - name: "video-frame-analyzer"
@@ -819,6 +849,7 @@ scaffolds:
       complexity: "simple"
       path: "quickstarts/word-counter"
       files:
+      - "README.md"
       - "contract-summary.md"
       - "nodes/report.ts"
       - "nodes/source.ts"
