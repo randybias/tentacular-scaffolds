@@ -58,3 +58,7 @@ pandoc supports 40+ input and output formats. Common pairs:
 - `/version` is used as the readiness probe (returns pandoc version JSON)
 - PDFs cannot be produced by pandoc-server (pandoc limitation in server mode)
 - The `doc-source` contract dependency allows fetching from the configured host; update it if you change `document_url` to a different hostname
+
+## Prompts
+
+1 prompt defined in `prompts.yaml`.
