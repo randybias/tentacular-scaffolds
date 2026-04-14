@@ -73,7 +73,7 @@ contract:
       host: www.googleapis.com
       port: 443
       auth:
-        type: bearer-token
+        type: api-token
         secret: google.access_token
     tentacular-rustfs:
       protocol: http
@@ -84,7 +84,7 @@ contract:
       host: api.anthropic.com
       port: 443
       auth:
-        type: bearer-token
+        type: api-token
         secret: anthropic.api_key
     slack-webhook:
       protocol: https

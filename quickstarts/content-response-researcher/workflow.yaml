@@ -64,7 +64,7 @@ contract:
       host: api.tavily.com
       port: 443
       auth:
-        type: bearer-token
+        type: api-token
         secret: tavily.api_key
     tentacular-rustfs:
       protocol: http
@@ -75,7 +75,7 @@ contract:
       host: api.anthropic.com
       port: 443
       auth:
-        type: bearer-token
+        type: api-token
         secret: anthropic.api_key
     slack-webhook:
       protocol: https

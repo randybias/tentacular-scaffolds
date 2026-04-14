@@ -59,14 +59,14 @@ contract:
       host: sheets.googleapis.com
       port: 443
       auth:
-        type: bearer-token
+        type: api-token
         secret: google.access_token
     enrichment-api:
       protocol: https
       host: api.example.com
       port: 443
       auth:
-        type: bearer-token
+        type: api-token
         secret: enrichment.api_key
     probe-targets:
       type: dynamic-target
@@ -81,7 +81,7 @@ contract:
       host: api.anthropic.com
       port: 443
       auth:
-        type: bearer-token
+        type: api-token
         secret: anthropic.api_key
     slack-webhook:
       protocol: https

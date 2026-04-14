@@ -66,28 +66,28 @@ contract:
       host: api.example.com
       port: 443
       auth:
-        type: bearer-token
+        type: api-token
         secret: analytics.api_key
     support-api:
       protocol: https
       host: api.example.com
       port: 443
       auth:
-        type: bearer-token
+        type: api-token
         secret: support.api_key
     stripe:
       protocol: https
       host: api.stripe.com
       port: 443
       auth:
-        type: bearer-token
+        type: api-token
         secret: stripe.api_key
     survey-api:
       protocol: https
       host: api.example.com
       port: 443
       auth:
-        type: bearer-token
+        type: api-token
         secret: survey.api_key
     tentacular-rustfs:
       protocol: http
@@ -98,7 +98,7 @@ contract:
       host: api.anthropic.com
       port: 443
       auth:
-        type: bearer-token
+        type: api-token
         secret: anthropic.api_key
     slack-webhook:
       protocol: https
