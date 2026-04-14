@@ -40,7 +40,7 @@ contract:
       host: slack.com
       port: 443
       auth:
-        type: bearer-token
+        type: api-token
         secret: slack.bot_token
     tentacular-rustfs:
       protocol: http

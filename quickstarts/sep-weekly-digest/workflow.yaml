@@ -62,7 +62,7 @@ contract:
       host: api.github.com
       port: 443
       auth:
-        type: bearer-token
+        type: api-token
         secret: github.token
     tentacular-postgres:
       protocol: postgresql
@@ -71,7 +71,7 @@ contract:
       host: api.openai.com
       port: 443
       auth:
-        type: bearer-token
+        type: api-token
         secret: openai.api_key
     azure-blob:
       protocol: https
