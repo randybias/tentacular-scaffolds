@@ -1,0 +1,29 @@
+{
+  "input": {
+    "frames": [
+      "/shared/output/frame_0001.jpg",
+      "/shared/output/frame_0002.jpg",
+      "/shared/output/frame_0003.jpg",
+      "/shared/output/frame_0004.jpg",
+      "/shared/output/frame_0005.jpg",
+      "/shared/output/frame_0006.jpg",
+      "/shared/output/frame_0007.jpg",
+      "/shared/output/frame_0008.jpg",
+      "/shared/output/frame_0009.jpg",
+      "/shared/output/frame_0010.jpg"
+    ],
+    "count": 10,
+    "duration_ms": 1500
+  },
+  "expected": {
+    "frames": [
+      "/shared/output/frame_0001.jpg",
+      "/shared/output/frame_0004.jpg",
+      "/shared/output/frame_0007.jpg",
+      "/shared/output/frame_0010.jpg"
+    ],
+    "original_count": 10,
+    "deduplicated_count": 4,
+    "removed_count": 6
+  }
+}
