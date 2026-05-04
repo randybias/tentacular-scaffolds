@@ -1,0 +1,74 @@
+version: "1"
+description: "Parameters for the video-content-analyzer scaffold"
+
+parameters:
+  fps:
+    path: config.fps
+    type: number
+    description: "Frames per second to extract (1 = one frame per second)"
+    required: false
+    default: 1
+    example: 0.33
+
+  output_format:
+    path: config.output_format
+    type: string
+    description: "Output image format for extracted frames"
+    required: false
+    default: "jpg"
+    example: "png"
+
+  max_frames:
+    path: config.max_frames
+    type: number
+    description: "Maximum frames to send to Claude Vision (controls API cost)"
+    required: false
+    default: 100
+    example: 50
+
+  hamming_threshold:
+    path: config.dedup.hamming_threshold
+    type: number
+    description: "Perceptual hash hamming distance threshold for dedup (0-256, lower = more aggressive)"
+    required: false
+    default: 10
+    example: 15
+
+  batch_size:
+    path: config.analysis.batch_size
+    type: number
+    description: "Number of frames per Claude Vision API call"
+    required: false
+    default: 10
+    example: 5
+
+  report_author:
+    path: config.report.author
+    type: string
+    description: "Author name shown in the report"
+    required: false
+    default: "Tentacular"
+    example: "AI Research Team"
+
+  report_style:
+    path: config.report.style
+    type: string
+    description: "Report style: 'narrative' (essay) or 'structured' (bullet points)"
+    required: false
+    default: "narrative"
+    example: "structured"
+
+  audit_enabled:
+    path: config.audit.enabled
+    type: boolean
+    description: "Enable editorial quality audit before publishing"
+    required: false
+    default: true
+
+  audit_min_quality_score:
+    path: config.audit.min_quality_score
+    type: number
+    description: "Minimum audit score (1-10) before logging a quality warning"
+    required: false
+    default: 7
+    example: 5

@@ -1,0 +1,25 @@
+{
+  "input": {
+    "frames": [
+      "/shared/output/frame_0001.jpg",
+      "/shared/output/frame_0004.jpg",
+      "/shared/output/frame_0007.jpg",
+      "/shared/output/frame_0010.jpg"
+    ],
+    "original_count": 10,
+    "deduplicated_count": 4,
+    "removed_count": 6
+  },
+  "expected": {
+    "batch_analyses": [
+      {
+        "batch_index": 0,
+        "frame_range": [0, 3],
+        "analysis": "Mock analysis: 4 frames from video"
+      }
+    ],
+    "frames_analyzed": 4,
+    "batches": 1,
+    "model": "mock"
+  }
+}

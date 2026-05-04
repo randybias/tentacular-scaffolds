@@ -1,0 +1,27 @@
+{
+  "input": {
+    "html": "<!DOCTYPE html><html><body><h1>Video Analysis Report</h1></body></html>",
+    "markdown": "# Video Analysis Report\n\n## Segment 1\n\nThe video opens with a title slide.",
+    "slack_blocks": [
+      {
+        "type": "header",
+        "text": { "type": "plain_text", "text": "Video Analysis Report" }
+      }
+    ],
+    "sections": [
+      {
+        "title": "Segment 1",
+        "content": "The video opens with a title slide."
+      }
+    ],
+    "title": "Video Analysis Report"
+  },
+  "expected": {
+    "audit_score": null,
+    "audit_passed": true,
+    "rustfs_html_path": "",
+    "rustfs_md_path": "",
+    "postgres_row_id": 0,
+    "slack_delivered": false
+  }
+}

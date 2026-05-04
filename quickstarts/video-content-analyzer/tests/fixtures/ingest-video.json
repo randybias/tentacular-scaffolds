@@ -1,0 +1,14 @@
+{
+  "input": {
+    "video_url": "https://example.com/sample.mp4",
+    "title": "Test Video Analysis",
+    "context_prompt": "This is a test video."
+  },
+  "expected": {
+    "video_path": "/shared/input/video.mp4",
+    "size_bytes": 1048576,
+    "source_url": "https://example.com/sample.mp4",
+    "title": "Test Video Analysis",
+    "context_prompt": "This is a test video."
+  }
+}

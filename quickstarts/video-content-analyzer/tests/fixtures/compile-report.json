@@ -1,0 +1,26 @@
+{
+  "input": {
+    "batch_analyses": [
+      {
+        "batch_index": 0,
+        "frame_range": [0, 3],
+        "analysis": "The video opens with a title slide showing a conference logo. Subsequent frames show a speaker presenting data charts about market trends."
+      }
+    ],
+    "frames_analyzed": 4,
+    "batches": 1,
+    "model": "claude-sonnet-4-5-20250514"
+  },
+  "expected": {
+    "html": "<html>...</html>",
+    "markdown": "# Video Analysis Report\n...",
+    "slack_blocks": [],
+    "sections": [
+      {
+        "title": "Segment 1",
+        "content": "The video opens with a title slide showing a conference logo. Subsequent frames show a speaker presenting data charts about market trends."
+      }
+    ],
+    "title": "Video Analysis Report"
+  }
+}
